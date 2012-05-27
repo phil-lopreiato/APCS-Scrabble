@@ -34,9 +34,15 @@ public class game {
 		return result;
 	}
 	
-	public static void setRack(tile[] tiles)
+	public static void setRackToDisplay(tile[] tiles)
 	{
 		for(int i=0; i<7; i++)
 			displayRack[i] = tiles[i]; //to avoid aliasing which i think is bad here...
+	}
+	
+	public void drawStartingRacks() {
+		for(player p:players) {
+			p.getRack().draw();
+		}
 	}
 }
