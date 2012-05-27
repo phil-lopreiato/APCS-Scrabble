@@ -26,6 +26,16 @@ public class Scrabble{
 		f.loadGameDisplay(theGame.getNumPlayers()); //draw the board
 		
 		f.repaint(); //repaint the display
-		System.out.println(bag.getSize());
+		
+		while(!game.gameOver())
+		{
+			//wait for submit
+			//verify -- for now, let's just assume this is good until the rest of the game works
+			//add tiles to board
+			//update score
+			//remove tiles from playerRack
+			//draw new tiles
+			//next player's turn
+		}
 	}
 }

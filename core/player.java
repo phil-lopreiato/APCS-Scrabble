@@ -7,7 +7,6 @@ public class player
 	
 	public player()
 	{
-		bag.drawTile();
 		playerRack = new rack();
 		score = 0;
 	}
