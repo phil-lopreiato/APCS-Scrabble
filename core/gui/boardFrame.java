@@ -2,7 +2,7 @@ package core.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -21,7 +21,7 @@ import core.game;
 public class boardFrame extends JFrame implements ActionListener{
 	private JFrame mainFrame;
 	private JPanel boardContainer, scoreContainer, rackContainer;
-	private JLabel boardLabel, scoreLabels[];
+	private JLabel boardLabel, scoreLabels[], rackLetters[];
 	private JComboBox numPlayersSelect;
 	private BufferedImage boardBase;
 	private game gameRef; //may not be needed
@@ -65,20 +65,28 @@ public class boardFrame extends JFrame implements ActionListener{
 		
 		//Create and set up the window.
 		boardContainer = new JPanel(new BorderLayout());
-        scoreContainer = new JPanel();
+		
+        scoreContainer = new JPanel();    
         scoreContainer.setLayout(new BoxLayout(scoreContainer,(int) BoxLayout.Y_AXIS));
         scoreContainer.setSize(new Dimension(10,10));
-        //load image
+        
+        rackContainer  = new JPanel();
+        rackContainer.setPreferredSize(new Dimension(7* 100/*large tile width*/ + 7* 5/*border*/,110 /*large tile height*/));
+        rackLetters = new JLabel[7];
+        rackContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
+        
+        //load board image
         try {                
             boardBase = ImageIO.read(this.getClass().getResource("mainBoard.jpg"));
         } catch (IOException ex) {
               ex.printStackTrace();
         }
        
-       boardLabel = new JLabel(new ImageIcon( boardBase ));
+       boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
        boardContainer.add(boardLabel);
        
-       JLabel scoreHeader = new JLabel("Scores:");
+       //draw score area 
+       JLabel scoreHeader = new JLabel("Scores:"); //header label
        scoreHeader.setAlignmentX(scoreContainer.CENTER_ALIGNMENT);
        scoreContainer.add(scoreHeader);
       
@@ -89,14 +97,25 @@ public class boardFrame extends JFrame implements ActionListener{
     	   scoreContainer.add(scoreLabels[i-1]);
        }
        
+       
+       //draw rack
+       for(int i = 0;i<7;i++) { //set default tiles
+    	   rackLetters[i] = new JLabel();
+       }
+       
+       //add components to main frame
        mainFrame.getContentPane().add(boardContainer, BorderLayout.WEST);
        mainFrame.getContentPane().add(scoreContainer, BorderLayout.EAST); 
-        
+       mainFrame.getContentPane().add(rackContainer, BorderLayout.SOUTH);
 	}
 	
 	public void updateScore(int player,int score) {
 		scoreLabels[player-1].setText("Player "+player+": "+playerScores[player-1]);
 		repaint();
+	}
+	
+	public void updateRack(int pos /*0-6*/,BufferedImage tile) {
+		rackLetters[pos].setIcon(new ImageIcon(tile));
 	}
 	
 	public void show() {	

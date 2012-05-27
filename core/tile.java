@@ -1,5 +1,14 @@
 package core;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class tile
 {
 	private char letter;
@@ -39,5 +48,35 @@ public class tile
 	
 	private static int lookupValue(char letter) {
 		return letterValues[letter-65];
+	}
+	
+	public BufferedImage paint(boolean large) {
+		BufferedImage baseTile = null, output;
+        try {
+	        baseTile = ImageIO.read(this.getClass().getResource(large?"gui/singleTile_large.png":"gui/singleTile.png"));
+        } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+        output = new BufferedImage(baseTile.getWidth(), baseTile.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        
+		Graphics2D g2d = output.createGraphics();
+		g2d.drawImage(baseTile, 0, 0, null);
+		g2d.setPaint(Color.black);
+		g2d.setFont(new Font("Serif", Font.BOLD, 20));	
+		String s = "Hello, world!";
+        FontMetrics fm = g2d.getFontMetrics();
+        
+        int x = output.getWidth()/2 - fm.stringWidth(s)/2;
+        int y = fm.getHeight();
+        g2d.drawString(s, x, y);
+        
+        s = Integer.toString(this.getValue());
+        x = output.getWidth() - fm.stringWidth(s)-5;
+        y = output.getHeight() - fm.getHeight()- 5;
+        g2d.drawString(s, x, y);
+        
+        g2d.dispose();
+        return output;
 	}
 }
