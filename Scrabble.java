@@ -1,9 +1,9 @@
-import core.game;
+import core.*;
 import core.gui.boardFrame;
 
 public class Scrabble{
 	public static void main(String[] args){
-		System.out.println("hi phil!");
+		System.out.println("Begin");
 		game theGame = new game(); //reference to the game
 		
 		boardFrame f = new boardFrame(theGame); //init new GUI
@@ -26,5 +26,6 @@ public class Scrabble{
 		f.loadGameDisplay(theGame.getNumPlayers()); //draw the board
 		
 		f.repaint(); //repaint the display
+		System.out.println(bag.getSize());
 	}
 }

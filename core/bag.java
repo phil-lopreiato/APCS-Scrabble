@@ -15,7 +15,7 @@ public class bag
 		//randomizeBag(); //see below
 	}
 	
-	public void fillBag() {
+	public static void fillBag() {
 		for(int i=0; i<27; i++) { //for each type of tile (A-<blank>)
 			for(int j=0; j<letterDistributions[i]; j++) { //number of each tile to add to the bag
 				tiles.add(new tile((char)(i+65)));
@@ -24,7 +24,7 @@ public class bag
 		
 	}
 	
-	public int getSize()
+	public static int getSize()
 	{
 		return tiles.size();
 	}

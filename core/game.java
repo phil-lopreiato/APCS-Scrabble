@@ -16,6 +16,8 @@ public class game {
 	public void setNumPlayers(int num)
 	{
 		players = new player[num];
+		for (int i=0; i<num; i++)
+			players[i] = new player();
 	}
 	
 	public int getNumPlayers() {
@@ -42,7 +44,7 @@ public class game {
 	
 	public void drawStartingRacks() {
 		for(player p:players) {
-			p.getRack().draw();
+			//p.getRack().draw(); draw in this case means draw a tile... probably should rename that one.
 		}
 	}
 }
