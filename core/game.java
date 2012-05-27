@@ -1,18 +1,21 @@
 package core;
 
 public class game {
-	private board board;
+	//private board board;
 	private static player players[];
-	private bag bag;
+	//private bag bag;
 	private static tile displayRack[];
 	private static int playersTurn;
 
 	public game()
 	{
-		board = new board();
-		bag = new bag();
+		//board = new board();
+		//bag = new bag();
+		new board();
+		new bag();
 		displayRack = new tile[7];
-		playersTurn = 0;
+		playersTurn = getNumPlayers();
+		newTurn();
 	}
 
 	public void setNumPlayers(int num)
@@ -40,17 +43,17 @@ public class game {
 
 	public void submit()
 	{
-		virtualBoard.submit();
-		
+		if(virtualBoard.submit())
+			newTurn();
 	}
-	
+
 	public void newTurn()
 	{
 		playersTurn++;
 		playersTurn %= getNumPlayers();
 		virtualBoard.reset(players[playersTurn]);
 	}
-	
+
 	public static void setRackToDisplay(tile[] tiles)
 	{
 		for(int i=0; i<7; i++)

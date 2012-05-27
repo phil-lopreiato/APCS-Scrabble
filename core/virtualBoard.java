@@ -17,7 +17,7 @@ public class virtualBoard
 		currentPlayer = Player;
 	}
 
-	public boolean place(tile Tile, int x, int y)
+	public static boolean place(tile Tile, int x, int y)
 	{
 		boolean placed;
 		if(virtualBoard[x][y] == null && board.isEmpty(x,y))
