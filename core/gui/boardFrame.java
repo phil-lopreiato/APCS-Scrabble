@@ -1,6 +1,7 @@
 package core.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,12 +20,12 @@ import core.game;
 
 public class boardFrame extends JFrame implements ActionListener{
 	private JFrame mainFrame;
-	private JPanel boardContainer, scoreContainer;
-	private JLabel boardLabel, playerScores[];
+	private JPanel boardContainer, scoreContainer, rackContainer;
+	private JLabel boardLabel, scoreLabels[];
 	private JComboBox numPlayersSelect;
 	private BufferedImage boardBase;
-	private game gameRef;
-	private int numPlayers;
+	private game gameRef; //may not be needed
+	private int numPlayers, playerScores[];
 	
 	public boardFrame() {
 		mainFrame = new JFrame("Scrabble");
@@ -58,12 +60,14 @@ public class boardFrame extends JFrame implements ActionListener{
 	
 	public void loadGameDisplay(int numPlayers) {
 		
-		playerScores = new JLabel[numPlayers];
+		scoreLabels = new JLabel[numPlayers];
+		playerScores = new int[numPlayers];
 		
 		//Create and set up the window.
 		boardContainer = new JPanel(new BorderLayout());
-        scoreContainer = new JPanel(new GridLayout(0,2));
-        
+        scoreContainer = new JPanel();
+        scoreContainer.setLayout(new BoxLayout(scoreContainer,(int) BoxLayout.Y_AXIS));
+        scoreContainer.setSize(new Dimension(10,10));
         //load image
         try {                
             boardBase = ImageIO.read(this.getClass().getResource("mainBoard.jpg"));
@@ -75,12 +79,14 @@ public class boardFrame extends JFrame implements ActionListener{
        boardContainer.add(boardLabel);
        
        JLabel scoreHeader = new JLabel("Scores:");
+       scoreHeader.setAlignmentX(scoreContainer.CENTER_ALIGNMENT);
        scoreContainer.add(scoreHeader);
-       scoreContainer.add(new JLabel()); //add blank label, keep the grid set
+      
        for(int i = 1;i<=playerScores.length;i++) {
-    	   scoreContainer.add(new JLabel("Player "+i+": "));
-    	   playerScores[i-1] = new JLabel("0");
-    	   scoreContainer.add(playerScores[i-1]);
+    	   playerScores[i-1] = 0;
+    	   scoreLabels[i-1] = new JLabel("Player "+i+": "+playerScores[i-1]);
+    	   scoreLabels[i-1].setAlignmentX(scoreContainer.CENTER_ALIGNMENT);
+    	   scoreContainer.add(scoreLabels[i-1]);
        }
        
        mainFrame.getContentPane().add(boardContainer, BorderLayout.WEST);
@@ -89,7 +95,7 @@ public class boardFrame extends JFrame implements ActionListener{
 	}
 	
 	public void updateScore(int player,int score) {
-		playerScores[player-1].setText(Integer.toString(score));
+		scoreLabels[player-1].setText("Player "+player+": "+playerScores[player-1]);
 		repaint();
 	}
 	
