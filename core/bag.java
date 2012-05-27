@@ -12,19 +12,25 @@ public class bag
 		//initialize all tiles
 		tiles = new ArrayList<tile>(100);
 		fillBag();
-		randomizeBag();
+		//randomizeBag(); //see below
 	}
 	
 	public void fillBag() {
-		for(int i = 0;i>27;i++) { //for each type of tile (A-<blank>)
-			for(int j=0;j<letterDistributions[i];j++) { //number of each tile to add to the bag
+		for(int i=0; i<27; i++) { //for each type of tile (A-<blank>)
+			for(int j=0; j<letterDistributions[i]; j++) { //number of each tile to add to the bag
 				tiles.add(new tile((char)(i+65)));
 			}
 		}
 		
 	}
 	
-	public void randomizeBag() {
+	public int getSize()
+	{
+		return tiles.size();
+	}
+	
+	//This method is not needed. The bag's array can be arranged in order since the tile is still chosen randomly by the drawTile method.
+	/*public void randomizeBag() {
 		tile temp;
 		int randIndex;
 		for(int i=0;i<tiles.size();i++) {
@@ -33,7 +39,7 @@ public class bag
 			tiles.set(i, tiles.get(randIndex));
 			tiles.set(randIndex,temp);
 		}
-	}
+	}*/
 	
 	public static tile drawTile()
 	{

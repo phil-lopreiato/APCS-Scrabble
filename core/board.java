@@ -8,4 +8,6 @@ public class board
 	{
 		board = new tile[15][15];
 	}
+	
+	//include methods such as find first tile in word...
 }
