@@ -5,25 +5,27 @@ public class game {
 	private static player players[];
 	private bag bag;
 	private static tile displayRack[];
-	
+	private static int playersTurn;
+
 	public game()
 	{
 		board = new board();
 		bag = new bag();
 		displayRack = new tile[7];
+		playersTurn = 0;
 	}
-	
+
 	public void setNumPlayers(int num)
 	{
 		players = new player[num];
 		for (int i=0; i<num; i++)
 			players[i] = new player();
 	}
-	
+
 	public int getNumPlayers() {
 		return players.length;
 	}
-	
+
 	public static boolean gameOver()
 	{
 		boolean result = false;
@@ -35,13 +37,26 @@ public class game {
 		}
 		return result;
 	}
+
+	public void submit()
+	{
+		virtualBoard.submit();
+		
+	}
+	
+	public void newTurn()
+	{
+		playersTurn++;
+		playersTurn %= getNumPlayers();
+		virtualBoard.reset(players[playersTurn]);
+	}
 	
 	public static void setRackToDisplay(tile[] tiles)
 	{
 		for(int i=0; i<7; i++)
 			displayRack[i] = tiles[i]; //to avoid aliasing which i think is bad here...
 	}
-	
+
 	public void drawStartingRacks() {
 		for(player p:players) {
 			//p.getRack().draw(); draw in this case means draw a tile... probably should rename that one.

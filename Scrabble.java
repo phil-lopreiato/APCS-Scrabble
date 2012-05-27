@@ -5,33 +5,36 @@ public class Scrabble{
 	public static void main(String[] args){
 		System.out.println("Begin");
 		game theGame = new game(); //reference to the game
-		
+
 		boardFrame f = new boardFrame(theGame); //init new GUI
 		f.gameInit(); //draw the game init stuff (select number of players)
-					  //this will eventually also ask for computer players
+		//this will eventually also ask for computer players
 		f.show(); //show the main content panel
-		
+
 		//wait for button to be pressed
 		do {
 			try {
-	            Thread.sleep(100); //wait 100 ms
-            } catch (InterruptedException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-            }
-		}while(!f.numPlayersSet()); 
-		
+				Thread.sleep(100); //wait 100 ms
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}while(!f.numPlayersSet());
+
 		f.clear(); //clear everything from frame, now we draw with the board
-		
+
 		f.loadGameDisplay(theGame.getNumPlayers()); //draw the board
-		
+
 		f.repaint(); //repaint the display
-		
+
+
+		//thought process:
 		while(!game.gameOver())
 		{
+			//player places tiles in virtual board
 			//wait for submit
 			//verify -- for now, let's just assume this is good until the rest of the game works
-			//add tiles to board
+			//add tiles from virtual board to board
 			//update score
 			//remove tiles from playerRack
 			//draw new tiles
