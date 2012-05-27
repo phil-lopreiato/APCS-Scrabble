@@ -38,7 +38,6 @@ public class virtualBoard
 
 			currentPlayer.updateScore(scoreTurn());
 			board.addVB(virtualBoard);
-			currentPlayer.removeUsedTiles();
 			valid = true;
 		}
 		else

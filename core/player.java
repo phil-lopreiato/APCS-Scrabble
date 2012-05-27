@@ -30,14 +30,6 @@ public class player
 		playerRack.draw();
 	}
 
-	public void removeUsedTiles()
-	{
-		for(int index : tileIndices)
-			playerRack.remove(index);
-		draw();
-	}
-
-
 	public void updateScore(int score)
 	{
 		this.score += score;
