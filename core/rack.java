@@ -30,10 +30,8 @@ public class rack
 		while (result && i<7)
 		{
 			if(tiles[i] != null)
-					result = false;
+				result = false;
 		}
 		return result;
 	}
-	
-	public 
 }
