@@ -2,6 +2,8 @@ package core.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,27 +16,31 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import core.game;
 
-public class boardFrame extends JFrame{
+public class boardFrame extends JFrame implements ActionListener{
 	private JFrame mainFrame;
 	private JPanel boardContainer, scoreContainer;
 	private JLabel boardLabel, playerScores[];
+	private JComboBox numPlayersSelect;
 	private BufferedImage boardBase;
 	private game gameRef;
-	private gameSetup setupRef;
+	private int numPlayers;
 	
-	public boardFrame(game parentGame) {
-		gameRef = parentGame;
+	public boardFrame() {
 		mainFrame = new JFrame("Scrabble");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        numPlayers = 0;
+	}
+	
+	public void setParent(game parentGame) {
+		gameRef = parentGame;
 	}
 	
 	public void gameInit() {
 		String[] numOptions = {"1","2","3","4"};
-		JComboBox numPlayersSelect = new JComboBox(numOptions);
+		numPlayersSelect = new JComboBox(numOptions);
 		numPlayersSelect.setSelectedIndex(0);
-		setupRef = new gameSetup(numPlayersSelect,gameRef);
 		JButton goButton = new JButton("Continue");
-		goButton.addActionListener(setupRef);
+		goButton.addActionListener(this);
 		
 		mainFrame.getContentPane().add(new JLabel("Select the Number of Players"), BorderLayout.NORTH);
 		mainFrame.getContentPane().add(numPlayersSelect, BorderLayout.CENTER);
@@ -42,8 +48,13 @@ public class boardFrame extends JFrame{
 	}
 	
 	public boolean numPlayersSet() {
-		return setupRef.buttonPressed();
+		return numPlayers != 0;
 	}
+	
+	public int getNumPlayers() {
+		return numPlayers;
+	}
+	
 	
 	public void loadGameDisplay(int numPlayers) {
 		
@@ -96,4 +107,9 @@ public class boardFrame extends JFrame{
 	public void clear() {
 		mainFrame.getContentPane().removeAll();
 	}
+
+	@Override
+    public void actionPerformed(ActionEvent e) {
+		numPlayers = numPlayersSelect.getSelectedIndex()+1;
+    }
 }
