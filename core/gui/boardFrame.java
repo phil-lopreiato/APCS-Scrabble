@@ -17,11 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import core.game;
+import core.rack;
+import core.tile;
 
 public class boardFrame extends JFrame implements ActionListener{
 	private JFrame mainFrame;
 	private JPanel boardContainer, scoreContainer, rackContainer;
-	private JLabel boardLabel, scoreLabels[], rackLetters[];
+	private JLabel boardLabel, scoreLabels[], rackLetters[], currentPlayer;
 	private JComboBox numPlayersSelect;
 	private BufferedImage boardBase;
 	private game gameRef; //may not be needed
@@ -68,7 +70,7 @@ public class boardFrame extends JFrame implements ActionListener{
 		
         scoreContainer = new JPanel();    
         scoreContainer.setLayout(new BoxLayout(scoreContainer,(int) BoxLayout.Y_AXIS));
-        scoreContainer.setSize(new Dimension(10,10));
+        scoreContainer.setPreferredSize(new Dimension(300,300));
         
         rackContainer  = new JPanel();
         rackContainer.setPreferredSize(new Dimension(7* 100/*large tile width*/ + 7* 5/*border*/,110 /*large tile height*/));
@@ -131,6 +133,12 @@ public class boardFrame extends JFrame implements ActionListener{
 		for(int i = 0;i<tiles.length;i++)
 			rackLetters[i].setIcon(new ImageIcon(tiles[i]));
 	}
+	
+	public void updateRack(tile[] tiles) {
+		for(int i = 0;i<tiles.length;i++)
+			rackLetters[i].setIcon(new ImageIcon(tiles[i].paint(true)));
+	}
+
 	
 	public void show() {	
         mainFrame.pack();

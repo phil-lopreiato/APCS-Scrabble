@@ -1,11 +1,14 @@
 package core;
 
+import core.gui.boardFrame;
+
 public class game {
 	//private board board;
 	private static player players[];
 	//private bag bag;
 	private static tile displayRack[];
 	private static int playersTurn;
+	private static boardFrame gui;
 
 	public game(int numPlayers)
 	{
@@ -17,6 +20,10 @@ public class game {
 		setNumPlayers(numPlayers);
 		playersTurn = getNumPlayers() - 1; //start with last player so when newTurn() is called, the first player actually goes
 		newTurn();
+	}
+	
+	public void setGUI(boardFrame in) {
+		gui = in;
 	}
 
 	public void setNumPlayers(int num)
@@ -73,6 +80,7 @@ public class game {
 			displayRack[i] = current.get(i); //to avoid aliasing which i think is bad here...
 			System.out.print(current.get(i).getLetter());
 		}
+		current.paint(gui);
 		System.out.println();
 	}
 

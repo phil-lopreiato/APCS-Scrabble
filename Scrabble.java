@@ -22,7 +22,7 @@ public class Scrabble{
 
 		theGame = new game(f.getNumPlayers()); //instantiate game with correct # players
 		f.setParent(theGame); //tell the GUI the game's reference to make talking between them easier
-
+		theGame.setGUI(f);
 		f.clear(); //clear everything from frame, now we draw with the board
 
 		f.loadGameDisplay(theGame.getNumPlayers()); //draw the board

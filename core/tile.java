@@ -63,17 +63,19 @@ public class tile
 		Graphics2D g2d = output.createGraphics();
 		g2d.drawImage(baseTile, 0, 0, null);
 		g2d.setPaint(Color.black);
-		g2d.setFont(new Font("Serif", Font.BOLD, 20));	
-		String s = "Hello, world!";
+		g2d.setFont(new Font("Serif", Font.BOLD, 60));	
+		String s = Character.toString(getLetter());
         FontMetrics fm = g2d.getFontMetrics();
         
         int x = output.getWidth()/2 - fm.stringWidth(s)/2;
         int y = fm.getHeight();
         g2d.drawString(s, x, y);
         
+        g2d.setFont(new Font("Serif", Font.BOLD, 20));	
+        fm = g2d.getFontMetrics();
         s = Integer.toString(this.getValue());
-        x = output.getWidth() - fm.stringWidth(s)-5;
-        y = output.getHeight() - fm.getHeight()- 5;
+        x = output.getWidth() - fm.stringWidth(s);
+        y = output.getHeight() - fm.getHeight();
         g2d.drawString(s, x, y);
         
         g2d.dispose();
