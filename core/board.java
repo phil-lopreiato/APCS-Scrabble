@@ -48,11 +48,11 @@ public class board
 	 * 
 	 * @param x		x-coordinate of the location to test
 	 * @param y		y-coordinate of the location to test
-	 * @return		true if the location is empty, false if it is occupied
+	 * @return		true if the location is empty or contains a multiplier space, false if it is occupied
 	 */
 	public static boolean isEmpty(int x, int y)
 	{
-		return board[x][y] == null;
+		return board[x][y] == null || board[x][y].getSpecial() != 0;
 	}
 	
 	//include methods such as find first tile in word... (i think this should be in virtual board instead)
