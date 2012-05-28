@@ -29,10 +29,17 @@ public class Scrabble{
 
 		f.repaint(); //repaint the display
 
+		
+		
+		
+		//simulating game below.
+		System.out.println(theGame.getNumPlayers() + " players");
+		System.out.println("Player #" + theGame.getCurrentPlayerNumber());
 		game.setRackToDisplay();
 		theGame.submit();
 		game.setRackToDisplay();
-		
+		f.repaint();
+		//end simulation
 
 		//thought process:
 		while(!game.gameOver())

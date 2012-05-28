@@ -15,7 +15,7 @@ public class game {
 		new bag();
 		displayRack = new tile[7];
 		setNumPlayers(numPlayers);
-		//playersTurn = getNumPlayers();
+		playersTurn = getNumPlayers() - 1; //start with last player so when newTurn() is called, the first player actually goes
 		newTurn();
 	}
 
@@ -28,6 +28,11 @@ public class game {
 
 	public int getNumPlayers() {
 		return players.length;
+	}
+	
+	public int getCurrentPlayerNumber()
+	{
+		return playersTurn;
 	}
 
 	public static boolean gameOver()
