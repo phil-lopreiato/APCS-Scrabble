@@ -83,10 +83,4 @@ public class game {
 		current.paint(gui);
 		System.out.println();
 	}
-
-	public void drawStartingRacks() {
-		for(player p:players) {
-			//p.getRack().draw(); draw in this case means draw a tile... probably should rename that one.
-		}
-	}
 }
