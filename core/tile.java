@@ -70,7 +70,7 @@ public class tile
 	}
 
 	/**
-	 * Returns the letter multiplier for this tile
+	 * Returns the letter multiplier for this tile. Used for multiplier spaces and in the virtual board.
 	 * 
 	 * Since we're using a blank tile to represent double/triple letter/word squares on the board, this method will return the multiplier for tile placed on top of it 
 	 * To differentiate between multiplying on a single letter or an entire word, a negative value will be used to represent a letter multiplier and a positive value for a word
