@@ -88,13 +88,13 @@ public class boardFrame extends JFrame implements ActionListener{
        
        //draw score area 
        JLabel scoreHeader = new JLabel("Scores:"); //header label
-       scoreHeader.setAlignmentX(scoreContainer.CENTER_ALIGNMENT);
+       scoreHeader.setAlignmentX(JPanel.CENTER_ALIGNMENT);
        scoreContainer.add(scoreHeader);
       
        for(int i = 1;i<=playerScores.length;i++) {
     	   playerScores[i-1] = 0;
     	   scoreLabels[i-1] = new JLabel("Player "+i+": "+playerScores[i-1]);
-    	   scoreLabels[i-1].setAlignmentX(scoreContainer.CENTER_ALIGNMENT);
+    	   scoreLabels[i-1].setAlignmentX(JPanel.CENTER_ALIGNMENT);
     	   scoreContainer.add(scoreLabels[i-1]);
        }
        
