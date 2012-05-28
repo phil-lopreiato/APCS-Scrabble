@@ -11,8 +11,8 @@
  */
 
 /**
- * @author 	Phil Lopreiato
  * @author 	Justin Yost
+ * @author 	Phil Lopreiato
  * @version 1.0
  */
 
