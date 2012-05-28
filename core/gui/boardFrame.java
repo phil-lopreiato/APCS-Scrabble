@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import core.game;
-import core.rack;
 import core.tile;
 
 public class boardFrame extends JFrame implements ActionListener{
