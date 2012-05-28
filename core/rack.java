@@ -18,7 +18,7 @@
 
 package core;
 
-import core.gui.boardFrame;
+import core.gui.GUI;
 
 public class rack
 {
@@ -84,7 +84,7 @@ public class rack
 	 * 
 	 * @param gui	a reference to the GUI on which to draw the rack
 	 */
-	public void paint(boardFrame gui) {
+	public void paint(GUI gui) {
 		gui.updateRack(tiles);
 	}
 }

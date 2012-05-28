@@ -18,7 +18,7 @@
 
 package core;
 
-import core.gui.boardFrame;
+import core.gui.GUI;
 
 public class game {
 	//private board board;
@@ -26,7 +26,7 @@ public class game {
 	//private bag bag;
 	private static tile displayRack[];
 	private static int playersTurn;
-	private static boardFrame gui;
+	private static GUI gui;
 
 	public game(int numPlayers)
 	{
@@ -48,7 +48,7 @@ public class game {
 	 * 
 	 * @param in	input reference to the GUI
 	 */
-	public void setGUI(boardFrame in) {
+	public void setGUI(GUI in) {
 		gui = in;
 	}
 	
