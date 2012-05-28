@@ -11,6 +11,11 @@ public class rack
 			tiles[i] = bag.drawTile();
 	}
 
+	public tile get(int index)
+	{
+		return tiles[index];
+	}
+	
 	public void draw()
 	{
 		for(int i=0; i<7; i++)

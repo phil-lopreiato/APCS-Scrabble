@@ -13,21 +13,16 @@ public class player
 		tileIndices = new int[7];
 	}
 
-	public boolean submit()
-	{
-		boolean result = indexedDictionary.checkWord("hello");
-		if (result)
-		{
-			playerRack.remove(/*tiles to be removed*/4);
-			playerRack.remove(5);
-			playerRack.draw();
-		}
-		return result;
-	}
-
 	public void draw()
 	{
 		playerRack.draw();
+	}
+	
+	public tile remove(int index)
+	{
+		tile selected = playerRack.get(index);
+		playerRack.remove(index);
+		return selected;
 	}
 
 	public void updateScore(int score)
