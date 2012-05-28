@@ -17,13 +17,13 @@
  */
 
 import core.*;
-import core.gui.boardFrame;
+import core.gui.GUI;
 
 public class Scrabble{
 	public static void main(String[] args){
 		System.out.println("Begin");
 		game theGame;
-		boardFrame f = new boardFrame(); //init new GUI
+		GUI f = new GUI(); //init new GUI
 		f.gameInit(); //draw the game init stuff (select number of players)
 		//this will eventually also ask for computer players
 		f.show(); //show the main content panel
@@ -39,7 +39,6 @@ public class Scrabble{
 		}while(!f.numPlayersSet());
 
 		theGame = new game(f.getNumPlayers()); //instantiate game with correct # players
-		f.setParent(theGame); //tell the GUI the game's reference to make talking between them easier
 		theGame.setGUI(f);
 		
 		f.clear(); //clear everything from frame, now we draw with the board
