@@ -99,8 +99,16 @@ public class boardFrame extends JFrame implements ActionListener{
        
        
        //draw rack
+       BufferedImage blankTile = null;
+       try {                
+           blankTile = ImageIO.read(this.getClass().getResource("singleTile_large.jpg"));
+       } catch (IOException ex) {
+             ex.printStackTrace();
+       }
+       
        for(int i = 0;i<7;i++) { //set default tiles
     	   rackLetters[i] = new JLabel();
+    	   updateRack(i,blankTile);
        }
        
        //add components to main frame

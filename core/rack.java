@@ -1,5 +1,7 @@
 package core;
 
+import core.gui.boardFrame;
+
 public class rack
 {
 	private tile[] tiles;
@@ -38,5 +40,11 @@ public class rack
 				result = false;
 		}
 		return result;
+	}
+	
+	public void paint(boardFrame pane) {
+		for(int i = 0;i<7;i++) {
+			pane.updateRack(i, tiles[i].paint(true));
+		}
 	}
 }
