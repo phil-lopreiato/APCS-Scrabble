@@ -43,7 +43,11 @@ public class bag
 
 	public static tile drawTile()
 	{
-		return tiles.remove((int)(Math.random()*tiles.size()));
+		tile result;
+		if(getSize() > 0)
+			result = tiles.remove((int)(Math.random()*tiles.size()));
+		else
+			result = null;
+		return result;
 	}
-
 }

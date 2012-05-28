@@ -29,6 +29,10 @@ public class Scrabble{
 
 		f.repaint(); //repaint the display
 
+		game.setRackToDisplay();
+		theGame.submit();
+		game.setRackToDisplay();
+		
 
 		//thought process:
 		while(!game.gameOver())

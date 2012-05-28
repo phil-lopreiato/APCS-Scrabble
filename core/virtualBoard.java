@@ -17,12 +17,14 @@ public class virtualBoard
 		currentPlayer = Player;
 	}
 
-	public static boolean place(tile Tile, int x, int y)
+	public static boolean place(int rackIndex, int x, int y)
 	{
 		boolean placed;
 		if(virtualBoard[x][y] == null && board.isEmpty(x,y))
 		{
+			tile Tile = currentPlayer.getRack().get(rackIndex);
 			virtualBoard[x][y] = Tile;
+			currentPlayer.getRack().remove(rackIndex);
 			placed = true;
 		}
 		else
@@ -35,7 +37,6 @@ public class virtualBoard
 		boolean valid;
 		if(validate())
 		{
-
 			currentPlayer.updateScore(scoreTurn());
 			board.addVB(virtualBoard);
 			valid = true;

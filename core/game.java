@@ -48,17 +48,27 @@ public class game {
 			newTurn();
 	}
 
-	public void newTurn()
+	public boolean placeTile(int rackIndex, int x, int y)
+	{
+		return virtualBoard.place(rackIndex, x, y);
+	}
+
+	private void newTurn()
 	{
 		playersTurn++;
 		playersTurn %= getNumPlayers();
 		virtualBoard.reset(players[playersTurn]);
 	}
 
-	public static void setRackToDisplay(tile[] tiles)
+	public static void setRackToDisplay()
 	{
+		rack current = players[playersTurn].getRack();
 		for(int i=0; i<7; i++)
-			displayRack[i] = tiles[i]; //to avoid aliasing which i think is bad here...
+		{
+			displayRack[i] = current.get(i); //to avoid aliasing which i think is bad here...
+			System.out.print(current.get(i).getLetter());
+		}
+		System.out.println();
 	}
 
 	public void drawStartingRacks() {
