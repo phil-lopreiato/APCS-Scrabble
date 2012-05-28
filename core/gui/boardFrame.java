@@ -101,13 +101,14 @@ public class boardFrame extends JFrame implements ActionListener{
        //draw rack
        BufferedImage blankTile = null;
        try {                
-           blankTile = ImageIO.read(this.getClass().getResource("singleTile_large.jpg"));
+           blankTile = ImageIO.read(this.getClass().getResource("singleTile_large.png"));
        } catch (IOException ex) {
              ex.printStackTrace();
        }
        
        for(int i = 0;i<7;i++) { //set default tiles
     	   rackLetters[i] = new JLabel();
+    	   rackContainer.add(rackLetters[i]);
     	   updateRack(i,blankTile);
        }
        
@@ -124,6 +125,11 @@ public class boardFrame extends JFrame implements ActionListener{
 	
 	public void updateRack(int pos /*0-6*/,BufferedImage tile) {
 		rackLetters[pos].setIcon(new ImageIcon(tile));
+	}
+	
+	public void updateRack(BufferedImage[] tiles) {
+		for(int i = 0;i<tiles.length;i++)
+			rackLetters[i].setIcon(new ImageIcon(tiles[i]));
 	}
 	
 	public void show() {	
