@@ -123,6 +123,11 @@ public class game {
 	{
 		return virtualBoard.place(rackIndex, x, y);
 	}
+	
+	public boolean replaceTile(int rackIndex, int x, int y)
+	{
+		return virtualBoard.replace(rackIndex, x, y);
+	}
 
 	/**
 	 * Ends the current turn and moves on to the next player
@@ -132,12 +137,13 @@ public class game {
 		playersTurn++;
 		playersTurn %= getNumPlayers();
 		virtualBoard.reset(players[playersTurn]);
+		setRackToDisplay();
 	}
 
 	/**
 	 * Draws the current player's rack onto the GUI
 	 */
-	public static void setRackToDisplay()
+	private static void setRackToDisplay()
 	{
 		rack current = players[playersTurn].getRack();
 		for(int i=0; i<7; i++)

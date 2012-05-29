@@ -50,7 +50,7 @@ public class virtualBoard
 	 */
 	public static boolean place(int rackIndex, int x, int y)
 	{
-		boolean placed;
+		boolean placed = false;
 		if(virtualBoard[x][y] == null && board.isEmpty(x,y))
 		{
 			tile Tile = currentPlayer.getRack().get(rackIndex);
@@ -58,9 +58,17 @@ public class virtualBoard
 			currentPlayer.getRack().remove(rackIndex);
 			placed = true;
 		}
-		else
-			placed = false;
 		return placed;
+	}
+	
+	public static boolean replace(int rackIndex, int x, int y)
+	{
+		boolean replaced = false;
+		if(virtualBoard[x][y] != null)
+		{
+			replaced = currentPlayer.getRack().replace(rackIndex, virtualBoard[x][y]);
+		}
+		return replaced;
 	}
 
 	/**
@@ -90,6 +98,8 @@ public class virtualBoard
 	public static boolean validate()
 	{
 		//check all words and placements and stuff - will need to load master board
+		//check that all tiles are touching and in a row
+		//find first tiles and check all create words
 		return true;
 	}
 
