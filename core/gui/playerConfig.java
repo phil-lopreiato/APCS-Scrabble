@@ -42,8 +42,8 @@ public class playerConfig implements ActionListener{
 	
 	public void addComponents(java.awt.Container pane) {
 		pane.add(new JLabel("Select the Number of Players"), BorderLayout.NORTH);
-		pane.add(numPlayersSelect, BorderLayout.CENTER);
-		pane.add(goButton, BorderLayout.SOUTH);
+		pane.add(numPlayersSelect, BorderLayout.CENTER, new Integer(0));
+		pane.add(goButton, BorderLayout.SOUTH,0);
 	}
 	
 	public int getNumPlayers() {

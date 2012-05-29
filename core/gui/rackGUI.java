@@ -19,8 +19,11 @@
 package core.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -31,7 +34,7 @@ import javax.swing.JPanel;
 
 import core.tile;
 
-public class rackGUI {
+public class rackGUI extends GUI implements guiSegment {
 	
 	private JPanel rackContainer;
 	private JLabel rackLetters[];
@@ -54,6 +57,7 @@ public class rackGUI {
 		
 		for(int i = 0;i<7;i++) { //set default tiles
 			rackLetters[i] = new JLabel();
+			rackLetters[i].addMouseMotionListener(new tileDnD());
 			rackContainer.add(rackLetters[i]);
 			updateRack(i,blankTile);
 		}
@@ -74,4 +78,17 @@ public class rackGUI {
 		for(int i = 0;i<tiles.length;i++)
 			rackLetters[i].setIcon(new ImageIcon(tiles[i].paint(true)));
 	}
+	
+	class tileDnD extends MouseMotionAdapter{
+		public void mouseDragged(MouseEvent e) {
+			Component c = e.getComponent();
+			c.setLocation(c.getX()+e.getX(),c.getY()+e.getY());
+			repaint();
+		}
+	}
+
+
+    public JPanel getContainer() {
+	   return rackContainer;
+    }
 }

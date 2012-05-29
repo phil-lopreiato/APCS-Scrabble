@@ -25,7 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class scoreGUI {
+public class scoreGUI extends GUI implements guiSegment{
 	private JPanel scoreContainer;
 	private JLabel scoreLabels[];
 	private int[] playerScores;
@@ -60,5 +60,10 @@ public class scoreGUI {
 	public void updateScore(int player,int score) {
 		scoreLabels[player-1].setText("Player "+player+": "+playerScores[player-1]);
 	}
+
+
+    public JPanel getContainer() {
+	   return scoreContainer;
+    }
 	
 }

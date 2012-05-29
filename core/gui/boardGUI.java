@@ -27,7 +27,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class boardGUI {
+import core.tile;
+
+public class boardGUI extends GUI implements guiSegment{
 	
 	JPanel boardContainer;
 	JLabel boardLabel;
@@ -45,6 +47,7 @@ public class boardGUI {
 		
 		boardContainer = new JPanel(new BorderLayout());
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
+		
 	}
 	
 	public void addComponents(java.awt.Container pane) {
@@ -52,4 +55,13 @@ public class boardGUI {
 		
 		pane.add(boardContainer, BorderLayout.WEST);
 	}
+	
+	public void addTile(tile t,int x, int y) {
+		//to be implemented
+	}
+
+
+    public JPanel getContainer() {
+	   return boardContainer;
+    }
 }
