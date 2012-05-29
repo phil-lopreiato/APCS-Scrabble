@@ -38,8 +38,7 @@ public class Scrabble{
 			}
 		}while(!f.numPlayersSet());
 
-		theGame = new game(f.getNumPlayers()); //instantiate game with correct # players
-		theGame.setGUI(f);
+		theGame = new game(f.getNumPlayers(), f); //instantiate game with correct # players
 		
 		f.clear(); //clear everything from frame, now we draw with the board
 
@@ -52,9 +51,7 @@ public class Scrabble{
 		//simulating game below.
 		System.out.println(theGame.getNumPlayers() + " players");
 		System.out.println("Player #" + theGame.getCurrentPlayerNumber());
-		game.setRackToDisplay();
 		theGame.submit();
-		game.setRackToDisplay();
 		f.repaint();
 		//end simulation
 

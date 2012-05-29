@@ -28,12 +28,14 @@ public class game {
 	private static int playersTurn;
 	private static GUI gui;
 
-	public game(int numPlayers)
+	public game(int numPlayers, GUI in)
 	{
 		//board = new board();
 		//bag = new bag();
 		new board();
+		new virtualBoard();
 		new bag();
+		setGUI(in);
 		displayRack = new tile[7];
 		setNumPlayers(numPlayers);
 		playersTurn = getNumPlayers() - 1; //start with last player so when newTurn() is called, the first player actually goes
@@ -112,6 +114,13 @@ public class game {
 	}
 
 	/**
+	 * Passes the current turn. Play proceeds to the next player
+	 */
+	public void pass()
+	{
+		newTurn();
+	}
+	/**
 	 * Places a tile into the virtual board at a given location
 	 * 
 	 * @param rackIndex		the location in the player's rack of the tile to place
@@ -124,11 +133,17 @@ public class game {
 		return virtualBoard.place(rackIndex, x, y);
 	}
 	
+	/**
+	 * @param rackIndex 	the location in the player's rack of the tile to place
+	 * @param x				x-coordinate on the board to locate the tile
+	 * @param y				y-coordinate on the board to locate the tile
+	 * @return				true if the tile was successfully returned to the player's rack, false otherwise
+	 */
 	public boolean replaceTile(int rackIndex, int x, int y)
 	{
 		return virtualBoard.replace(rackIndex, x, y);
 	}
-
+	
 	/**
 	 * Ends the current turn and moves on to the next player
 	 */
@@ -149,9 +164,8 @@ public class game {
 		for(int i=0; i<7; i++)
 		{
 			displayRack[i] = current.get(i); //to avoid aliasing which i think is bad here...
-			System.out.print(current.get(i).getLetter());
+			//System.out.print(current.get(i).getLetter());
 		}
 		current.paint(gui);
-		System.out.println();
 	}
 }

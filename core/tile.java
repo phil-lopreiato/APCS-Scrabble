@@ -78,6 +78,7 @@ public class tile
 	 * a multiplier square, the multiplier will always be positive and will be multiplied by the point value of the letter to calculate the points for the tile.
 	 * For example: if a tile represents a double letter square, this will return a -2. if it represents a triple word, it will return +3. If the tile represents a letter 'A' that
 	 * has been placed on a double letter square and is part of a word that covers a triple word square, then this will return 2*3 = multiplier of 6
+	 * tl;dr (+) for word; (-) for letter.
 	 * 
 	 * @return	the multiplier value of this tile (see long description paragraph)
 	 */
