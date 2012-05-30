@@ -43,7 +43,7 @@ import core.tile;
 
 public class GUI extends JFrame {
 	
-	private JFrame mainFrame;
+	protected JFrame mainFrame;
 	private java.awt.Container contentPane;
 	
 	private playerConfig pc;

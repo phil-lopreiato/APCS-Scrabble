@@ -22,6 +22,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class rackGUI extends GUI implements guiSegment {
 		for(int i = 0;i<7;i++) { //set default tiles
 			rackLetters[i] = new JLabel();
 			rackLetters[i].addMouseMotionListener(new tileDnD());
+			rackLetters[i].addMouseListener(new tileClick());
 			rackContainer.add(rackLetters[i]);
 			updateRack(i,blankTile);
 		}
@@ -84,6 +86,40 @@ public class rackGUI extends GUI implements guiSegment {
 			c.setLocation(c.getX()+e.getX(),c.getY()+e.getY());
 			repaint();
 		}
+	}
+	
+	class tileClick implements MouseListener{
+
+		@Override
+        public void mouseClicked(MouseEvent arg0) {
+	        
+        }
+
+		@Override
+        public void mouseEntered(MouseEvent arg0) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		@Override
+        public void mouseExited(MouseEvent arg0) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		@Override
+        public void mousePressed(MouseEvent arg0) {
+			JLabel tile = (JLabel) arg0.getSource();
+			//rackContainer.remove(tile);
+			//mainFrame.add(tile);
+        }
+
+		@Override
+        public void mouseReleased(MouseEvent arg0) {
+			System.out.print("release!");
+	        
+        }
+		
 	}
 
 
