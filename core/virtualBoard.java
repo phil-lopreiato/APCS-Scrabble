@@ -158,4 +158,8 @@ public class virtualBoard
 				properties[i][j].setScoredVertical(false);
 			}
 	}
+	
+	public static void paint(core.gui.GUI gui) {
+		
+	}
 }

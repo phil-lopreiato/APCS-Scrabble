@@ -111,7 +111,7 @@ public class game {
 	{
 		if(virtualBoard.submit()) {
 			newTurn();
-			//board.paint(gui); <- method doesn't exist yet, but will update the board in the GUI
+			board.paint(gui); //update the board's display
 		}
 	}
 
@@ -134,7 +134,7 @@ public class game {
 	{
 		boolean canPlace = virtualBoard.place(rackIndex, x, y);
 		if(canPlace)
-			//virtualBoard.paint(gui); <- method doesn't exist yet, but will update the VB in GUI
+			virtualBoard.paint(gui); //update the VB in GUI
 		return canPlace;
 	}
 	
@@ -148,7 +148,7 @@ public class game {
 	{
 		boolean canReplace = virtualBoard.replace(rackIndex, x, y);
 		if(canReplace){
-			//virtualBoard.paint(gui); <- method doesn't exist yet, but will update VB in GUI
+			virtualBoard.paint(gui); //update VB in GUI
 		}
 		return canReplace;
 	}
@@ -162,7 +162,7 @@ public class game {
 		playersTurn %= getNumPlayers();
 		virtualBoard.reset(players[playersTurn]);
 		setRackToDisplay();
-		//gui.setCurrentTurn(playersTurn); <- method doesn't exist yet, but will update the GUI representation of the player whose turn it is 
+		gui.setCurrentTurn(playersTurn); //update the GUI representation of the player whose turn it is 
 	}
 
 	/**

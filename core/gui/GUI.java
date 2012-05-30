@@ -129,4 +129,8 @@ public class GUI extends JFrame {
 		mainFrame.getContentPane().removeAll();
 	}
 	
+	public void setCurrentTurn(int turn) {
+		
+	}
+	
 }
