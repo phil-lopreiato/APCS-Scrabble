@@ -42,95 +42,103 @@ import javax.swing.JLayeredPane;
 import core.tile;
 
 public class GUI extends JFrame {
-	
+
 	protected JFrame mainFrame;
 	private java.awt.Container contentPane;
-	
+
 	private playerConfig pc;
 	private scoreGUI sg;
 	private rackGUI rg;
 	private boardGUI bg;
-	
+
 	private int numPlayers;
-	
+	private int playersTurn;
+
 	public GUI() {
 		mainFrame = new JFrame("Scrabble");
 		contentPane = mainFrame.getContentPane();
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		numPlayers = 0;
 	}
-	
+
 	public void gameInit() {
 		pc = new playerConfig();
 		pc.addComponents(contentPane);
 	}
-	
+
 	public boolean numPlayersSet() {
 		numPlayers = pc.getNumPlayers();
 		return numPlayers != 0;
 	}
-	
+
 	public int getNumPlayers() {
 		return numPlayers;
 	}
-	
+
 	public void loadGameDisplay(int numPlayers) {
-		
+
 		clear();
 		pc = null; // deallocate config stuf
-		
+
 		bg = new boardGUI();
 		bg.addComponents(contentPane);
-		
+
 		sg = new scoreGUI(numPlayers);
 		sg.addComponents(contentPane);
-		
+
 		rg = new rackGUI();
 		rg.addComponents(contentPane);
-		
+
 	}
-	
+
 	public void updateScore(int player, int score) {
 		if (sg != null)
 			sg.updateScore(player, score);
 		repaint();
 	}
-	
+
+	public void setTurn(int player)
+	{
+		if (sg != null)
+			sg.setTurn(player);
+		repaint();
+	}
+
 	public void updateRack(int pos /* 0-6 */, BufferedImage tile) {
 		if (rg != null)
 			rg.updateRack(pos, tile);
 		repaint();
 	}
-	
+
 	public void updateRack(BufferedImage[] tiles) {
 		if (rg != null)
 			rg.updateRack(tiles);
 		repaint();
 	}
-	
+
 	public void updateRack(tile[] tiles) {
 		if (rg != null)
 			rg.updateRack(tiles);
 		repaint();
 	}
-	
+
 	public void show() {
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 		mainFrame.repaint();
 	}
-	
+
 	public void repaint() {
 		mainFrame.pack();
 		mainFrame.repaint();
 	}
-	
+
 	public void clear() {
 		mainFrame.getContentPane().removeAll();
 	}
-	
+
 	public void setCurrentTurn(int turn) {
-		
+
 	}
-	
+
 }

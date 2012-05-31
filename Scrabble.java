@@ -43,7 +43,6 @@ public class Scrabble{
 		f.clear(); //clear everything from frame, now we draw with the board
 
 		f.loadGameDisplay(theGame.getNumPlayers()); //draw the board
-
 		f.repaint(); //repaint the display
 
 
@@ -56,8 +55,7 @@ public class Scrabble{
 		//end simulation
 
 		//thought process:
-		while(!game.gameOver())
-		{
+		
 			//player places tiles in virtual board
 			//wait for submit
 			//verify -- for now, let's just assume this is good until the rest of the game works
@@ -66,6 +64,5 @@ public class Scrabble{
 			//remove tiles from playerRack
 			//draw new tiles
 			//next player's turn
-		}
 	}
 }

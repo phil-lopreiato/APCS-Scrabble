@@ -110,8 +110,9 @@ public class game {
 	public void submit()
 	{
 		if(virtualBoard.submit()) {
-			newTurn();
+			gui.updateScore(playersTurn, players[playersTurn].getScore());
 			board.paint(gui); //update the board's display
+			newTurn();
 		}
 	}
 
@@ -160,6 +161,7 @@ public class game {
 	{
 		playersTurn++;
 		playersTurn %= getNumPlayers();
+		gui.setTurn(playersTurn);
 		virtualBoard.reset(players[playersTurn]);
 		setRackToDisplay();
 		gui.setCurrentTurn(playersTurn); //update the GUI representation of the player whose turn it is 

@@ -116,9 +116,12 @@ public class rackGUI extends GUI implements guiSegment {
 
 		@Override
         public void mouseReleased(MouseEvent arg0) {
-			System.out.print("release!");
-	        
-        }
+			//System.out.print("release!");
+			Component c = arg0.getComponent();
+	        System.out.println(c.getY());
+	        //x: 5<650
+	        //y: -685<-7
+		}
 		
 	}
 
