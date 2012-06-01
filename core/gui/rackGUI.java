@@ -122,7 +122,6 @@ public class rackGUI extends GUI implements guiSegment {
 	        //x: 5<650
 	        //y: -685<-7
 		}
-		
 	}
 
 
