@@ -29,7 +29,7 @@ import javax.swing.JLabel;
 public class playerConfig implements ActionListener{
 	private int numPlayers;
 	private JComboBox numPlayersSelect;
-	private JButton goButton;
+	private JButton goButton; 
 	
 	public playerConfig(){
 		numPlayers = 0;
@@ -40,10 +40,20 @@ public class playerConfig implements ActionListener{
 		goButton.addActionListener(this);
 	}
 	
-	public void addComponents(java.awt.Container pane) {
-		pane.add(new JLabel("Select the Number of Players"), BorderLayout.NORTH);
+	public void addComponents(javax.swing.JLayeredPane pane) {
+		JLabel header = new JLabel("Select the Number of Players");
+		header.setLocation(0,0);
+		header.setSize(header.getPreferredSize());
+		
+		numPlayersSelect.setLocation(0,20);
+		numPlayersSelect.setSize(numPlayersSelect.getPreferredSize());
+		
+		goButton.setLocation(0,60);
+		goButton.setSize(goButton.getPreferredSize());
+		
+		pane.add(header, BorderLayout.NORTH);
 		pane.add(numPlayersSelect, BorderLayout.CENTER, new Integer(0));
-		pane.add(goButton, BorderLayout.SOUTH,0);
+		pane.add(goButton /*, BorderLayout.SOUTH*/, javax.swing.JLayeredPane.DEFAULT_LAYER);
 	}
 	
 	public int getNumPlayers() {

@@ -30,23 +30,25 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import core.tile;
 
 public class rackGUI extends GUI implements guiSegment {
 	
-	private JPanel rackContainer;
+	private JLayeredPane rackContainer;
 	private JLabel rackLetters[];
 	
 	public rackGUI() {
-		rackContainer  = new JPanel();
+		rackContainer  = new JLayeredPane();
 		rackContainer.setPreferredSize(new Dimension(7* 100/*large tile width*/ + 7* 5/*border*/,110 /*large tile height*/));
+		rackContainer.setOpaque(false);
 		rackLetters = new JLabel[7];
 		rackContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 	}
 	
-	public void addComponents(java.awt.Container pane) {
+	public void addComponents(javax.swing.JLayeredPane pane) {
 		//draw rack
 		BufferedImage blankTile = null;
 		try {                
@@ -57,13 +59,18 @@ public class rackGUI extends GUI implements guiSegment {
 		
 		for(int i = 0;i<7;i++) { //set default tiles
 			rackLetters[i] = new JLabel();
+			rackLetters[i].setOpaque(false);
+			rackLetters[i].setLocation(40*i+(5*i),pane.getHeight()-110);
+			rackLetters[i].setSize(100,110);
 			rackLetters[i].addMouseMotionListener(new tileDnD());
 			rackLetters[i].addMouseListener(new tileClick());
-			rackContainer.add(rackLetters[i]);
+			rackContainer.add(rackLetters[i],JLayeredPane.DEFAULT_LAYER);
 			updateRack(i,blankTile);
 		}
 		
-		pane.add(rackContainer, BorderLayout.SOUTH);
+		rackContainer.setSize(rackContainer.getPreferredSize());
+		rackContainer.setLocation(0,(int) (pane.getPreferredSize().getHeight()-110));
+		pane.add(rackContainer, BorderLayout.SOUTH, javax.swing.JLayeredPane.DEFAULT_LAYER);
 	}
 	
 	public void updateRack(int pos /*0-6*/,BufferedImage tile) {
@@ -85,6 +92,9 @@ public class rackGUI extends GUI implements guiSegment {
 			Component c = e.getComponent();
 			c.setLocation(c.getX()+e.getX(),c.getY()+e.getY());
 			repaint();
+		}
+		public void startDrag() {
+			
 		}
 	}
 	
@@ -110,22 +120,32 @@ public class rackGUI extends GUI implements guiSegment {
 		@Override
         public void mousePressed(MouseEvent arg0) {
 			JLabel tile = (JLabel) arg0.getSource();
-			//rackContainer.remove(tile);
+			rackContainer.setLayer(tile,JLayeredPane.DRAG_LAYER,0);
+			layeredPane.add(tile,JLayeredPane.DRAG_LAYER);
+			layeredPane.setLayer(tile,JLayeredPane.DRAG_LAYER,0);
+			layeredPane.moveToFront(tile);
+			System.out.println("down!");
+			/*rackContainer.remove(tile);
+			tile.setLocation(arg0.getX(),arg0.getY());
+			layeredPane.add(tile,JLayeredPane.DRAG_LAYER);
+			System.out.println(tile.getLocation());
 			//mainFrame.add(tile);
+			repaint();*/
         }
 
 		@Override
         public void mouseReleased(MouseEvent arg0) {
 			//System.out.print("release!");
 			Component c = arg0.getComponent();
-	        System.out.println(c.getY());
+	        System.out.println("up!");
 	        //x: 5<650
 	        //y: -685<-7
+	        repaint();
 		}
 	}
 
 
-    public JPanel getContainer() {
+    public JLayeredPane getContainer() {
 	   return rackContainer;
     }
 }

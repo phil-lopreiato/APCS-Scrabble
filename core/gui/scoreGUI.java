@@ -25,10 +25,11 @@ import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class scoreGUI extends GUI implements guiSegment{
-	private JPanel scoreContainer;
+	private JLayeredPane scoreContainer;
 	private JLabel scoreLabels[];
 	private int[] playerScores;
 	private int numPlayers;
@@ -38,25 +39,33 @@ public class scoreGUI extends GUI implements guiSegment{
 		scoreLabels = new JLabel[numPlayers];
 		playerScores = new int[numPlayers];
 
-		scoreContainer = new JPanel();
+		scoreContainer = new JLayeredPane();
+		scoreContainer.setOpaque(false);
 		scoreContainer.setLayout(new BoxLayout(scoreContainer,BoxLayout.Y_AXIS));
 		scoreContainer.setPreferredSize(new Dimension(300,300));
 	}
 
-	public void addComponents(java.awt.Container pane) {
+	public void addComponents(javax.swing.JLayeredPane pane) {
 		//draw score area
 		JLabel scoreHeader = new JLabel("Scores:"); //header label
 		scoreHeader.setAlignmentX(Component.CENTER_ALIGNMENT);
-		scoreContainer.add(scoreHeader);
+		scoreHeader.setSize(scoreHeader.getPreferredSize());
+		scoreHeader.setLocation(680,0);
+		scoreContainer.add(scoreHeader,JLayeredPane.DEFAULT_LAYER);
 
 		for(int i = 0;i<numPlayers;i++) {
 			playerScores[i] = 0;
 			scoreLabels[i] = new JLabel("Player "+i+": "+playerScores[i]);
 			scoreLabels[i].setAlignmentX(Component.CENTER_ALIGNMENT);
-			scoreContainer.add(scoreLabels[i]);
+			scoreLabels[i].setSize(scoreLabels[i].getPreferredSize());
+			scoreLabels[i].setLocation(675,10*i);
+			scoreContainer.add(scoreLabels[i], JLayeredPane.DEFAULT_LAYER);
 		}
+		
+		scoreContainer.setSize(scoreContainer.getPreferredSize());
+		scoreContainer.setLocation(675,0);
 
-		pane.add(scoreContainer, BorderLayout.EAST);
+		pane.add(scoreContainer, BorderLayout.EAST, JLayeredPane.DEFAULT_LAYER);
 	}
 
 	public void updateScore(int player,int score) {
@@ -71,7 +80,7 @@ public class scoreGUI extends GUI implements guiSegment{
 		
 	}
 
-	public JPanel getContainer() {
+	public JLayeredPane getContainer() {
 		return scoreContainer;
 	}
 

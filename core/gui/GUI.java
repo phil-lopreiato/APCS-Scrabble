@@ -1,30 +1,14 @@
 /* Copyright (C) 2012 Phil Lopreiato, Justin Yost
- * 
- * Permission is hereby granted, free of charge,
- * to any person obtaining a copy of this software
- * and associated documentation files (the
- * "Software"), to deal in the Software without
- * restriction, including without limitation the
- * rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the
- * following conditions: The above copyright
- * notice and this permission notice shall be
- * included in all copies or substantial portions
- * of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT
- * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR
- * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE. */
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 /**
  * @author Phil Lopreiato
@@ -34,36 +18,53 @@
 
 package core.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 import core.tile;
 
-public class GUI extends JFrame {
+public class GUI {
 
 	protected JFrame mainFrame;
 	private java.awt.Container contentPane;
-
+	protected JLayeredPane layeredPane;
+	
+	
 	private playerConfig pc;
-	private scoreGUI sg;
-	private rackGUI rg;
-	private boardGUI bg;
+	protected scoreGUI sg;
+	protected rackGUI rg;
+	protected boardGUI bg;
+	
+	protected Dimension screenSize;
 
 	private int numPlayers;
 	private int playersTurn;
 
 	public GUI() {
+		screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		
 		mainFrame = new JFrame("Scrabble");
+		mainFrame.setLayout(new BorderLayout());
+		
+		layeredPane = new JLayeredPane();
+		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		contentPane = mainFrame.getContentPane();
+		
+		layeredPane.setPreferredSize(new Dimension(200,100));
+		layeredPane.setOpaque(false);
+		mainFrame.setLayout(new java.awt.BorderLayout());
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		numPlayers = 0;
 	}
 
 	public void gameInit() {
 		pc = new playerConfig();
-		pc.addComponents(contentPane);
+		pc.addComponents(layeredPane);
 	}
 
 	public boolean numPlayersSet() {
@@ -79,15 +80,17 @@ public class GUI extends JFrame {
 
 		clear();
 		pc = null; // deallocate config stuf
+		
+		layeredPane.setPreferredSize(new Dimension((int)screenSize.getWidth(),(int)screenSize.getHeight()-75));
 
 		bg = new boardGUI();
-		bg.addComponents(contentPane);
+		bg.addComponents(layeredPane);
 
 		sg = new scoreGUI(numPlayers);
-		sg.addComponents(contentPane);
+		sg.addComponents(layeredPane);
 
 		rg = new rackGUI();
-		rg.addComponents(contentPane);
+		rg.addComponents(layeredPane);
 
 	}
 
@@ -129,12 +132,13 @@ public class GUI extends JFrame {
 	}
 
 	public void repaint() {
+		layeredPane.repaint();
 		mainFrame.pack();
 		mainFrame.repaint();
 	}
 
 	public void clear() {
-		mainFrame.getContentPane().removeAll();
+		layeredPane.removeAll();
 	}
 
 	public void setCurrentTurn(int turn) {

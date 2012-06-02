@@ -2,8 +2,8 @@ package core.gui;
 
 public interface guiSegment {
 	
-	public void addComponents(java.awt.Container pane);
+	public void addComponents(javax.swing.JLayeredPane pane);
 	
-	public javax.swing.JPanel getContainer();
+	public javax.swing.JLayeredPane getContainer();
 	
 }
