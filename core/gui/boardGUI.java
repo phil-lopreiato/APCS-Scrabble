@@ -19,6 +19,7 @@
 package core.gui;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -26,7 +27,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
 import core.tile;
 
@@ -35,6 +35,8 @@ public class boardGUI extends GUI implements guiSegment{
 	JLayeredPane boardContainer;
 	JLabel boardLabel;
 	BufferedImage boardBase;
+	private JLabel boardLetters[];
+	private int n;
 	
 	public boardGUI() {
 		//Create and set up the window.
@@ -47,24 +49,39 @@ public class boardGUI extends GUI implements guiSegment{
 		}
 		
 		boardContainer = new JLayeredPane();
-		boardContainer.setLayout(new BorderLayout());
+		//boardContainer.setLayout(new BorderLayout());
+		boardContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		boardContainer.setOpaque(false);
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
-		
+		boardLetters = new JLabel[7];
+		n = 0;
 	}
 	
 	public void addComponents(javax.swing.JLayeredPane pane) {
-		boardContainer.add(boardLabel);
+		boardContainer.add(boardLabel, JLayeredPane.DEFAULT_LAYER);
 		boardContainer.setSize(boardContainer.getPreferredSize());
 		boardContainer.setLocation(0,0);
 		
 		pane.add(boardContainer, BorderLayout.WEST, javax.swing.JLayeredPane.DEFAULT_LAYER);
+		addTile(null, 0, 0);
 	}
 	
-	public void addTile(tile t,int x, int y) {
-		//to be implemented
-	}
+	public void addTile(tile t, int x, int y) {
 
+		BufferedImage blankTile = null;
+		try {
+			blankTile = ImageIO.read(this.getClass().getResource("singleTile_large.png"));
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+			boardLetters[n] = new JLabel(new ImageIcon(blankTile));
+			boardLetters[n].setOpaque(false);
+			boardLetters[n].setLocation(0,0);
+			boardContainer.add(boardLetters[n],JLayeredPane.DEFAULT_LAYER);
+			boardContainer.setSize(boardContainer.getPreferredSize());
+			//boardLetters[n].setIcon();
+	}
 
     public JLayeredPane getContainer() {
 	   return boardContainer;

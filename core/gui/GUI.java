@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 import core.tile;
+import core.game;
 
 public class GUI {
 
@@ -33,7 +34,7 @@ public class GUI {
 	private java.awt.Container contentPane;
 	protected JLayeredPane layeredPane;
 	
-	
+	private game gameRef;
 	private playerConfig pc;
 	protected scoreGUI sg;
 	protected rackGUI rg;
@@ -60,13 +61,36 @@ public class GUI {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		numPlayers = 0;
+		
 	}
 
 	public void gameInit() {
 		pc = new playerConfig();
 		pc.addComponents(layeredPane);
+		
+		show(); //show the main content panel
+		playersInit(); //set the number of players
 	}
 
+	public void setGameRef(game in)
+	{
+		gameRef = in;
+	}
+	
+	public int playersInit()
+	{
+		//wait for button to be pressed
+		do {
+			try {
+				Thread.sleep(100); //wait 100 ms
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}while(!numPlayersSet());
+		return numPlayers;
+	}
+	
 	public boolean numPlayersSet() {
 		numPlayers = pc.getNumPlayers();
 		return numPlayers != 0;
@@ -76,7 +100,7 @@ public class GUI {
 		return numPlayers;
 	}
 
-	public void loadGameDisplay(int numPlayers) {
+	public void loadGameDisplay() {
 
 		clear();
 		pc = null; // deallocate config stuf
@@ -91,7 +115,6 @@ public class GUI {
 
 		rg = new rackGUI();
 		rg.addComponents(layeredPane);
-
 	}
 
 	public void updateScore(int player, int score) {
