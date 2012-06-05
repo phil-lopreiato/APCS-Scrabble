@@ -19,7 +19,8 @@
 import core.game;
 import core.gui.GUI;
 
-public class Scrabble{
+public class Scrabble
+{
 	public static void main(String[] args)
 	{
 		System.out.println("Begin Initialization");
