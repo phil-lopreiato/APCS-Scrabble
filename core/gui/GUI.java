@@ -34,7 +34,7 @@ public class GUI {
 	private java.awt.Container contentPane;
 	protected JLayeredPane layeredPane;
 	
-	private game gameRef;
+	private static game gameRef;
 	private playerConfig pc;
 	protected scoreGUI sg;
 	protected rackGUI rg;
@@ -42,7 +42,7 @@ public class GUI {
 	
 	protected Dimension screenSize;
 
-	private int numPlayers;
+	private static int numPlayers;
 	private int playersTurn;
 
 	public GUI() {
@@ -74,6 +74,14 @@ public class GUI {
 	public void setGameRef(game in)
 	{
 		gameRef = in;
+		System.out.println(in);
+	}
+	
+	protected void startGame(int numPlayers)
+	{
+		GUI.numPlayers = numPlayers;
+		System.out.println(gameRef);
+		//gameRef.start(numPlayers);
 	}
 	
 	//This method has been depreciated

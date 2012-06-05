@@ -28,7 +28,7 @@ import javax.swing.JLabel;
 
 import core.game;
 
-public class playerConfig implements ActionListener{
+public class playerConfig extends GUI implements ActionListener{
 	private int numPlayers;
 	private JComboBox numPlayersSelect;
 	private JButton goButton; 
@@ -69,9 +69,6 @@ public class playerConfig implements ActionListener{
 	@Override
     public void actionPerformed(ActionEvent e) {
 		numPlayers = numPlayersSelect.getSelectedIndex()+1;
-		gameRef.start(numPlayers);
-		gui.setNumPlayers(numPlayers);
-		gui.loadGameDisplay();
-		gameRef.newTurn();
+		startGame(numPlayers);
     }
 }
