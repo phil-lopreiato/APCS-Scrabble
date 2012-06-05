@@ -60,9 +60,9 @@ public class boardGUI extends GUI implements guiSegment{
 	public void addComponents(javax.swing.JLayeredPane pane) {
 		boardContainer.add(boardLabel, JLayeredPane.DEFAULT_LAYER);
 		boardContainer.setSize(boardContainer.getPreferredSize());
-		boardContainer.setLocation(0,0);
+		boardContainer.setLocation(0,120);
 		
-		pane.add(boardContainer, BorderLayout.WEST, javax.swing.JLayeredPane.DEFAULT_LAYER);
+		pane.add(boardContainer, 4);
 		addTile(null, 0, 0);
 	}
 	

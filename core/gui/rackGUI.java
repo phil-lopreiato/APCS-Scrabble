@@ -42,7 +42,8 @@ public class rackGUI extends GUI implements guiSegment {
 
 	public rackGUI() {
 		rackContainer  = new JLayeredPane();
-		rackContainer.setPreferredSize(new Dimension(7* 100/*large tile width*/ + 7* 5/*border*/,110 /*large tile height*/));
+		rackContainer.setPreferredSize(new Dimension(7* 100/*large tile width*/ + 7* 5/*border*/,(int)screenSize.getHeight() /*height of main window*/));
+		rackContainer.setLocation(0,0);
 		rackContainer.setOpaque(false);
 		rackLetters = new JLabel[7];
 		rackContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
@@ -60,7 +61,7 @@ public class rackGUI extends GUI implements guiSegment {
 		for(int i = 0;i<7;i++) { //set default tiles
 			rackLetters[i] = new JLabel();
 			rackLetters[i].setOpaque(false);
-			rackLetters[i].setLocation(40*i+(5*i),pane.getHeight()-110);
+			rackLetters[i].setLocation(40*i+(5*i),rackContainer.getHeight()-pane.getHeight()-110);
 			rackLetters[i].setSize(100,110);
 			rackLetters[i].addMouseMotionListener(new tileDnD());
 			rackLetters[i].addMouseListener(new tileClick());
@@ -69,8 +70,8 @@ public class rackGUI extends GUI implements guiSegment {
 		}
 
 		rackContainer.setSize(rackContainer.getPreferredSize());
-		rackContainer.setLocation(0,(int) (pane.getPreferredSize().getHeight()-110));
-		pane.add(rackContainer, BorderLayout.SOUTH, javax.swing.JLayeredPane.DEFAULT_LAYER);
+		rackContainer.setLocation(0,/*(int) (pane.getPreferredSize().getHeight()-110)*/0);
+		pane.add(rackContainer, 0);
 	}
 
 	public void updateRack(int pos /*0-6*/,BufferedImage tile) {
@@ -120,10 +121,11 @@ public class rackGUI extends GUI implements guiSegment {
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 			JLabel tile = (JLabel) arg0.getSource();
-			rackContainer.setLayer(tile,JLayeredPane.DRAG_LAYER,0);
+			rackContainer.setLayer(tile,4,0);
+			/*
 			layeredPane.add(tile,JLayeredPane.DRAG_LAYER);
 			layeredPane.setLayer(tile,JLayeredPane.DRAG_LAYER,0);
-			layeredPane.moveToFront(tile);
+			layeredPane.moveToFront(tile);*/
 			System.out.println("down!");
 			/*rackContainer.remove(tile);
 			tile.setLocation(arg0.getX(),arg0.getY());
