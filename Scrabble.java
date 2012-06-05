@@ -30,20 +30,6 @@ public class Scrabble{
 		f.gameInit(); //draw the game init stuff (select number of players)
 		System.out.println("Game Initialized and Started!");
 		
-		
-		
-		
-		//f.loadGameDisplay(); //draw the board
-
-
-
-		//simulating game below.
-		//System.out.println(theGame.getNumPlayers() + " players");
-		//System.out.println("Player #" + theGame.getCurrentPlayerNumber());
-		//theGame.submit();
-		//end simulation
-
-
 
 		//thought process:
 

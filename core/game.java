@@ -63,6 +63,7 @@ public class game {
 		players = new player[num];
 		for (int i=0; i<num; i++)
 			players[i] = new player();
+		gui.setNumPlayers(num);
 		gui.loadGameDisplay();
 		newTurn();
 	}

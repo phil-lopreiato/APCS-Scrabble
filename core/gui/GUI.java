@@ -42,7 +42,7 @@ public class GUI {
 
 	protected Dimension screenSize;
 
-	private static int numPlayers;
+	private int numPlayers;
 
 	//two of these variables need to be static as of now so that playerconfig's inherited method can access it's parent's variables
 	
@@ -94,7 +94,6 @@ public class GUI {
 	 */
 	protected void startGame(int numPlayers)
 	{
-		GUI.numPlayers = numPlayers;
 		gameRef.start(numPlayers);
 	}
 
@@ -117,7 +116,7 @@ public class GUI {
 
 	public void setNumPlayers(int numPlayers)
 	{
-		GUI.numPlayers = numPlayers;
+		this.numPlayers = numPlayers;
 	}
 
 	public boolean numPlayersSet() {
@@ -132,12 +131,12 @@ public class GUI {
 	public void loadGameDisplay() {
 
 		clear();
-		pc = null; // deallocate config stuf
+		pc = null; // deallocate config stuff
 		layeredPane.setPreferredSize(new Dimension((int)screenSize.getWidth(),(int)screenSize.getHeight()-75));
 
 		bg = new boardGUI();
 		bg.addComponents(layeredPane);
-
+		
 		sg = new scoreGUI(numPlayers);
 		sg.addComponents(layeredPane);
 
