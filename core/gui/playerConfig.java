@@ -26,18 +26,24 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import core.game;
+
 public class playerConfig implements ActionListener{
 	private int numPlayers;
 	private JComboBox numPlayersSelect;
 	private JButton goButton; 
+	private game gameRef;
+	private GUI gui;
 	
-	public playerConfig(){
+	public playerConfig(game gameRef, GUI in){
 		numPlayers = 0;
 		String[] numOptions = {"1","2","3","4"};
 		numPlayersSelect = new JComboBox(numOptions);
 		numPlayersSelect.setSelectedIndex(0);
 		goButton = new JButton("Continue");
 		goButton.addActionListener(this);
+		this.gameRef = gameRef;
+		gui = in;
 	}
 	
 	public void addComponents(javax.swing.JLayeredPane pane) {
@@ -63,5 +69,9 @@ public class playerConfig implements ActionListener{
 	@Override
     public void actionPerformed(ActionEvent e) {
 		numPlayers = numPlayersSelect.getSelectedIndex()+1;
+		gameRef.start(numPlayers);
+		gui.setNumPlayers(numPlayers);
+		gui.loadGameDisplay();
+		gameRef.newTurn();
     }
 }

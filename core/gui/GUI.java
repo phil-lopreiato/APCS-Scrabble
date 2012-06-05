@@ -61,15 +61,14 @@ public class GUI {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		numPlayers = 0;
-		
 	}
 
 	public void gameInit() {
-		pc = new playerConfig();
+		pc = new playerConfig(gameRef, this);
 		pc.addComponents(layeredPane);
 		
 		show(); //show the main content panel
-		playersInit(); //set the number of players
+		//playersInit(); //set the number of players
 	}
 
 	public void setGameRef(game in)
@@ -77,6 +76,8 @@ public class GUI {
 		gameRef = in;
 	}
 	
+	//This method has been depreciated
+	/*
 	public int playersInit()
 	{
 		//wait for button to be pressed
@@ -89,6 +90,12 @@ public class GUI {
 			}
 		}while(!numPlayersSet());
 		return numPlayers;
+	}
+	*/
+	
+	public void setNumPlayers(int numPlayers)
+	{
+		this.numPlayers = numPlayers;
 	}
 	
 	public boolean numPlayersSet() {
@@ -104,7 +111,6 @@ public class GUI {
 
 		clear();
 		pc = null; // deallocate config stuf
-		
 		layeredPane.setPreferredSize(new Dimension((int)screenSize.getWidth(),(int)screenSize.getHeight()-75));
 
 		bg = new boardGUI();

@@ -77,7 +77,6 @@ public class scoreGUI extends GUI implements guiSegment{
 		for(int i=0; i<numPlayers; i++)
 			scoreLabels[i].setForeground(Color.BLACK);
 		scoreLabels[player].setForeground(Color.RED);
-		
 	}
 
 	public JLayeredPane getContainer() {

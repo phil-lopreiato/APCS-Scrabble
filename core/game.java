@@ -28,18 +28,14 @@ public class game {
 	private static int playersTurn;
 	private static GUI gui;
 
-	public game(int numPlayers, GUI in)
+	public game(GUI in)
 	{
-		//board = new board();
-		//bag = new bag();
 		new board();
 		new virtualBoard();
 		new bag();
 		setGUI(in);
 		displayRack = new tile[7];
-		setNumPlayers(numPlayers);
-		playersTurn = getNumPlayers() - 1; //start with last player so when newTurn() is called, the first player actually goes
-		newTurn();
+		playersTurn = -1; //start with -1 so when newTurn() is called, the first player (player 0) actually goes
 	}
 	
 	/**
@@ -59,7 +55,7 @@ public class game {
 	 * 
 	 * @param num	number of players who will be playing
 	 */
-	public void setNumPlayers(int num)
+	public void start(int num)
 	{
 		players = new player[num];
 		for (int i=0; i<num; i++)
@@ -157,7 +153,7 @@ public class game {
 	/**
 	 * Ends the current turn and moves on to the next player
 	 */
-	private void newTurn()
+	public void newTurn()
 	{
 		playersTurn++;
 		playersTurn %= getNumPlayers();
@@ -176,7 +172,6 @@ public class game {
 		for(int i=0; i<7; i++)
 		{
 			displayRack[i] = current.get(i); //to avoid aliasing which i think is bad here...
-			//System.out.print(current.get(i).getLetter());
 		}
 		current.paint(gui);
 	}

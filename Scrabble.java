@@ -20,24 +20,27 @@ import core.game;
 import core.gui.GUI;
 
 public class Scrabble{
-	public static void main(String[] args){
-		System.out.println("Begin");
+	public static void main(String[] args)
+	{
+		System.out.println("Begin Initialization");
 		game theGame;
 		GUI f = new GUI(); //init new GUI
-		f.gameInit(); //draw the game init stuff (select number of players)
-		
-		theGame = new game(f.getNumPlayers(), f); //instantiate game with correct # players
+		theGame = new game(f); //instantiate game with correct # players
 		f.setGameRef(theGame); //give the GUI a reference to the game to allow it to place tiles etc.
-
-		f.loadGameDisplay(); //draw the board
+		f.gameInit(); //draw the game init stuff (select number of players)
+		System.out.println("Game Initialized and Started!");
+		
+		
+		
+		
+		//f.loadGameDisplay(); //draw the board
 
 
 
 		//simulating game below.
-		System.out.println(theGame.getNumPlayers() + " players");
-		System.out.println("Player #" + theGame.getCurrentPlayerNumber());
-		theGame.submit();
-		f.repaint();
+		//System.out.println(theGame.getNumPlayers() + " players");
+		//System.out.println("Player #" + theGame.getCurrentPlayerNumber());
+		//theGame.submit();
 		//end simulation
 
 
