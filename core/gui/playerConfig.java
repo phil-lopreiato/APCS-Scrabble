@@ -32,8 +32,6 @@ public class playerConfig extends GUI implements ActionListener{
 	private int numPlayers;
 	private JComboBox numPlayersSelect;
 	private JButton goButton; 
-	private game gameRef;
-	private GUI gui;
 	
 	public playerConfig(game gameRef, GUI in){
 		numPlayers = 0;
@@ -42,8 +40,6 @@ public class playerConfig extends GUI implements ActionListener{
 		numPlayersSelect.setSelectedIndex(0);
 		goButton = new JButton("Continue");
 		goButton.addActionListener(this);
-		this.gameRef = gameRef;
-		gui = in;
 	}
 	
 	public void addComponents(javax.swing.JLayeredPane pane) {

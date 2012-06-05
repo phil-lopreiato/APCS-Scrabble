@@ -28,6 +28,9 @@ public class game {
 	private static int playersTurn;
 	private static GUI gui;
 
+	/**
+	 * @param in	input reference to the GUI
+	 */
 	public game(GUI in)
 	{
 		new board();
@@ -155,20 +158,19 @@ public class game {
 	/**
 	 * Ends the current turn and moves on to the next player
 	 */
-	public void newTurn()
+	private void newTurn()
 	{
 		playersTurn++;
 		playersTurn %= getNumPlayers();
 		gui.setTurn(playersTurn);
 		virtualBoard.reset(players[playersTurn]);
 		setRackToDisplay();
-		gui.setCurrentTurn(playersTurn); //update the GUI representation of the player whose turn it is 
 	}
 
 	/**
 	 * Draws the current player's rack onto the GUI
 	 */
-	private static void setRackToDisplay()
+	private void setRackToDisplay()
 	{
 		rack current = players[playersTurn].getRack();
 		for(int i=0; i<7; i++)
