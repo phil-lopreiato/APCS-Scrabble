@@ -100,6 +100,13 @@ public class rackGUI extends GUI implements guiSegment {
 	}
 
 	class tileClick implements MouseListener{
+		
+		private int rackIndex;
+		
+		public tileClick() {
+			super();
+			rackIndex = -1;
+		}
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -122,26 +129,23 @@ public class rackGUI extends GUI implements guiSegment {
 		public void mousePressed(MouseEvent arg0) {
 			JLabel tile = (JLabel) arg0.getSource();
 			rackContainer.setLayer(tile,4,0);
-			/*
-			layeredPane.add(tile,JLayeredPane.DRAG_LAYER);
-			layeredPane.setLayer(tile,JLayeredPane.DRAG_LAYER,0);
-			layeredPane.moveToFront(tile);*/
-			System.out.println("down!");
-			/*rackContainer.remove(tile);
-			tile.setLocation(arg0.getX(),arg0.getY());
-			layeredPane.add(tile,JLayeredPane.DRAG_LAYER);
-			System.out.println(tile.getLocation());
-			//mainFrame.add(tile);
-			repaint();*/
+			rackIndex = (arg0.getX()+tile.getX())/105;
+			System.out.println("down! ("+arg0.getX()+","+arg0.getY()+"), index: "+rackIndex);
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
+			int boardX, boardY;
 			//System.out.print("release!");
 			Component c = arg0.getComponent();
-			System.out.println("up!");
+			boardX = (c.getX() - 10)/43;
+			boardY = (c.getY() - 126)/46;
+			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+boardX+","+boardY);
+			
+			gameRef.placeTile(rackIndex,boardX,boardY);
 			//x: 5<650
 			//y: -685<-7
+			
 			repaint();
 		}
 	}

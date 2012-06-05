@@ -35,7 +35,7 @@ public class boardGUI extends GUI implements guiSegment{
 	JLayeredPane boardContainer;
 	JLabel boardLabel;
 	BufferedImage boardBase;
-	private JLabel boardLetters[];
+	private JLabel boardLetters[][], virtualBoardLetters[];
 	private int n;
 	
 	public boardGUI() {
@@ -49,38 +49,42 @@ public class boardGUI extends GUI implements guiSegment{
 		}
 		
 		boardContainer = new JLayeredPane();
-		//boardContainer.setLayout(new BorderLayout());
-		boardContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
+		boardContainer.setLayout(new BorderLayout());
+		//boardContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		boardContainer.setOpaque(false);
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
-		boardLetters = new JLabel[7];
+		boardLetters = new JLabel[15][15];
+		virtualBoardLetters = new JLabel[7];
 		n = 0;
 	}
 	
 	public void addComponents(javax.swing.JLayeredPane pane) {
-		boardContainer.add(boardLabel, JLayeredPane.DEFAULT_LAYER);
+		boardContainer.add(boardLabel, 0);
 		boardContainer.setSize(boardContainer.getPreferredSize());
 		boardContainer.setLocation(0,120);
 		
 		pane.add(boardContainer, 4);
-		addTile(null, 0, 0);
 	}
 	
 	public void addTile(tile t, int x, int y) {
-
-		BufferedImage blankTile = null;
-		try {
-			blankTile = ImageIO.read(this.getClass().getResource("singleTile_large.png"));
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		BufferedImage icon = null;
+		JLabel label = null;
+		if(t != null)
+			icon = t.paint(false);
+		else {
+			try {
+				icon = ImageIO.read(this.getClass().getResource("gui/singleTile.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-
-			boardLetters[n] = new JLabel(new ImageIcon(blankTile));
-			boardLetters[n].setOpaque(false);
-			boardLetters[n].setLocation(0,0);
-			boardContainer.add(boardLetters[n],JLayeredPane.DEFAULT_LAYER);
-			boardContainer.setSize(boardContainer.getPreferredSize());
-			//boardLetters[n].setIcon();
+		
+		label = new JLabel(new ImageIcon(icon));
+		label.setPreferredSize(new java.awt.Dimension(100,110));
+		label.setLocation((x*43)+10,(y*46)+126);
+		boardContainer.add(label,4);
+		boardLetters[x][y] = label;
 	}
 
     public JLayeredPane getContainer() {

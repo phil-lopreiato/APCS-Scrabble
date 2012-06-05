@@ -34,7 +34,7 @@ public class GUI {
 	private java.awt.Container contentPane;
 	protected JLayeredPane layeredPane;
 
-	private static game gameRef;
+	protected static game gameRef;
 	private playerConfig pc;
 	protected scoreGUI sg;
 	protected rackGUI rg;
@@ -183,6 +183,10 @@ public class GUI {
 
 	public void repaint() {
 		layeredPane.repaint();
+		contentPane.repaint();
+		if(bg != null) bg.repaint();
+		if(sg != null) sg.repaint();
+		if(rg != null) rg.repaint();
 		mainFrame.pack();
 		mainFrame.repaint();
 	}
