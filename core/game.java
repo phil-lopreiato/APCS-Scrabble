@@ -11,8 +11,8 @@
  */
 
 /**
- * @author 	Phil Lopreiato
  * @author 	Justin Yost
+ * @author 	Phil Lopreiato
  * @version 1.0
  */
 
@@ -67,13 +67,26 @@ public class game {
 		gui.loadGameDisplay();
 		newTurn();
 	}
+	
+	/**
+	 * Ends the current turn and moves on to the next player
+	 */
+	private void newTurn()
+	{
+		playersTurn++;
+		playersTurn %= getNumPlayers();
+		gui.setTurn(playersTurn);
+		virtualBoard.reset(players[playersTurn]);
+		setRackToDisplay();
+	}
 
 	/**
 	 * Returns the number of players in this game
 	 * 
 	 * @return	number of players playing this game
 	 */
-	public int getNumPlayers() {
+	public int getNumPlayers()
+	{
 		return players.length;
 	}
 	
@@ -82,7 +95,7 @@ public class game {
 	 * 
 	 * @return	the number of the player whose turn it currently is
 	 */
-	public int getCurrentPlayerNumber()
+	public int getCurrentPlayerIndex()
 	{
 		return playersTurn;
 	}
@@ -156,18 +169,6 @@ public class game {
 		return canReplace;
 	}
 	
-	/**
-	 * Ends the current turn and moves on to the next player
-	 */
-	private void newTurn()
-	{
-		playersTurn++;
-		playersTurn %= getNumPlayers();
-		gui.setTurn(playersTurn);
-		virtualBoard.reset(players[playersTurn]);
-		setRackToDisplay();
-	}
-
 	/**
 	 * Draws the current player's rack onto the GUI
 	 */
