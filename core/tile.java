@@ -120,7 +120,7 @@ public class tile
 		if(getLetter() != '[')
 		{
 			g2d.setPaint(Color.black);
-			g2d.setFont(new Font("Serif", Font.BOLD, 60));
+			g2d.setFont(new Font("Serif", Font.BOLD, large?60:20));
 			String s = Character.toString(getLetter());
 			FontMetrics fm = g2d.getFontMetrics();
 
@@ -128,7 +128,7 @@ public class tile
 			int y = fm.getHeight();
 			g2d.drawString(s, x, y);
 
-			g2d.setFont(new Font("Serif", Font.BOLD, 20));
+			g2d.setFont(new Font("Serif", Font.BOLD, large?20:10));
 			fm = g2d.getFontMetrics();
 			s = Integer.toString(this.getValue());
 			x = output.getWidth() - fm.stringWidth(s);

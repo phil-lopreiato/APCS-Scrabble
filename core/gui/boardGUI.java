@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -35,7 +36,8 @@ public class boardGUI extends GUI implements guiSegment{
 	JLayeredPane boardContainer;
 	JLabel boardLabel;
 	BufferedImage boardBase;
-	private JLabel boardLetters[][], virtualBoardLetters[];
+	private JLabel boardLetters[][];
+	private ArrayList<JLabel> virtualBoardLetters;
 	private int n;
 	
 	public boardGUI() {
@@ -49,12 +51,14 @@ public class boardGUI extends GUI implements guiSegment{
 		}
 		
 		boardContainer = new JLayeredPane();
-		boardContainer.setLayout(new BorderLayout());
-		//boardContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
+		boardContainer.setLayout(null);
+		boardContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		boardContainer.setOpaque(false);
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
+		boardLabel.setPreferredSize(new java.awt.Dimension(652,691));
+		boardLabel.setLocation(0,110);
 		boardLetters = new JLabel[15][15];
-		virtualBoardLetters = new JLabel[7];
+		virtualBoardLetters = new ArrayList<JLabel>();
 		n = 0;
 	}
 	
@@ -63,7 +67,7 @@ public class boardGUI extends GUI implements guiSegment{
 		boardContainer.setSize(boardContainer.getPreferredSize());
 		boardContainer.setLocation(0,120);
 		
-		pane.add(boardContainer, 4);
+		pane.add(boardContainer, 0);
 	}
 	
 	public void addTile(tile t, int x, int y) {
@@ -81,10 +85,28 @@ public class boardGUI extends GUI implements guiSegment{
 		}
 		
 		label = new JLabel(new ImageIcon(icon));
-		label.setPreferredSize(new java.awt.Dimension(100,110));
+		label.setPreferredSize(new java.awt.Dimension(40,43));
 		label.setLocation((x*43)+10,(y*46)+126);
 		boardContainer.add(label,4);
 		boardLetters[x][y] = label;
+	}
+	
+	public void addVirtualBoard(tile[][] virtualBoard) {
+		virtualBoardLetters = new ArrayList<JLabel>();
+		JLabel label;
+		for(int x=0;x<15;x++) {
+			for(int y=0;y<15;y++) {
+				if(virtualBoard[x][y] != null) {
+					label = new JLabel(new ImageIcon(virtualBoard[x][y].paint(false)));
+					label.setLocation((x*42)+8,(y*45)+125);
+					label.setPreferredSize(new java.awt.Dimension(40,43));
+					label.setOpaque(false);
+					boardContainer.add(label,4);
+					boardContainer.moveToFront(label);
+				}
+			}
+		}
+		repaint();
 	}
 
     public JLayeredPane getContainer() {

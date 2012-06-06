@@ -149,10 +149,9 @@ public class rackGUI extends GUI implements guiSegment {
 				System.out.println("up! ("+c.getX()+","+c.getY()+"): "+boardX+","+boardY);
 
 				placed = gameRef.placeTile(rackIndex,boardX,boardY);
-				if(placed)
-				{
-					//make tile invisible or something
-					System.out.println("placed");
+				if(placed){
+					((JLabel)c).setIcon(null);
+					c.setPreferredSize(new Dimension(100,110));
 				}
 				else
 				{

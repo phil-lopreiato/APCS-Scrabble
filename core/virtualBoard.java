@@ -64,6 +64,7 @@ public class virtualBoard
 			virtualBoard[x][y] = Tile;
 			currentPlayer.getRack().remove(rackIndex);
 			placed = true;
+			System.out.println("placed");
 		}
 		return placed;
 	}
@@ -160,6 +161,6 @@ public class virtualBoard
 	}
 	
 	public static void paint(core.gui.GUI gui) {
-		
+		gui.addVirtualBoard(virtualBoard);
 	}
 }

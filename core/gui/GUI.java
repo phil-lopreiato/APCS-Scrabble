@@ -19,6 +19,7 @@
 package core.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
@@ -174,6 +175,14 @@ public class GUI {
 			rg.updateRack(tiles);
 		repaint();
 	}
+	
+	public void addVirtualBoard(tile[][] virtualBoard) {
+		bg.addVirtualBoard(virtualBoard);
+	}
+	
+	public void resetVB() {
+		bg.resetVB();
+	}
 
 	public void show() {
 		mainFrame.pack();
@@ -186,7 +195,7 @@ public class GUI {
 		contentPane.repaint();
 		if(bg != null) bg.repaint();
 		if(sg != null) sg.repaint();
-		if(rg != null) rg.repaint();
+		if(rg != null) { rg.repaint(); rg.getContainer().validate(); }
 		mainFrame.pack();
 		mainFrame.repaint();
 	}
