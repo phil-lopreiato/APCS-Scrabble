@@ -57,7 +57,7 @@ public class rackGUI extends GUI implements guiSegment {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		
+
 		for(int i = 0;i<7;i++) { //set default tiles
 			rackLetters[i] = new JLabel();
 			rackLetters[i].setOpaque(false);
@@ -137,20 +137,37 @@ public class rackGUI extends GUI implements guiSegment {
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			int boardX, boardY;
-			//System.out.print("release!");
+			boolean placed = false;
 			Component c = arg0.getComponent();
-			boardX = (int) ((c.getX() - 8)/42.5);
-			boardY = (int) ((c.getY() - 125)/45.25);
-			
-			c.setLocation(3 + (5*rackIndex) + (rackIndex*100), 5); //returns the tile to its starting place
 
-			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+boardX+","+boardY);
+			if(c.getX() < 5 || c.getX() > 645 || c.getY() < 120 || c.getY() > 803) //tile not on game board
+				returnTile(c);
+			else
+			{
+				boardX = (int) ((c.getX() - 8)/42.5);
+				boardY = (int) ((c.getY() - 125)/45.25);
+				System.out.println("up! ("+c.getX()+","+c.getY()+"): "+boardX+","+boardY);
 
-			//gameRef.placeTile(rackIndex,boardX,boardY);
-			//x: 5<650
-			//y: -685<-7
+				placed = gameRef.placeTile(rackIndex,boardX,boardY);
+				if(placed)
+				{
+					//make tile invisible or something
+					System.out.println("placed");
+				}
+				else
+				{
+					returnTile(c);
+				}
+			}
+			//x: 5<645
+			//y: 120<803
 
 			repaint();
+		}
+
+		public void returnTile(Component c)
+		{
+			c.setLocation(3 + (5*rackIndex) + (rackIndex*100), 5); //returns the tile to its starting place
 		}
 	}
 
