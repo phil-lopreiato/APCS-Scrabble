@@ -57,7 +57,7 @@ public class rackGUI extends GUI implements guiSegment {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-
+		
 		for(int i = 0;i<7;i++) { //set default tiles
 			rackLetters[i] = new JLabel();
 			rackLetters[i].setOpaque(false);
@@ -69,7 +69,8 @@ public class rackGUI extends GUI implements guiSegment {
 			updateRack(i,blankTile);
 		}
 
-		rackContainer.setSize(rackContainer.getPreferredSize());
+		//rackContainer.setSize(rackContainer.getPreferredSize());
+		rackContainer.setSize(new Dimension(rackContainer.getPreferredSize().width, rackContainer.getPreferredSize().height+100));
 		rackContainer.setLocation(0,/*(int) (pane.getPreferredSize().getHeight()-110)*/0);
 		pane.add(rackContainer, 0);
 	}
@@ -100,9 +101,9 @@ public class rackGUI extends GUI implements guiSegment {
 	}
 
 	class tileClick implements MouseListener{
-		
+
 		private int rackIndex;
-		
+
 		public tileClick() {
 			super();
 			rackIndex = -1;
@@ -138,14 +139,17 @@ public class rackGUI extends GUI implements guiSegment {
 			int boardX, boardY;
 			//System.out.print("release!");
 			Component c = arg0.getComponent();
-			boardX = (c.getX() - 10)/43;
-			boardY = (c.getY() - 126)/46;
-			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+boardX+","+boardY);
+			boardX = (int) ((c.getX() - 8)/42.5);
+			boardY = (int) ((c.getY() - 125)/45.25);
 			
-			gameRef.placeTile(rackIndex,boardX,boardY);
+			c.setLocation(3 + (5*rackIndex) + (rackIndex*100), 5); //returns the tile to its starting place
+
+			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+boardX+","+boardY);
+
+			//gameRef.placeTile(rackIndex,boardX,boardY);
 			//x: 5<650
 			//y: -685<-7
-			
+
 			repaint();
 		}
 	}
