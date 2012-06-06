@@ -61,6 +61,7 @@ public class virtualBoard
 		if(virtualBoard[x][y] == null && board.isEmpty(x,y))
 		{
 			tile Tile = currentPlayer.getRack().get(rackIndex);
+			System.out.println(Tile);
 			virtualBoard[x][y] = Tile;
 			currentPlayer.getRack().remove(rackIndex);
 			placed = true;

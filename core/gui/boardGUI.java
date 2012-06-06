@@ -56,7 +56,7 @@ public class boardGUI extends GUI implements guiSegment{
 		boardContainer.setOpaque(false);
 
 		tileContainer = new JLayeredPane();
-		tileContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
+		tileContainer.setLayout(new FlowLayout(FlowLayout.CENTER,3,3));
 		tileContainer.setOpaque(false);
 
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
@@ -110,12 +110,16 @@ public class boardGUI extends GUI implements guiSegment{
 	}
 
 	public void addVirtualBoard(tile[][] virtualBoard) {
-		virtualBoardLetters = new ArrayList<JLabel>();
-		JLabel label;
+		//virtualBoardLetters = new ArrayList<JLabel>();
+		//JLabel label;
 		for(int x=0;x<15;x++) {
 			for(int y=0;y<15;y++) {
 				if(virtualBoard[x][y] != null) {
-					boardLetters[x][y].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
+					boardLetters[y][x].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
+					/*for(int i=0;i<15;i++)
+						for(int j=0;j<15;j++)
+							boardLetters[i][j].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));*/
+					
 					//label = new JLabel(new ImageIcon(virtualBoard[x][y].paint(false)));
 					//boardLetters[x][y].setLocation(200,200);
 					//label.setPreferredSize(new java.awt.Dimension(40,43));

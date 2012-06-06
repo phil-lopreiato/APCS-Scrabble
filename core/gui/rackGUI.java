@@ -152,6 +152,7 @@ public class rackGUI extends GUI implements guiSegment {
 				if(placed){
 					((JLabel)c).setIcon(null);
 					c.setPreferredSize(new Dimension(100,110));
+					rackLetters[rackIndex].removeMouseListener(this);		
 				}
 				else
 				{
