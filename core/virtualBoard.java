@@ -18,6 +18,8 @@
 
 package core;
 
+import java.util.Arrays;
+
 //class to control a player's turn???
 public class virtualBoard
 {
@@ -67,12 +69,32 @@ public class virtualBoard
 		}
 		return placed;
 	}
+	
+	public static boolean swap(int firstX, int firstY, int secondX, int secondY) {
+		boolean swapped = false;
+		tile temp;
+		if(virtualBoard[firstX][firstY] != null || virtualBoard[secondX][secondY] != null) {
+			temp = virtualBoard[firstX][firstY];
+			virtualBoard[firstX][firstY] = virtualBoard[secondX][secondY];
+			virtualBoard[secondX][secondY] = temp;
+			swapped = true;
+		}
+		return swapped;
+	}
 
 	public static boolean replace(int rackIndex, int x, int y)
 	{
 		boolean replaced = false;
 		if(virtualBoard[x][y] != null)
 		{
+			if(rackIndex == -1) {
+				for(int i=6;i>=0;i--) {
+					if(currentPlayer.getRack().get(i) == null) {
+						rackIndex = i;
+						break;
+					}
+				}
+			}
 			replaced = currentPlayer.getRack().replace(rackIndex, virtualBoard[x][y]);
 		}
 		return replaced;
@@ -161,5 +183,6 @@ public class virtualBoard
 	
 	public static void paint(core.gui.GUI gui) {
 		gui.addVirtualBoard(virtualBoard);
+		//System.out.println(Arrays.deepToString(virtualBoard));
 	}
 }

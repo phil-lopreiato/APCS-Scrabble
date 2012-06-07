@@ -155,6 +155,17 @@ public class game {
 		return canPlace;
 	}
 	
+	public boolean swap(int firstX, int firstY, int secondX, int secondY) {
+		boolean canSwap = virtualBoard.swap(firstX, firstY, secondX, secondY);
+		if(canSwap)
+			virtualBoard.paint(gui);
+		return canSwap;
+	}
+	
+	public void drawCurrentRack() {
+		players[playersTurn].getRack().paint(gui);
+	}
+	
 	/**
 	 * @param rackIndex 	the location in the player's rack of the tile to place
 	 * @param x				x-coordinate on the board to locate the tile

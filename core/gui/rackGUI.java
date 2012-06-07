@@ -17,23 +17,17 @@
  */
 
 package core.gui;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
 import core.tile;
 
 public class rackGUI extends GUI implements guiSegment {
@@ -96,17 +90,6 @@ public class rackGUI extends GUI implements guiSegment {
 				rackLetters[i].setIcon(null);
 				rackLetters[i].setPreferredSize(new Dimension(100,110));
 			}
-	}
-
-	class tileDnD extends MouseMotionAdapter{
-		public void mouseDragged(MouseEvent e) {
-			Component c = e.getComponent();
-			c.setLocation(c.getX()+e.getX(),c.getY()+e.getY());
-			repaint();
-		}
-		public void startDrag() {
-
-		}
 	}
 
 	class tileClick implements MouseListener{

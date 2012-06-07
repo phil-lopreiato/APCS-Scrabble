@@ -19,7 +19,10 @@
 package core.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -122,8 +125,11 @@ public class boardGUI extends GUI implements guiSegment{
 		for(int x=0;x<15;x++) {
 			for(int y=0;y<15;y++) {
 				if(virtualBoard[x][y] != null) {
-					boardLetters[y][x].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
-					boardLetters[y][x].setBounds((x*43)+9,(y*46)+3,46,43);
+					boardLetters[x][y].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
+					boardLetters[x][y].setBounds((x*43)+9,(y*46)+3,46,43);
+					boardLetters[x][y].addMouseMotionListener(new tileDnD());
+					boardLetters[x][y].addMouseListener(new onBoardTileClick());
+					boardLetters[x][y].setVisible(true);
 					//for(int i=0;i<15;i++)
 						//for(int j=0;j<15;j++)
 							//boardLetters[i][j].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
@@ -142,5 +148,58 @@ public class boardGUI extends GUI implements guiSegment{
 
 	public JLayeredPane getContainer() {
 		return boardContainer;
+	}
+	
+	class onBoardTileClick implements MouseListener{
+
+		private int startX, startY, endX, endY;
+		
+		public onBoardTileClick() {
+			startX = startY = endX = endY = -1;
+		}
+		
+		@Override
+        public void mouseClicked(MouseEvent arg0) {
+	      if(arg0.getClickCount() == 2) {
+	    	System.out.println("double click!");
+	    	Component c = arg0.getComponent();
+	    	gameRef.replaceTile(-1, (int) ((c.getX())/42.5), (int) ((c.getY())/45.25));
+	    	c.setVisible(false);
+	    	gameRef.drawCurrentRack();
+	      }
+        }
+
+		@Override
+        public void mouseEntered(MouseEvent arg0) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		@Override
+        public void mouseExited(MouseEvent arg0) {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		@Override
+        public void mousePressed(MouseEvent arg0) {
+	        Component c = arg0.getComponent();
+	        startX = (int) ((c.getX())/42.5);
+			startY = (int) ((c.getY())/45.25);
+			System.out.println("down! ("+c.getX()+","+c.getY()+"): "+startX+","+startY);
+        }
+
+		@Override
+        public void mouseReleased(MouseEvent arg0) {
+	        Component c = arg0.getComponent();
+
+	        endX = (int) ((c.getX())/42.5);
+			endY = (int) ((c.getY())/45.25); 
+			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+endX+","+endY);
+			
+			c.setVisible(false);
+			gameRef.swap(startX, startY, endX, endY);			
+        }
+		
 	}
 }

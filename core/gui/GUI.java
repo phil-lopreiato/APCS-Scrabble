@@ -21,6 +21,8 @@ package core.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
@@ -202,5 +204,16 @@ public class GUI {
 
 	public void clear() {
 		layeredPane.removeAll();
+	}
+	
+	class tileDnD extends MouseMotionAdapter{
+		public void mouseDragged(MouseEvent e) {
+			Component c = e.getComponent();
+			c.setLocation(c.getX()+e.getX(),c.getY()+e.getY());
+			repaint();
+		}
+		public void startDrag() {
+
+		}
 	}
 }

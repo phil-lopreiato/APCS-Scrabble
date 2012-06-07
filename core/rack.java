@@ -64,6 +64,9 @@ public class rack
 
 	public boolean replace(int index, tile Tile)
 	{
+		if(index == -1)
+			return false;
+		
 		boolean replaced = false;
 		if(tiles[index] == null)
 		{
