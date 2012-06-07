@@ -132,10 +132,8 @@ public class virtualBoard
 
 		//find first tiles and check all create words
 
-		System.out.println(checkPlacement());
-
 		clearChecks();
-		return true;
+		return checkPlacement();
 	}
 
 	private static boolean checkPlacement()
@@ -146,8 +144,6 @@ public class virtualBoard
 		{
 			for(int y=0; y<15; y++)
 			{
-				//if(masterBoard[x][y] != null)
-					//System.out.println(masterBoard[x][y].getLetter());
 				if(virtualBoard[x][y] != null)
 				{
 					if(firstCall)
@@ -161,9 +157,7 @@ public class virtualBoard
 						rowCheck = x==row && rowCheck;
 						colCheck = y==col && colCheck;
 					}
-					System.out.println(touching);
-					if(board.isEmpty(7,7))
-						touching = true;
+					
 					if(x>0)
 						touching = !board.isEmpty(x-1, y) || touching;
 					if(x<14)
@@ -175,8 +169,9 @@ public class virtualBoard
 				}
 			}
 		}
-		//return rowCheck || colCheck;
-		return touching;
+		if(board.isEmpty(7,7) && virtualBoard[7][7] != null)
+			touching = true;
+		return touching && (rowCheck || colCheck);
 	}
 
 	/**
