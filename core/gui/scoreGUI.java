@@ -34,7 +34,7 @@ import javax.swing.JPanel;
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	private JLayeredPane scoreContainer;
 	private JLabel scoreLabels[];
-	private JButton turnSubmit;
+	private JButton turnSubmit,pass;
 	private int[] playerScores;
 	private int numPlayers;
 
@@ -44,6 +44,7 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		playerScores = new int[numPlayers];
 		
 		turnSubmit = new JButton("Submit Current Turn");
+		pass = new JButton("Pass");
 
 		scoreContainer = new JLayeredPane();
 		scoreContainer.setOpaque(false);
@@ -71,7 +72,12 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		turnSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		turnSubmit.addActionListener(this);
 		turnSubmit.setActionCommand("submit");
+		pass.setAlignmentX(Component.CENTER_ALIGNMENT);
+		pass.addActionListener(this);
+		pass.setActionCommand("pass");
+		
 		scoreContainer.add(turnSubmit,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(pass,JLayeredPane.DEFAULT_LAYER);
 		
 		scoreContainer.setSize(scoreContainer.getPreferredSize());
 		scoreContainer.setLocation(675,0);
@@ -96,7 +102,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	
 
     public void actionPerformed(ActionEvent arg0) {
+    	if(arg0.getActionCommand().equals("submit"))
 		   gameRef.submit();
+    	else if(arg0.getActionCommand().equals("pass"))
+    		gameRef.pass();
     }
 
 }
