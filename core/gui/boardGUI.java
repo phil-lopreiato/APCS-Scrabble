@@ -56,8 +56,11 @@ public class boardGUI extends GUI implements guiSegment{
 		boardContainer.setOpaque(false);
 
 		tileContainer = new JLayeredPane();
-		tileContainer.setLayout(new FlowLayout(FlowLayout.CENTER,3,3));
+		tileContainer.setPreferredSize(new java.awt.Dimension(652,691));
+		tileContainer.setLocation(0, 125);
+		//tileContainer.setLayout(new FlowLayout(FlowLayout.CENTER,3,3));
 		tileContainer.setOpaque(false);
+		tileContainer.setLayout(null);
 
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
 		boardLabel.setPreferredSize(new java.awt.Dimension(652,691));
@@ -71,14 +74,15 @@ public class boardGUI extends GUI implements guiSegment{
 		boardContainer.setSize(boardContainer.getPreferredSize());
 		boardContainer.setLocation(0,120);
 
-		tileContainer.setSize(boardContainer.getPreferredSize());
+		tileContainer.setSize(tileContainer.getPreferredSize());
 		tileContainer.setLocation(0, 125);
 		
 		for(int x=0; x<15; x++)
 			for(int y=0; y<15; y++) { //set default tiles
 				boardLetters[x][y] = new JLabel();
 				boardLetters[x][y].setOpaque(false);
-				//boardLetters[i].setLocation(40*i+(5*i),rackContainer.getHeight()-pane.getHeight()-110);
+				//boardLetters[x][y].setLocation((40*x)+(5*x),(40*y)+(5*y));
+				boardLetters[x][y].setLocation(10,200);
 				boardLetters[x][y].setIcon(null);
 				boardLetters[x][y].setPreferredSize(new java.awt.Dimension(40,43));
 				tileContainer.add(boardLetters[x][y],JLayeredPane.DEFAULT_LAYER);
@@ -116,9 +120,9 @@ public class boardGUI extends GUI implements guiSegment{
 			for(int y=0;y<15;y++) {
 				if(virtualBoard[x][y] != null) {
 					boardLetters[y][x].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
-					/*for(int i=0;i<15;i++)
-						for(int j=0;j<15;j++)
-							boardLetters[i][j].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));*/
+					//for(int i=0;i<15;i++)
+						//for(int j=0;j<15;j++)
+							//boardLetters[i][j].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
 					
 					//label = new JLabel(new ImageIcon(virtualBoard[x][y].paint(false)));
 					//boardLetters[x][y].setLocation(200,200);
