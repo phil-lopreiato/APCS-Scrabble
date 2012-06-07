@@ -39,6 +39,7 @@ public class boardGUI extends GUI implements guiSegment{
 	BufferedImage boardBase;
 	private JLabel boardLetters[][];
 	private ArrayList<JLabel> virtualBoardLetters;
+	private java.awt.Insets insets;
 
 	public boardGUI() {
 		//Create and set up the window.
@@ -61,6 +62,7 @@ public class boardGUI extends GUI implements guiSegment{
 		//tileContainer.setLayout(new FlowLayout(FlowLayout.CENTER,3,3));
 		tileContainer.setOpaque(false);
 		tileContainer.setLayout(null);
+		insets = tileContainer.getInsets();
 
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
 		boardLabel.setPreferredSize(new java.awt.Dimension(652,691));
@@ -83,8 +85,9 @@ public class boardGUI extends GUI implements guiSegment{
 				boardLetters[x][y].setOpaque(false);
 				//boardLetters[x][y].setLocation((40*x)+(5*x),(40*y)+(5*y));
 				boardLetters[x][y].setLocation(10,200);
+				boardLetters[x][y].setBounds(10,200,40,43);
 				boardLetters[x][y].setIcon(null);
-				boardLetters[x][y].setPreferredSize(new java.awt.Dimension(40,43));
+				boardLetters[x][y].setPreferredSize(new java.awt.Dimension(43,46));
 				tileContainer.add(boardLetters[x][y],JLayeredPane.DEFAULT_LAYER);
 			}
 
@@ -120,6 +123,7 @@ public class boardGUI extends GUI implements guiSegment{
 			for(int y=0;y<15;y++) {
 				if(virtualBoard[x][y] != null) {
 					boardLetters[y][x].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
+					boardLetters[y][x].setBounds((x*43)+9,(y*46)+3,46,43);
 					//for(int i=0;i<15;i++)
 						//for(int j=0;j<15;j++)
 							//boardLetters[i][j].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
