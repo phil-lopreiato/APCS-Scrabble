@@ -91,6 +91,8 @@ public class boardGUI extends GUI implements guiSegment{
 				boardLetters[x][y].setBounds(10,200,40,43);
 				boardLetters[x][y].setIcon(null);
 				boardLetters[x][y].setPreferredSize(new java.awt.Dimension(43,46));
+				boardLetters[x][y].addMouseMotionListener(new tileDnD());
+				boardLetters[x][y].addMouseListener(new onBoardTileClick());
 				tileContainer.add(boardLetters[x][y],JLayeredPane.DEFAULT_LAYER);
 			}
 
@@ -127,8 +129,6 @@ public class boardGUI extends GUI implements guiSegment{
 				if(virtualBoard[x][y] != null) {
 					boardLetters[x][y].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
 					boardLetters[x][y].setBounds((x*43)+9,(y*46)+3,46,43);
-					boardLetters[x][y].addMouseMotionListener(new tileDnD());
-					boardLetters[x][y].addMouseListener(new onBoardTileClick());
 					boardLetters[x][y].setVisible(true);
 					//for(int i=0;i<15;i++)
 						//for(int j=0;j<15;j++)
@@ -167,6 +167,8 @@ public class boardGUI extends GUI implements guiSegment{
 	    	c.setVisible(false);
 	    	gameRef.drawCurrentRack();
 	      }
+	      else
+	    	  System.out.println("single click!");
         }
 
 		@Override
