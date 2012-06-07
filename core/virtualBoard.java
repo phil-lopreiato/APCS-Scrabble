@@ -69,7 +69,7 @@ public class virtualBoard
 		}
 		return placed;
 	}
-	
+
 	public static boolean swap(int firstX, int firstY, int secondX, int secondY) {
 		boolean swapped = false;
 		tile temp;
@@ -129,10 +129,34 @@ public class virtualBoard
 		//check all words and placements and stuff - will need to load master board
 		//check that all tiles are touching and in a row
 		//find first tiles and check all create words
+
+		System.out.println(checkLine());
+
 		clearChecks();
 		return true;
 	}
-	
+
+	private static boolean checkLine()
+	{
+		int row = -1, col = -1;
+		boolean rowCheck = true, colCheck = true, firstCall = true;
+		for(int x=0; x<15; x++)
+			for(int y=0; y<15; y++)
+				if(virtualBoard[x][y] != null)
+					if(firstCall)
+					{
+						firstCall = false;
+						row = x;
+						col = y;
+					}
+					else
+					{
+						rowCheck = x==row && rowCheck;
+						colCheck = y==col && colCheck;
+					}
+		return rowCheck || colCheck;
+	}
+
 	/**
 	 * Given a position on the board and a direction to search, this method finds the location of the first tile in the word.
 	 * 
@@ -146,7 +170,7 @@ public class virtualBoard
 		//TODO Make work
 		int[] position = new int[2];
 		position[0] = 0;
-		position[1] = 0;		
+		position[1] = 0;
 		return position;
 	}
 
@@ -180,7 +204,7 @@ public class virtualBoard
 				properties[i][j].setScoredVertical(false);
 			}
 	}
-	
+
 	public static void paint(core.gui.GUI gui) {
 		gui.addVirtualBoard(virtualBoard);
 		//System.out.println(Arrays.deepToString(virtualBoard));
