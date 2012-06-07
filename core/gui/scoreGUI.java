@@ -25,16 +25,19 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	private JLayeredPane scoreContainer;
-	private JLabel scoreLabels[];
-	private JButton turnSubmit,pass;
+	private JLabel scoreLabels[], currentTurnScore, checkResult;
+	private JButton turnSubmit,pass, checkWord;
+	private JTextField wordToCheck;
 	private int[] playerScores;
 	private int numPlayers;
 
@@ -45,6 +48,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		
 		turnSubmit = new JButton("Submit Current Turn");
 		pass = new JButton("Pass");
+		checkWord = new JButton("Check Word");
+		wordToCheck = new JTextField("",5);
+		currentTurnScore = new JLabel();
+		checkResult = new JLabel();
 
 		scoreContainer = new JLayeredPane();
 		scoreContainer.setOpaque(false);
@@ -72,12 +79,32 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		turnSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		turnSubmit.addActionListener(this);
 		turnSubmit.setActionCommand("submit");
+		
 		pass.setAlignmentX(Component.CENTER_ALIGNMENT);
 		pass.addActionListener(this);
 		pass.setActionCommand("pass");
 		
+		currentTurnScore.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		wordToCheck.setAlignmentX(Component.CENTER_ALIGNMENT);
+		wordToCheck.setMaximumSize(new Dimension(150,25));
+		
+		checkResult.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		checkWord.setAlignmentX(Component.CENTER_ALIGNMENT);
+		checkWord.addActionListener(this);
+		checkWord.setActionCommand("check");
+		
+		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(turnSubmit,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(pass,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(10));
+		scoreContainer.add(currentTurnScore,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(10));
+		scoreContainer.add(wordToCheck,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(checkWord,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(checkResult,JLayeredPane.DEFAULT_LAYER);
 		
 		scoreContainer.setSize(scoreContainer.getPreferredSize());
 		scoreContainer.setLocation(675,0);
@@ -106,6 +133,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		   gameRef.submit();
     	else if(arg0.getActionCommand().equals("pass"))
     		gameRef.pass();
+    	else if(arg0.getActionCommand().equals("check"))
+    		checkResult.setText(gameRef.checkWord(wordToCheck.getText()));
     }
 
 }

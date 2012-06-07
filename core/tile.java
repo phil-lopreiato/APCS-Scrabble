@@ -32,7 +32,7 @@ public class tile
 	private char letter;
 	private int value;
 	private int special;
-	private static int[] letterValues = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10,0};
+	public static final int[] letterValues = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10,0};
 
 	public tile(char letter)
 	{

@@ -83,6 +83,7 @@ public class indexedDictionary {
 	 */
 	public static boolean checkWord(String needle) {
 		boolean result = false;
+		needle = needle.toLowerCase();
 		low = getFirstIndex(needle.charAt(0))-1;
 		high = getLastIndex(needle.charAt(0));		
 		int place, test = 0;
@@ -102,6 +103,15 @@ public class indexedDictionary {
 		return result;
 	}
 	
+	public static int scoreWord(String word) {
+		int score = 0;
+		word = word.toLowerCase();
+		for(int i = 0;i<word.length();i++) {
+			score+=tile.letterValues[word.charAt(i)-'a'];
+		}
+		return score;
+	}
+	
 	/**
 	 * Returns the index in the dictionary where the section (organized by starting letter) can be found for the given word
 	 * 
@@ -113,6 +123,7 @@ public class indexedDictionary {
 	 */
 	private static int getFirstIndex(char needle)
 	{
+		System.out.println(needle - 'a');
 		//if(needle == 'a') return 0;
 		//return charIndexes[needle-'b']+1;
 		return charIndexes[needle - 'a'];

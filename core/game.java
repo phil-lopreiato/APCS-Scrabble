@@ -36,6 +36,7 @@ public class game {
 		new board();
 		new virtualBoard();
 		new bag();
+		new indexedDictionary();
 		setGUI(in);
 		displayRack = new tile[7];
 		playersTurn = -1; //start with -1 so when newTurn() is called, the first player (player 0) actually goes
@@ -184,4 +185,9 @@ public class game {
 		}
 		return canReplace;
 	}
+
+	public String checkWord(String text) {
+		System.out.println("check: "+text);
+	    return indexedDictionary.checkWord(text)?text+" is a valid word and is worth "+indexedDictionary.scoreWord(text)+" points":text+" is not a valid word";
+    }
 }
