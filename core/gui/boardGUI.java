@@ -210,7 +210,8 @@ public class boardGUI extends GUI implements guiSegment{
 			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+endX+","+endY);
 			
 			c.setVisible(false);
-			gameRef.swap(startX, startY, endX, endY);			
+			gameRef.swap(startX, startY, endX, endY);	
+			repaint();
         }
 		
 	}

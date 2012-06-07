@@ -153,7 +153,7 @@ public class rackGUI extends GUI implements guiSegment {
 			}
 			//x: 5<645
 			//y: 120<803
-
+			
 			repaint();
 		}
 

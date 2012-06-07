@@ -190,4 +190,8 @@ public class game {
 		System.out.println("check: "+text);
 	    return indexedDictionary.checkWord(text)?text+" is a valid word and is worth "+indexedDictionary.scoreWord(text)+" points":text+" is not a valid word";
     }
+
+	public int scoreVB() {
+	    return virtualBoard.scoreTurn();
+    }
 }

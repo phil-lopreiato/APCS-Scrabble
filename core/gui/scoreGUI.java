@@ -95,6 +95,9 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		checkWord.addActionListener(this);
 		checkWord.setActionCommand("check");
 		
+		JLabel checkHeader = new JLabel("Check the validity of a word:");
+		checkHeader.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(turnSubmit,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
@@ -102,6 +105,7 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(currentTurnScore,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
+		scoreContainer.add(checkHeader,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(wordToCheck,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(checkWord,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(checkResult,JLayeredPane.DEFAULT_LAYER);
@@ -115,12 +119,17 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	public void updateScore(int player,int score) {
 		scoreLabels[player].setText("Player "+player+": "+score);
 	}
+	
+	public void updateCurrentTurnScore(int score) {
+		currentTurnScore.setText("This turn is worth "+score+" points");
+	}
 
 	public void setTurn(int player)
 	{
 		for(int i=0; i<numPlayers; i++)
 			scoreLabels[i].setForeground(Color.BLACK);
 		scoreLabels[player].setForeground(Color.RED);
+		updateCurrentTurnScore(0);
 	}
 
 	public JLayeredPane getContainer() {

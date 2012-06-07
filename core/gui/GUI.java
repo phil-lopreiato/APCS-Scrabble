@@ -200,6 +200,7 @@ public class GUI {
 		if(rg != null) { rg.repaint(); rg.getContainer().validate(); }
 		mainFrame.pack();
 		mainFrame.repaint();
+		if(sg != null) sg.updateCurrentTurnScore(gameRef.scoreVB());
 	}
 
 	public void clear() {
