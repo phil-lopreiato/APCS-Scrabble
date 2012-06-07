@@ -28,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -46,7 +47,8 @@ public class rackGUI extends GUI implements guiSegment {
 		rackContainer.setLocation(0,0);
 		rackContainer.setOpaque(false);
 		rackLetters = new JLabel[7];
-		rackContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
+		//rackContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
+		rackContainer.setLayout(null);
 	}
 
 	public void addComponents(javax.swing.JLayeredPane pane) {
@@ -61,7 +63,8 @@ public class rackGUI extends GUI implements guiSegment {
 		for(int i = 0;i<7;i++) { //set default tiles
 			rackLetters[i] = new JLabel();
 			rackLetters[i].setOpaque(false);
-			rackLetters[i].setLocation(40*i+(5*i),rackContainer.getHeight()-pane.getHeight()-110);
+			//rackLetters[i].setLocation(40*i+(5*i),rackContainer.getHeight()-pane.getHeight()-110);
+			rackLetters[i].setLocation(100*i+(5*i),5);
 			rackLetters[i].setSize(100,110);
 			rackLetters[i].addMouseMotionListener(new tileDnD());
 			rackLetters[i].addMouseListener(new tileClick());
@@ -86,7 +89,13 @@ public class rackGUI extends GUI implements guiSegment {
 
 	public void updateRack(tile[] tiles) {
 		for(int i = 0;i<tiles.length;i++)
-			rackLetters[i].setIcon(new ImageIcon(tiles[i].paint(true)));
+			if(tiles[i] != null)
+				rackLetters[i].setIcon(new ImageIcon(tiles[i].paint(true)));
+			else
+			{
+				rackLetters[i].setIcon(null);
+				rackLetters[i].setPreferredSize(new Dimension(100,110));
+			}
 	}
 
 	class tileDnD extends MouseMotionAdapter{
@@ -140,7 +149,7 @@ public class rackGUI extends GUI implements guiSegment {
 			boolean placed = false;
 			Component c = arg0.getComponent();
 
-			if(c.getX() < 5 || c.getX() > 645 || c.getY() < 120 || c.getY() > 803) //tile not on game board
+			if(c.getX() < 5 || c.getX() > 645 || c.getY() < 120 || c.getY() > 803 || ((JLabel)c).getIcon() == null) //tile not on game board
 				returnTile(c);
 			else
 			{
@@ -152,7 +161,7 @@ public class rackGUI extends GUI implements guiSegment {
 				if(placed){
 					((JLabel)c).setIcon(null);
 					c.setPreferredSize(new Dimension(100,110));
-					rackLetters[rackIndex].removeMouseListener(this);		
+					returnTile(c);
 				}
 				else
 				{

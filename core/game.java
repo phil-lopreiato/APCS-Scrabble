@@ -151,6 +151,7 @@ public class game {
 		boolean canPlace = virtualBoard.place(rackIndex, x, y);
 		if(canPlace)
 			virtualBoard.paint(gui); //update the VB in GUI
+		//setRackToDisplay();
 		return canPlace;
 	}
 	
