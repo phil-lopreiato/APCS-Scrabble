@@ -23,7 +23,7 @@ import java.util.Arrays;
 //class to control a player's turn???
 public class virtualBoard
 {
-	private static tile[][] virtualBoard;
+	private static tile[][] virtualBoard, masterBoard;
 	private static tileProperties[][] properties;
 	private static player currentPlayer;
 
@@ -107,6 +107,7 @@ public class virtualBoard
 	 */
 	public static boolean submit()
 	{
+		masterBoard = board.getBoard();
 		boolean valid = false;
 		if(validate())
 		{
@@ -128,21 +129,27 @@ public class virtualBoard
 	{
 		//check all words and placements and stuff - will need to load master board
 		//check that all tiles are touching and in a row
+
 		//find first tiles and check all create words
 
-		System.out.println(checkLine());
+		System.out.println(checkPlacement());
 
 		clearChecks();
 		return true;
 	}
 
-	private static boolean checkLine()
+	private static boolean checkPlacement()
 	{
 		int row = -1, col = -1;
-		boolean rowCheck = true, colCheck = true, firstCall = true;
+		boolean rowCheck = true, colCheck = true, firstCall = true, touching = false;
 		for(int x=0; x<15; x++)
+		{
 			for(int y=0; y<15; y++)
+			{
+				//if(masterBoard[x][y] != null)
+					//System.out.println(masterBoard[x][y].getLetter());
 				if(virtualBoard[x][y] != null)
+				{
 					if(firstCall)
 					{
 						firstCall = false;
@@ -154,7 +161,22 @@ public class virtualBoard
 						rowCheck = x==row && rowCheck;
 						colCheck = y==col && colCheck;
 					}
-		return rowCheck || colCheck;
+					System.out.println(touching);
+					if(board.isEmpty(7,7))
+						touching = true;
+					if(x>0)
+						touching = !board.isEmpty(x-1, y) || touching;
+					if(x<14)
+						touching = !board.isEmpty(x+1, y) || touching;
+					if(y>0)
+						touching = !board.isEmpty(x, y-1) || touching;
+					if(y<14)
+						touching = !board.isEmpty(x, y+1) || touching;
+				}
+			}
+		}
+		//return rowCheck || colCheck;
+		return touching;
 	}
 
 	/**

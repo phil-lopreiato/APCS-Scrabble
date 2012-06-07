@@ -72,7 +72,10 @@ public class board
 	{
 		for(int row=0; row<15; row++)
 			for(int col=0; col<15; col++)
-				board[row][col] = VB[row][col];
+				//board[row][col] = VB[row][col];
+				if(VB[row][col] != null)
+					board[row][col] = new tile(VB[row][col].getLetter());
+					//System.out.println(board[row][col].getLetter());
 	}
 
 	/**
@@ -88,7 +91,7 @@ public class board
 	}
 
 	//include methods such as find first tile in word... (i think this should be in virtual board instead)
-	
+
 	public static void paint(core.gui.GUI gui) {
 		gui.resetVB();
 	}
