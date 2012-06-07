@@ -21,6 +21,7 @@ package core.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -165,6 +166,7 @@ public class boardGUI extends GUI implements guiSegment{
 	class onBoardTileClick implements MouseListener{
 
 		private int startX, startY, endX, endY;
+		private Point start;
 		
 		public onBoardTileClick() {
 			startX = startY = endX = endY = -1;
@@ -198,6 +200,7 @@ public class boardGUI extends GUI implements guiSegment{
 	        Component c = arg0.getComponent();
 	        startX = (int) ((c.getX())/42.5);
 			startY = (int) ((c.getY())/45.25);
+			start = c.getLocation();
 			System.out.println("down! ("+c.getX()+","+c.getY()+"): "+startX+","+startY);
         }
 
@@ -209,8 +212,12 @@ public class boardGUI extends GUI implements guiSegment{
 			endY = (int) ((c.getY())/45.25); 
 			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+endX+","+endY);
 			
-			c.setVisible(false);
-			gameRef.swap(startX, startY, endX, endY);	
+			if(c.getX() < 5 || c.getX() > 645 || c.getY() < 120 || c.getY() > 803 || ((JLabel)c).getIcon() == null) { //tile not on game board
+				c.setLocation(start);
+			}else {
+				c.setVisible(false);
+				gameRef.swap(startX, startY, endX, endY);	
+			}
 			repaint();
         }
 		
