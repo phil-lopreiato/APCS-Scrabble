@@ -87,7 +87,7 @@ public class boardGUI extends GUI implements guiSegment{
 				boardLetters[x][y] = new JLabel();
 				boardLetters[x][y].setOpaque(false);
 				//boardLetters[x][y].setLocation((40*x)+(5*x),(40*y)+(5*y));
-				boardLetters[x][y].setLocation(10,200);
+				//boardLetters[x][y].setLocation(10,200);
 				boardLetters[x][y].setBounds(10,200,40,43);
 				boardLetters[x][y].setIcon(null);
 				boardLetters[x][y].setPreferredSize(new java.awt.Dimension(43,46));
