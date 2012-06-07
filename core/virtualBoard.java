@@ -85,8 +85,7 @@ public class virtualBoard
 	public static boolean replace(int rackIndex, int x, int y)
 	{
 		boolean replaced = false;
-		if(virtualBoard[x][y] != null)
-		{
+		if(virtualBoard[x][y] != null){
 			if(rackIndex == -1) {
 				for(int i=6;i>=0;i--) {
 					if(currentPlayer.getRack().get(i) == null) {
@@ -96,6 +95,7 @@ public class virtualBoard
 				}
 			}
 			replaced = currentPlayer.getRack().replace(rackIndex, virtualBoard[x][y]);
+			virtualBoard[x][y] = null;
 		}
 		return replaced;
 	}
