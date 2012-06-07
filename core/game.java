@@ -77,7 +77,7 @@ public class game {
 		playersTurn %= getNumPlayers();
 		gui.setTurn(playersTurn);
 		virtualBoard.reset(players[playersTurn]);
-		setRackToDisplay();
+		drawCurrentRack();
 	}
 
 	/**
@@ -163,6 +163,9 @@ public class game {
 		return canSwap;
 	}
 	
+	/**
+	 * Draws the current player's rack onto the GUI
+	 */
 	public void drawCurrentRack() {
 		players[playersTurn].getRack().paint(gui);
 	}
@@ -180,18 +183,5 @@ public class game {
 			virtualBoard.paint(gui); //update VB in GUI
 		}
 		return canReplace;
-	}
-	
-	/**
-	 * Draws the current player's rack onto the GUI
-	 */
-	private void setRackToDisplay()
-	{
-		rack current = players[playersTurn].getRack();
-		for(int i=0; i<7; i++)
-		{
-			displayRack[i] = current.get(i); //to avoid aliasing which i think is bad here...
-		}
-		current.paint(gui);
 	}
 }
