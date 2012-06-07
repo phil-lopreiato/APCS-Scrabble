@@ -125,7 +125,7 @@ public class boardGUI extends GUI implements guiSegment{
 		System.out.println("submit!");
 		for(int x=0;x<15;x++) {
 			for(int y=0;y<15;y++) {
-				if(boardLetters[x][y] != null) {
+				if(boardLetters[x][y] != null && boardLetters[x][y].getIcon()!= null) {
 					if(boardLetters[x][y].getMouseMotionListeners().length > 0) boardLetters[x][y].removeMouseMotionListener(boardLetters[x][y].getMouseMotionListeners()[0]);
 					if(boardLetters[x][y].getMouseListeners().length > 0) boardLetters[x][y].removeMouseListener(boardLetters[x][y].getMouseListeners()[0]);
 				}
