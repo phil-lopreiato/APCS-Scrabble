@@ -127,6 +127,7 @@ public class game {
 		if(virtualBoard.submit()) {
 			gui.updateScore(playersTurn, players[playersTurn].getScore());
 			board.paint(gui); //update the board's display
+			players[playersTurn].getRack().draw();
 			newTurn();
 		}
 	}
