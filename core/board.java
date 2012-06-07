@@ -90,6 +90,6 @@ public class board
 	//include methods such as find first tile in word... (i think this should be in virtual board instead)
 	
 	public static void paint(core.gui.GUI gui) {
-				
+		gui.resetVB();
 	}
 }

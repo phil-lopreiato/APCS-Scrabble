@@ -183,7 +183,7 @@ public class GUI {
 	}
 	
 	public void resetVB() {
-		bg.resetVB();
+		bg.submitVB();
 	}
 
 	public void show() {
