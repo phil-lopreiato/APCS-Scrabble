@@ -140,8 +140,8 @@ public class virtualBoard
 		int score = -1;
 		if(checkPlacement())
 			score = scoreTurn();
-		
-		//clearChecks();
+
+		clearChecks();
 		return score;
 	}
 
@@ -168,7 +168,7 @@ public class virtualBoard
 						rowCheck = x==row && rowCheck;
 						colCheck = y==col && colCheck;
 					}
-					
+
 					if(x>0)
 						continuous = virtualBoard[x-1][y] != null || !board.isEmpty(x-1, y) || continuous;
 					if(x<14)
@@ -178,7 +178,7 @@ public class virtualBoard
 					if(y<14)
 						continuous = virtualBoard[x][y+1] != null || !board.isEmpty(x, y+1) || continuous;
 					VBContinuous = continuous && VBContinuous;
-					
+
 					if(x>0)
 						touching = !board.isEmpty(x-1, y) || touching;
 					if(x<14)
@@ -208,26 +208,28 @@ public class virtualBoard
 	private static int[] findFirst(int startX, int startY, boolean direction)
 	{
 		int position[] = new int[2];
-		
 		if(virtualBoard[startX][startY] != null) {
 			if(direction) { //horiz
-				while(virtualBoard[startX--][startY] != null);
+				while(virtualBoard[startX][startY] != null || !board.isEmpty(startX, startY))
+					--startX;
 				position[0] = ++startX;
+				position[1] = startY;
 			}else { //vert
-				while(virtualBoard[startX][startY--] != null);
+				while(virtualBoard[startX][startY] != null || !board.isEmpty(startX, startY))
+					--startY;
 				position[1] = ++startY;
+				position[0] = startX;
 			}
 		}
 		return position;
 	}
-	
+
 	/**
 	 * Scores the current turn
 	 * 
 	 * @return	the score from this turn
 	 */
 	public static int scoreTurn(){
-		//ArrayList<String> out = new ArrayList<String>();
 		int first[], wordScore = 0, totalScore = 0, wordMultiplier = 1, letterMultiplier = 1;
 		boolean valid = true;
 		String word = "";
@@ -238,25 +240,42 @@ public class virtualBoard
 				if(virtualBoard[x][y] != null) {
 					for(int i=0; i<2; i++)
 					{
-						word = "";
-						wordScore = 0;
-						first = findFirst(x,y,i==0);
-						while(virtualBoard[first[0]][first[1]] != null && valid) {
-							System.out.println("l:"+virtualBoard[first[0]][first[1]].getLetter());
-							word += virtualBoard[first[0]][first[1]].getLetter();
-							if(board.getBoard()[first[0]][first[1]].getSpecial() > 0) { //word multiplier
-								wordMultiplier *= board.getBoard()[first[0]][first[1]].getSpecial();
-							}else{
-								letterMultiplier *= -board.getBoard()[first[0]][first[1]].getSpecial();
+						if(!(i==0?properties[x][y].isCheckedHorizontal():properties[x][y].isCheckedVertical()))
+						{
+							word = "";
+							wordScore = 0;
+							wordMultiplier = 1;
+							letterMultiplier = 1;
+							first = findFirst(x,y,i==0);
+							while(virtualBoard[first[0]][first[1]] != null || !board.isEmpty(first[0], first[1]) && valid) {
+								letterMultiplier = 1;
+								if(virtualBoard[first[0]][first[1]] == null)
+									word += masterBoard[first[0]][first[1]].getLetter();
+								else
+									word += virtualBoard[first[0]][first[1]].getLetter();
+								if(board.getBoard()[first[0]][first[1]] != null && board.getBoard()[first[0]][first[1]].getSpecial() > 0) { //word multiplier
+									wordMultiplier *= board.getBoard()[first[0]][first[1]].getSpecial();
+								}else if(board.getBoard()[first[0]][first[1]] != null){
+									letterMultiplier *= -board.getBoard()[first[0]][first[1]].getSpecial();
+								}
+								if(virtualBoard[first[0]][first[1]] == null)
+									wordScore += masterBoard[first[0]][first[1]].getValue() * letterMultiplier;
+								else
+									wordScore += virtualBoard[first[0]][first[1]].getValue() * letterMultiplier;
+								if(i==0)
+									properties[first[0]][first[1]].setCheckedHorizontal(true);
+								else
+									properties[first[0]][first[1]].setCheckedVertical(true);
+								first[i]++;
 							}
-							wordScore += virtualBoard[first[0]][first[1]].getValue() * letterMultiplier;
-							properties[first[0]][first[1]].setCheckedHorizontal(true);
-							first[i]++;
+							wordScore *= wordMultiplier;
+							System.out.println("word: " + word);
+							if(word.length() > 1 && valid)
+							{
+								valid = indexedDictionary.checkWord(word) && valid;
+								totalScore += wordScore;
+							}
 						}
-						wordScore *= wordMultiplier;
-						totalScore += wordScore;
-						System.out.println(word);
-						valid = indexedDictionary.checkWord(word) && valid;
 					}
 				}
 			}
