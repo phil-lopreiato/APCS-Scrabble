@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 import core.tile;
 import core.game;
@@ -218,4 +219,11 @@ public class GUI {
 
 		}
 	}
+
+	public void waitForTurn() {
+		JOptionPane.showMessageDialog(null,
+			    "Click \"OK\" to advance to the next turn.",
+			    "Waiting...",
+			    JOptionPane.PLAIN_MESSAGE);
+    }
 }

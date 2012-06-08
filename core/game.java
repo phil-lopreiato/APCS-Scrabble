@@ -85,6 +85,7 @@ public class game {
 		playersTurn %= getNumPlayers();
 		gui.setTurn(playersTurn);
 		virtualBoard.reset(players[playersTurn]);
+		gui.waitForTurn();
 		drawCurrentRack();
 	}
 
