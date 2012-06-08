@@ -126,7 +126,7 @@ public class game {
 				result = true;
 			i++;
 		}
-		return i--;
+		return result?i--:-1;
 	}
 
 	/**
@@ -136,14 +136,18 @@ public class game {
 	 */
 	public void submit()
 	{
-		if(virtualBoard.submit()) {
+		if(virtualBoard.submit())
+		{
 			gui.updateScore(playersTurn, players[playersTurn].getScore());
 			board.paint(gui); //update the board's display
 			players[playersTurn].getRack().draw();
 			gui.updateBagTiles(bag.getSize());
 			winner = gameOver();
 			if(winner >= 0)
+			{
 				gui.gameOver(winner);
+				System.exit(0);
+			}
 			else
 				newTurn();
 		}
