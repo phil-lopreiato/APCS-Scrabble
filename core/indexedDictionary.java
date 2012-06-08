@@ -31,7 +31,6 @@ public class indexedDictionary {
 	{
 		dictFile = new Scanner(getClass().getResourceAsStream("dictionary.txt"));
 		charIndexes = new int[26];
-		loadDict();
 	}
 	
 	public indexedDictionary(String path)
@@ -46,7 +45,7 @@ public class indexedDictionary {
 	 * 
 	 * This will read the file and load the dictionary into an ArrayList. It will also index the dictionary by storing the indexes at which the first letter of each word changes
 	 */
-	private void loadDict() {
+	public static void loadDict() {
 		char previousChar = 'a' - 1;
 		String nextLine;
 		int lineNum = 0;
@@ -82,6 +81,7 @@ public class indexedDictionary {
 	 * @return			true if needle is found in the dictionary, false otherwise
 	 */
 	public static boolean checkWord(String needle) {
+		
 		boolean result = false;
 		needle = needle.toLowerCase();
 		low = getFirstIndex(needle.charAt(0))-1;

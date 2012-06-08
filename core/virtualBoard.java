@@ -18,6 +18,7 @@
 
 package core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 //class to control a player's turn???
@@ -109,9 +110,10 @@ public class virtualBoard
 	{
 		masterBoard = board.getBoard();
 		boolean valid = false;
-		if(validate())
+		int score = validate();
+		if(score != -1)
 		{
-			currentPlayer.updateScore(scoreTurn());
+			currentPlayer.updateScore(score);
 			board.addVB(virtualBoard);
 			valid = true;
 		}
@@ -125,27 +127,32 @@ public class virtualBoard
 	 */
 
 
-	public static boolean validate()
+	public static int validate()
 	{
 		//check all words and placements and stuff - will need to load master board
 		//check that all tiles are touching and in a row
 
 		//find first tiles and check all create words
-
-		clearChecks();
-		return checkPlacement();
+		int score = -1;
+		if(checkPlacement())
+			score = scoreTurn();
+		
+		//clearChecks();
+		return score;
 	}
 
 	private static boolean checkPlacement()
 	{
-		int row = -1, col = -1;
-		boolean rowCheck = true, colCheck = true, firstCall = true, touching = false;
+		int row = -1, col = -1, count = 0;
+		boolean rowCheck = true, colCheck = true, firstCall = true, touching = false, continuous = false, VBContinuous = true;
 		for(int x=0; x<15; x++)
 		{
 			for(int y=0; y<15; y++)
 			{
 				if(virtualBoard[x][y] != null)
 				{
+					continuous = false;
+					count++;
 					if(firstCall)
 					{
 						firstCall = false;
@@ -157,6 +164,16 @@ public class virtualBoard
 						rowCheck = x==row && rowCheck;
 						colCheck = y==col && colCheck;
 					}
+					
+					if(x>0)
+						continuous = virtualBoard[x-1][y] != null || !board.isEmpty(x-1, y) || continuous;
+					if(x<14)
+						continuous = virtualBoard[x+1][y] != null || !board.isEmpty(x+1, y) || continuous;
+					if(y>0)
+						continuous = virtualBoard[x][y-1] != null || !board.isEmpty(x, y-1) || continuous;
+					if(y<14)
+						continuous = virtualBoard[x][y+1] != null || !board.isEmpty(x, y+1) || continuous;
+					VBContinuous = continuous && VBContinuous;
 					
 					if(x>0)
 						touching = !board.isEmpty(x-1, y) || touching;
@@ -171,7 +188,9 @@ public class virtualBoard
 		}
 		if(board.isEmpty(7,7) && virtualBoard[7][7] != null)
 			touching = true;
-		return touching && (rowCheck || colCheck);
+		if(count == 1)
+			VBContinuous = true;
+		return touching && VBContinuous && (rowCheck || colCheck);
 	}
 
 	/**
@@ -184,22 +203,61 @@ public class virtualBoard
 	 */
 	private static int[] findFirst(int startX, int startY, boolean direction)
 	{
-		//TODO Make work
-		int[] position = new int[2];
-		position[0] = 0;
-		position[1] = 0;
+		int position[] = new int[2];
+		
+		if(virtualBoard[startX][startY] != null) {
+			if(direction) { //horiz
+				while(virtualBoard[startX--][startY] != null);
+				position[0] = ++startX;
+			}else { //vert
+				while(virtualBoard[startX][startY--] != null);
+				position[1] = ++startY;
+			}
+		}
 		return position;
 	}
-
+	
 	/**
 	 * Scores the current turn
 	 * 
 	 * @return	the score from this turn
 	 */
-	public static int scoreTurn()
-	{
-		clearScoredProperties();
-		return 23;
+	public static int scoreTurn(){
+		//ArrayList<String> out = new ArrayList<String>();
+		int first[], wordScore = 0, totalScore = 0, wordMultiplier = 1, letterMultiplier = 1;
+		boolean valid = true;
+		String word = "";
+		for(int x=0; x<15; x++)
+		{
+			for(int y=0; y<15; y++)
+			{
+				if(virtualBoard[x][y] != null) {
+					for(int i=0; i<2; i++)
+					{
+						word = "";
+						wordScore = 0;
+						first = findFirst(x,y,i==0);
+						while(virtualBoard[first[0]][first[1]] != null && valid) {
+							System.out.println("l:"+virtualBoard[first[0]][first[1]].getLetter());
+							word += virtualBoard[first[0]][first[1]].getLetter();
+							if(board.getBoard()[first[0]][first[1]].getSpecial() > 0) { //word multiplier
+								wordMultiplier *= board.getBoard()[first[0]][first[1]].getSpecial();
+							}else{
+								letterMultiplier *= -board.getBoard()[first[0]][first[1]].getSpecial();
+							}
+							wordScore += virtualBoard[first[0]][first[1]].getValue() * letterMultiplier;
+							properties[first[0]][first[1]].setCheckedHorizontal(true);
+							first[i]++;
+						}
+						wordScore *= wordMultiplier;
+						totalScore += wordScore;
+						System.out.println(word);
+						valid = indexedDictionary.checkWord(word) && valid;
+					}
+				}
+			}
+		}
+		return valid?totalScore:-1;
 	}
 
 	private static void clearChecks()

@@ -69,6 +69,14 @@ public class game {
 		newTurn();
 	}
 	
+	public boolean isEmpty(int x, int y) {
+		return board.isEmpty(x, y);
+	}
+	
+	public void loadDict() {
+		indexedDictionary.loadDict();
+	}
+	
 	/**
 	 * Ends the current turn and moves on to the next player
 	 */

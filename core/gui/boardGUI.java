@@ -212,11 +212,14 @@ public class boardGUI extends GUI implements guiSegment{
 			endY = (int) ((c.getY())/45.25); 
 			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+endX+","+endY);
 			
-			if(c.getX() < 5 || c.getX() > 645 || c.getY() < 120 || c.getY() > 803 || ((JLabel)c).getIcon() == null) { //tile not on game board
+			if((c.getX() < 0 || c.getX() > 652 || c.getY() < 0 || c.getY() > 691 || ((JLabel)c).getIcon() == null)) { //tile not on game board
 				c.setLocation(start);
 			}else {
-				c.setVisible(false);
-				gameRef.swap(startX, startY, endX, endY);	
+				if(gameRef.isEmpty(endX, endY)) {
+					c.setVisible(false);
+					gameRef.swap(startX, startY, endX, endY);	
+				}else
+					c.setLocation(start);
 			}
 			repaint();
         }

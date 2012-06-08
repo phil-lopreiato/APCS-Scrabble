@@ -76,6 +76,7 @@ public class GUI {
 
 		show(); //show the main content panel
 		//playersInit(); //set the number of players
+		gameRef.loadDict();
 	}
 	
 	/**
