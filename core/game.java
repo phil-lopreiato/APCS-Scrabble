@@ -200,7 +200,7 @@ public class game {
     }
 
 	public int scoreVB() {
-	    return (int)(Math.random()*1000);//virtualBoard.validate();
+	    return virtualBoard.validate();
     }
 
 	public void submitBlanks(ArrayList<Character> blanks, ArrayList<Integer[]> blankLocs) {
