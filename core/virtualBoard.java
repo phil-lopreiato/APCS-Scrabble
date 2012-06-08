@@ -153,7 +153,7 @@ public class virtualBoard
 	private static boolean checkPlacement()
 	{
 		int row = -1, col = -1, count = 0;
-		boolean rowCheck = true, colCheck = true, firstCall = true, touching = false, continuous = false, VBContinuous = true;
+		boolean rowCheck = true, colCheck = true, firstCall = true, touching = false, continuous = false;
 		for(int x=0; x<15; x++)
 		{
 			for(int y=0; y<15; y++)
@@ -165,24 +165,14 @@ public class virtualBoard
 					if(firstCall)
 					{
 						firstCall = false;
-						row = x;
-						col = y;
+						row = y;
+						col = x;
 					}
 					else
 					{
-						rowCheck = x==row && rowCheck;
-						colCheck = y==col && colCheck;
+						rowCheck = y==row && rowCheck;
+						colCheck = x==col && colCheck;
 					}
-
-					if(x>0)
-						continuous = virtualBoard[x-1][y] != null || !board.isEmpty(x-1, y) || continuous;
-					if(x<14)
-						continuous = virtualBoard[x+1][y] != null || !board.isEmpty(x+1, y) || continuous;
-					if(y>0)
-						continuous = virtualBoard[x][y-1] != null || !board.isEmpty(x, y-1) || continuous;
-					if(y<14)
-						continuous = virtualBoard[x][y+1] != null || !board.isEmpty(x, y+1) || continuous;
-					VBContinuous = continuous && VBContinuous;
 
 					if(x>0)
 						touching = !board.isEmpty(x-1, y) || touching;
@@ -195,11 +185,30 @@ public class virtualBoard
 				}
 			}
 		}
-		if(board.isEmpty(7,7) && virtualBoard[7][7] != null)
+		continuous = checkContinuity(col, row, rowCheck);
+		if(board.isEmpty(7,7) && virtualBoard[7][7] != null) //check if a tile is placed in the center on the first turn
 			touching = true;
-		if(count == 1 && !board.isEmpty(7,7))
-			VBContinuous = true;
-		return touching && VBContinuous && (rowCheck || colCheck);
+		if(count < 2 && board.isEmpty(7,7))
+			continuous = false;
+		return touching && continuous && (rowCheck || colCheck);
+	}
+
+	private static boolean checkContinuity(int x, int y, boolean direction)
+	{
+		boolean continuous = true;
+		if(x < 0 || y < 0)
+		{
+			continuous = false;
+		}
+		else
+		{
+			for(int i=findFirst(x,y,direction)[direction?0:1]; i<findHighest(direction?y:x,direction)[direction?0:1]; i++)
+			if(direction)
+				continuous = virtualBoard[i][y] != null || !board.isEmpty(i,y) && continuous;
+			else
+				continuous = virtualBoard[x][i] != null || !board.isEmpty(x,i) && continuous;
+		}
+		return continuous;
 	}
 
 	/**
@@ -225,6 +234,24 @@ public class virtualBoard
 				position[1] = ++startY;
 				position[0] = startX;
 			}
+		}
+		return position;
+	}
+	
+	private static int[] findHighest(int pos, boolean direction)
+	{
+		int position[] = new int[2];
+		int start = 14;
+			if(direction) { //horiz
+				while(start > -1 && virtualBoard[start][pos] == null)
+					--start;
+				position[0] = start;
+				position[1] = start;
+			}else { //vert
+				while(start > -1 && virtualBoard[pos][start] == null)
+					--start;
+				position[1] = start;
+				position[0] = start;
 		}
 		return position;
 	}
