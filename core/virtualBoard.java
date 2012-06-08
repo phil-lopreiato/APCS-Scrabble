@@ -137,10 +137,10 @@ public class virtualBoard
 		//check that all tiles are touching and in a row
 
 		//find first tiles and check all create words
-		int score = -1;
+		int score = -2;
 		if(checkPlacement())
 			score = scoreTurn();
-
+		
 		clearChecks();
 		return score;
 	}
@@ -192,7 +192,7 @@ public class virtualBoard
 		}
 		if(board.isEmpty(7,7) && virtualBoard[7][7] != null)
 			touching = true;
-		if(count == 1)
+		if(count == 1 && !board.isEmpty(7,7))
 			VBContinuous = true;
 		return touching && VBContinuous && (rowCheck || colCheck);
 	}

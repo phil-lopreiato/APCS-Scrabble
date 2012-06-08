@@ -122,6 +122,7 @@ public class game {
 		{
 			if(players[i].getRack().isEmpty())
 				result = true;
+			i++;
 		}
 		return result;
 	}

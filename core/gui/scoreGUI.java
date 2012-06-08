@@ -121,7 +121,19 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	}
 	
 	public void updateCurrentTurnScore(int score) {
-		currentTurnScore.setText(score==-1?"Invalid turn":"This turn is worth "+score+" points");
+		String text = "";
+		switch (score)
+		{
+		case -2: 
+			text = "Invalid Placement";
+			break;
+		case -1:
+			text = "Invalid Word";
+			break;
+		default:
+			text = "This turn is worth " + score + " points";
+		}
+		currentTurnScore.setText(text);
 	}
 
 	public void setTurn(int player)
