@@ -233,5 +233,12 @@ public class GUI {
 			    "Waiting...",
 			    JOptionPane.PLAIN_MESSAGE);
     }
+	
+	public void gameOver(int player) {
+		JOptionPane.showMessageDialog(null,
+			    "Player "+player+" has won the game!",
+			    "Game Over!",
+			    JOptionPane.PLAIN_MESSAGE);
+	}
 
 }
