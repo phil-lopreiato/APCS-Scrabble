@@ -23,6 +23,10 @@ public class Scrabble
 {
 	public static void main(String[] args)
 	{
+		System.out.println("        --------Welcome to Justin and Phil's game of Scrabble!!!--------");
+		System.out.println("The game is played just like normal scrabble where players can place their tiles on the board to create words\nand score points based on the tile's" +
+				"given value and any multiplier space it is placed on.\nThe game's controls are located on the right side of the board.");
+		System.out.println();
 		System.out.println("Begin Initialization");
 		game theGame;
 		GUI f = new GUI(); //init new GUI

@@ -126,7 +126,7 @@ public class GUI {
 
 		clear();
 		pc = null; // deallocate config stuff
-		layeredPane.setPreferredSize(new Dimension((int)(screenSize.getWidth()*.75),(int)screenSize.getHeight()-75));
+		layeredPane.setPreferredSize(new Dimension((int)(screenSize.getWidth()*.75),(int)screenSize.getHeight()-60));
 
 		bg = new boardGUI();
 		bg.addComponents(layeredPane);

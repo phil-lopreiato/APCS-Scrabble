@@ -215,12 +215,12 @@ public class virtualBoard
 		int position[] = new int[2];
 		if(virtualBoard[startX][startY] != null) {
 			if(direction) { //horiz
-				while(virtualBoard[startX][startY] != null || !board.isEmpty(startX, startY))
+				while(startX > -1 && (virtualBoard[startX][startY] != null || !board.isEmpty(startX, startY)))
 					--startX;
 				position[0] = ++startX;
 				position[1] = startY;
 			}else { //vert
-				while(virtualBoard[startX][startY] != null || !board.isEmpty(startX, startY))
+				while(startY > -1 && (virtualBoard[startX][startY] != null || !board.isEmpty(startX, startY)))
 					--startY;
 				position[1] = ++startY;
 				position[0] = startX;
@@ -250,7 +250,7 @@ public class virtualBoard
 							wordMultiplier = 1;
 							letterMultiplier = 1;
 							first = findFirst(x,y,i==0);
-							while(virtualBoard[first[0]][first[1]] != null || !board.isEmpty(first[0], first[1]) && valid)
+							while(first[i] < 15 && (virtualBoard[first[0]][first[1]] != null || !board.isEmpty(first[0], first[1])) && valid)
 							{
 								letterMultiplier = 1;
 								if(virtualBoard[first[0]][first[1]] == null)

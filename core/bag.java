@@ -57,18 +57,6 @@ public class bag
 	{
 		return tiles.size();
 	}
-
-	//This method is not needed. The bag's array can be arranged in order since the tile is still chosen randomly by the drawTile method.
-	/*public void randomizeBag() {
-                tile temp;
-                int randIndex;
-                for(int i=0;i<tiles.size();i++) {
-                        temp = tiles.get(i);
-                        randIndex = (int)(Math.random()*(tiles.size()));
-                        tiles.set(i, tiles.get(randIndex));
-                        tiles.set(randIndex,temp);
-                }
-        }*/
 	
 	/**
 	 * Removes a tile from the bag and returns it

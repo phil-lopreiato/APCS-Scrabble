@@ -138,6 +138,11 @@ public class rackGUI extends GUI implements guiSegment {
 			{
 				boardX = (int) ((c.getX() - 8)/42.5);
 				boardY = (int) ((c.getY() - 125)/45.25);
+				
+				if(boardX > 14)
+					boardX = 14;
+				if(boardY > 14)
+					boardY = 14;
 
 				placed = gameRef.placeTile(rackIndex,boardX,boardY);
 				if(placed){

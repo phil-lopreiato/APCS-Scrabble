@@ -232,7 +232,12 @@ public class boardGUI extends GUI implements guiSegment{
 	        Component c = arg0.getComponent();
 
 	        endX = (int) ((c.getX())/42.5);
-			endY = (int) ((c.getY())/45.25); 
+			endY = (int) ((c.getY())/45.25);
+			
+			if(endX > 14)
+				endX = 14;
+			if(endY > 14)
+				endY = 14;
 			
 			if((c.getX() < 0 || c.getX() > 652 || c.getY() < 0 || c.getY() > 691 || ((JLabel)c).getIcon() == null)) { //tile not on game board
 				c.setLocation(start);
