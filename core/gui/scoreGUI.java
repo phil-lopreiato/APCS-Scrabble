@@ -30,7 +30,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
