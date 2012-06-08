@@ -123,7 +123,6 @@ public class indexedDictionary {
 	 */
 	private static int getFirstIndex(char needle)
 	{
-		System.out.println(needle - 'a');
 		//if(needle == 'a') return 0;
 		//return charIndexes[needle-'b']+1;
 		return charIndexes[needle - 'a'];

@@ -1,4 +1,4 @@
-/* Copyright (C) 2012 Phil Lopreiato, Justin Yost
+/* Copyright (C) 2012 Justin Yost, Phil Lopreiato
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
  * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import core.gui.GUI;
 
 public class game {
-	//private board board;
 	private static player players[];
 	private static int playersTurn;
 	private static GUI gui;
@@ -162,7 +161,6 @@ public class game {
 		boolean canPlace = virtualBoard.place(rackIndex, x, y);
 		if(canPlace)
 			virtualBoard.paint(gui); //update the VB in GUI
-		//setRackToDisplay();
 		return canPlace;
 	}
 	
@@ -196,7 +194,6 @@ public class game {
 	}
 
 	public String checkWord(String text) {
-		System.out.println("check: "+text);
 	    return indexedDictionary.checkWord(text)?text+" is a valid word and is worth "+indexedDictionary.scoreWord(text)+" points":text+" is not a valid word";
     }
 

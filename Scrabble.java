@@ -30,17 +30,5 @@ public class Scrabble
 		f.setGameRef(theGame); //give the GUI a reference to the game to allow it to place tiles etc.
 		f.gameInit(); //draw the game init stuff (select number of players)
 		System.out.println("Game Initialized and Started!");
-		
-
-		//thought process:
-
-		//player places tiles in virtual board
-		//wait for submit
-		//verify -- for now, let's just assume this is good until the rest of the game works
-		//add tiles from virtual board to board
-		//update score
-		//remove tiles from playerRack
-		//draw new tiles
-		//next player's turn
 	}
 }

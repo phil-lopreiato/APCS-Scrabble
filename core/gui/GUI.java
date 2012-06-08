@@ -52,7 +52,7 @@ public class GUI {
 	protected ArrayList<Character> blanks;
 	protected ArrayList<Integer[]> blankLocs;
 
-	//two of these variables need to be static as of now so that playerconfig's inherited method can access it's parent's variables
+	//one of these variables need to be static as of now so that playerconfig's inherited method can access it's parent's variables
 	
 	public GUI() {
 		screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -83,7 +83,6 @@ public class GUI {
 		pc.addComponents(layeredPane);
 
 		show(); //show the main content panel
-		//playersInit(); //set the number of players
 		gameRef.loadDict();
 	}
 	
@@ -108,23 +107,6 @@ public class GUI {
 	{
 		gameRef.start(numPlayers);
 	}
-
-	//This method has been depreciated
-	/*
-	public int playersInit()
-	{
-		//wait for button to be pressed
-		do {
-			try {
-				Thread.sleep(100); //wait 100 ms
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}while(!numPlayersSet());
-		return numPlayers;
-	}
-	 */
 
 	public void setNumPlayers(int numPlayers)
 	{

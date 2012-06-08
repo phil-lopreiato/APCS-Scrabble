@@ -122,7 +122,6 @@ public class boardGUI extends GUI implements guiSegment{
 	}
 	
 	public void submitVB() {
-		System.out.println("submit!");
 		for(int x=0;x<15;x++) {
 			for(int y=0;y<15;y++) {
 				if(boardLetters[x][y] != null && boardLetters[x][y].getIcon()!= null) {
@@ -162,16 +161,6 @@ public class boardGUI extends GUI implements guiSegment{
 					boardLetters[x][y].setIcon(new ImageIcon(blank?new tile(s).paint(false):virtualBoard[x][y].paint(false)));
 					boardLetters[x][y].setBounds((int)(x*42.5)+13,(int)(y*45.5)+6,46,43);
 					boardLetters[x][y].setVisible(true);
-					/*for(int i=0;i<15;i++)
-						for(int j=0;j<15;j++)
-							boardLetters[i][j].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));*/
-					
-					//label = new JLabel(new ImageIcon(virtualBoard[x][y].paint(false)));
-					//boardLetters[x][y].setLocation(200,200);
-					//label.setPreferredSize(new java.awt.Dimension(40,43));
-					//label.setOpaque(false);
-					//tileContainer.add(label,4);
-					//tileContainer.moveToFront(label);
 				}
 			}
 		}
@@ -194,7 +183,6 @@ public class boardGUI extends GUI implements guiSegment{
 		@Override
         public void mouseClicked(MouseEvent arg0) {
 	      if(arg0.getClickCount() == 2) {
-	    	System.out.println("double click!");
 	    	Component c = arg0.getComponent();
 	    	gameRef.replaceTile(-1, (int) ((c.getX())/42.5), (int) ((c.getY())/45.25));
 	    	Integer[] arr = {(int) ((c.getX())/42.5),(int) ((c.getY())/45.25)};
@@ -225,7 +213,6 @@ public class boardGUI extends GUI implements guiSegment{
 	        startX = (int) ((c.getX())/42.5);
 			startY = (int) ((c.getY())/45.25);
 			start = c.getLocation();
-			System.out.println("down! ("+c.getX()+","+c.getY()+"): "+startX+","+startY);
         }
 
 		@Override
@@ -234,7 +221,6 @@ public class boardGUI extends GUI implements guiSegment{
 
 	        endX = (int) ((c.getX())/42.5);
 			endY = (int) ((c.getY())/45.25); 
-			System.out.println("up! ("+c.getX()+","+c.getY()+"): "+endX+","+endY);
 			
 			if((c.getX() < 0 || c.getX() > 652 || c.getY() < 0 || c.getY() > 691 || ((JLabel)c).getIcon() == null)) { //tile not on game board
 				c.setLocation(start);

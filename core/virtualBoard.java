@@ -18,10 +18,6 @@
 
 package core;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-//class to control a player's turn???
 public class virtualBoard
 {
 	private static tile[][] virtualBoard, masterBoard;
@@ -82,7 +78,7 @@ public class virtualBoard
 		}
 		return swapped;
 	}
-	
+
 	public static void replaceTile(char c,int x, int y) {
 		virtualBoard[x][y] = new tile(c,0);
 	}
@@ -125,26 +121,26 @@ public class virtualBoard
 	}
 
 	/**
-	 * Validates the placement of tiles and checks all words made
+	 * Validates the placement of tiles and checks all words made are valid.  Also scores the tile placement (see return value)
 	 * 
-	 * @return	true if all words and placements are valid, false otherwise
+	 * @return	The points the turn is worth or -2 for invalid tile placement, -1 for invalid word
 	 */
-
-
 	public static int validate()
 	{
-		//check all words and placements and stuff - will need to load master board
-		//check that all tiles are touching and in a row
-
-		//find first tiles and check all create words
 		int score = -2;
 		if(checkPlacement())
 			score = scoreTurn();
-		
+
 		clearChecks();
 		return score;
 	}
 
+	/**
+	 * Determines if the tiles currently placed on the board are in a valid arrangement.  They must be in a continuous line while touching a tile
+	 * that's already been played to be considered valid
+	 * 
+	 * @return true if the current tile placement is valid
+	 */
 	private static boolean checkPlacement()
 	{
 		int row = -1, col = -1, count = 0;
@@ -234,11 +230,9 @@ public class virtualBoard
 		boolean valid = true;
 		String word = "";
 		for(int x=0; x<15; x++)
-		{
 			for(int y=0; y<15; y++)
-			{
 				if(virtualBoard[x][y] != null) {
-					for(int i=0; i<2; i++)
+					for(int i=0; i<2; i++) //check and score horizontal, then vertical
 					{
 						if(!(i==0?properties[x][y].isCheckedHorizontal():properties[x][y].isCheckedVertical()))
 						{
@@ -247,15 +241,19 @@ public class virtualBoard
 							wordMultiplier = 1;
 							letterMultiplier = 1;
 							first = findFirst(x,y,i==0);
-							while(virtualBoard[first[0]][first[1]] != null || !board.isEmpty(first[0], first[1]) && valid) {
+							while(virtualBoard[first[0]][first[1]] != null || !board.isEmpty(first[0], first[1]) && valid)
+							{
 								letterMultiplier = 1;
 								if(virtualBoard[first[0]][first[1]] == null)
 									word += masterBoard[first[0]][first[1]].getLetter();
 								else
 									word += virtualBoard[first[0]][first[1]].getLetter();
-								if(board.getBoard()[first[0]][first[1]] != null && board.getBoard()[first[0]][first[1]].getSpecial() > 0) { //word multiplier
+								if(board.getBoard()[first[0]][first[1]] != null && board.getBoard()[first[0]][first[1]].getSpecial() > 0)
+								{ //word multiplier
 									wordMultiplier *= board.getBoard()[first[0]][first[1]].getSpecial();
-								}else if(board.getBoard()[first[0]][first[1]] != null){
+								}
+								else if(board.getBoard()[first[0]][first[1]] != null)
+								{
 									letterMultiplier *= -board.getBoard()[first[0]][first[1]].getSpecial();
 								}
 								if(virtualBoard[first[0]][first[1]] == null)
@@ -269,7 +267,6 @@ public class virtualBoard
 								first[i]++;
 							}
 							wordScore *= wordMultiplier;
-							System.out.println("word: " + word);
 							if(word.length() > 1 && valid)
 							{
 								valid = indexedDictionary.checkWord(word) && valid;
@@ -278,8 +275,6 @@ public class virtualBoard
 						}
 					}
 				}
-			}
-		}
 		return valid?totalScore:-1;
 	}
 
@@ -293,18 +288,7 @@ public class virtualBoard
 			}
 	}
 
-	private static void clearScoredProperties()
-	{
-		for(int i=0; i<15; i++)
-			for(int j=0; j<15; j++)
-			{
-				properties[i][j].setScoredHorizontal(false);
-				properties[i][j].setScoredVertical(false);
-			}
-	}
-
 	public static void paint(core.gui.GUI gui) {
 		gui.addVirtualBoard(virtualBoard);
-		//System.out.println(Arrays.deepToString(virtualBoard));
 	}
 }

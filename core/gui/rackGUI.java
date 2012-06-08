@@ -45,7 +45,6 @@ public class rackGUI extends GUI implements guiSegment {
 		rackContainer.setLocation(0,0);
 		rackContainer.setOpaque(false);
 		rackLetters = new JLabel[7];
-		//rackContainer.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		rackContainer.setLayout(null);
 	}
 
@@ -127,7 +126,6 @@ public class rackGUI extends GUI implements guiSegment {
 			JLabel tile = (JLabel) arg0.getSource();
 			rackContainer.setLayer(tile,4,0);
 			rackIndex = (arg0.getX()+tile.getX())/105;
-			System.out.println("down! ("+arg0.getX()+","+arg0.getY()+"), index: "+rackIndex);
 		}
 
 		@Override
@@ -142,7 +140,6 @@ public class rackGUI extends GUI implements guiSegment {
 			{
 				boardX = (int) ((c.getX() - 8)/42.5);
 				boardY = (int) ((c.getY() - 125)/45.25);
-				System.out.println("up! ("+c.getX()+","+c.getY()+"): "+boardX+","+boardY);
 
 				placed = gameRef.placeTile(rackIndex,boardX,boardY);
 				if(placed){
