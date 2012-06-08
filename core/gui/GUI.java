@@ -144,6 +144,13 @@ public class GUI {
 		repaint();
 	}
 	
+	public void updateBagTiles(int tiles)
+	{
+		if (sg != null)
+			sg.updateBagTiles(tiles);
+		repaint();
+	}
+	
 	public void updateCurrentTurnScore(int score) {
 		sg.updateCurrentTurnScore(score);
 	}

@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	private JLayeredPane scoreContainer;
-	private JLabel scoreLabels[], currentTurnScore, checkResult;
+	private JLabel scoreLabels[], currentTurnScore, checkResult, bagTiles;
 	private JButton turnSubmit,pass, checkWord, resetHand;
 	private JTextField wordToCheck;
 	private int[] playerScores;
@@ -44,13 +44,14 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		this.numPlayers = numPlayers;
 		scoreLabels = new JLabel[numPlayers];
 		playerScores = new int[numPlayers];
-		
+
 		turnSubmit = new JButton("Submit Current Turn");
 		pass = new JButton("Pass");
 		checkWord = new JButton("Check Word");
 		wordToCheck = new JTextField("",5);
 		currentTurnScore = new JLabel();
 		checkResult = new JLabel();
+		bagTiles = new JLabel();
 		resetHand = new JButton("Reset Rack");
 
 		scoreContainer = new JLayeredPane();
@@ -75,33 +76,34 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 			scoreLabels[i].setLocation(675,10*i);
 			scoreContainer.add(scoreLabels[i], JLayeredPane.DEFAULT_LAYER);
 		}
-		
+
 		turnSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		turnSubmit.addActionListener(this);
 		turnSubmit.setActionCommand("submit");
-		
+
 		pass.setAlignmentX(Component.CENTER_ALIGNMENT);
 		pass.addActionListener(this);
 		pass.setActionCommand("pass");
-		
+
 		currentTurnScore.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		wordToCheck.setAlignmentX(Component.CENTER_ALIGNMENT);
 		wordToCheck.setMaximumSize(new Dimension(150,25));
-		
+
 		checkResult.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+		bagTiles.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		resetHand.setAlignmentX(Component.CENTER_ALIGNMENT);
 		resetHand.addActionListener(this);
 		resetHand.setActionCommand("reset");
-		
+
 		checkWord.setAlignmentX(Component.CENTER_ALIGNMENT);
 		checkWord.addActionListener(this);
 		checkWord.setActionCommand("check");
-		
+
 		JLabel checkHeader = new JLabel("Check the validity of a word:");
 		checkHeader.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(turnSubmit,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
@@ -115,7 +117,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreContainer.add(wordToCheck,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(checkWord,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(checkResult,JLayeredPane.DEFAULT_LAYER);
-		
+		scoreContainer.add(bagTiles,JLayeredPane.DEFAULT_LAYER);
+
 		scoreContainer.setSize(scoreContainer.getPreferredSize());
 		scoreContainer.setLocation(675,0);
 
@@ -125,12 +128,17 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	public void updateScore(int player,int score) {
 		scoreLabels[player].setText("Player "+player+": "+score);
 	}
-	
+
+	public void updateBagTiles(int tiles)
+	{
+		bagTiles.setText(Integer.toString(tiles) + " tiles left in the bag");
+	}
+
 	public void updateCurrentTurnScore(int score) {
 		String text = "";
 		switch (score)
 		{
-		case -2: 
+		case -2:
 			text = "Invalid Placement";
 			break;
 		case -1:
@@ -147,25 +155,23 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		for(int i=0; i<numPlayers; i++)
 			scoreLabels[i].setForeground(Color.BLACK);
 		scoreLabels[player].setForeground(Color.RED);
-		updateCurrentTurnScore(0);
 	}
 
 	public JLayeredPane getContainer() {
 		return scoreContainer;
 	}
-	
 
-    public void actionPerformed(ActionEvent arg0) {
-    	if(arg0.getActionCommand().equals("submit")) {
-    		gameRef.submit();
-    	}else if(arg0.getActionCommand().equals("pass"))
-    		gameRef.pass();
-    	else if(arg0.getActionCommand().equals("check"))
-    		checkResult.setText(gameRef.checkWord(wordToCheck.getText()));
-    	else if(arg0.getActionCommand().equals("reset"))
-    		gameRef.removeVB();
-    	
-    	repaint();
-    }
+
+	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getActionCommand().equals("submit")) {
+			gameRef.submit();
+		}else if(arg0.getActionCommand().equals("pass"))
+			gameRef.pass();
+		else if(arg0.getActionCommand().equals("check"))
+			checkResult.setText(gameRef.checkWord(wordToCheck.getText()));
+		else if(arg0.getActionCommand().equals("reset"))
+			gameRef.removeVB();
+		repaint();
+	}
 
 }

@@ -64,6 +64,7 @@ public class game {
 			players[i] = new player();
 		gui.setNumPlayers(num);
 		gui.loadGameDisplay();
+		gui.updateBagTiles(bag.getSize());
 		newTurn();
 	}
 	
@@ -137,6 +138,7 @@ public class game {
 			gui.updateScore(playersTurn, players[playersTurn].getScore());
 			board.paint(gui); //update the board's display
 			players[playersTurn].getRack().draw();
+			gui.updateBagTiles(bag.getSize());
 			newTurn();
 		}
 	}

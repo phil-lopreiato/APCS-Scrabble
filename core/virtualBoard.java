@@ -120,7 +120,7 @@ public class virtualBoard
 		masterBoard = board.getBoard();
 		boolean valid = false;
 		int score = validate();
-		if(score != -1)
+		if(score > 0)
 		{
 			currentPlayer.updateScore(score);
 			board.addVB(virtualBoard);
