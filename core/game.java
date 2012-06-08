@@ -206,4 +206,12 @@ public class game {
 		   virtualBoard.replaceTile(blanks.get(i), blankLocs.get(i)[0], blankLocs.get(i)[1]);
 	   }
     }
+
+	public void removeVB() {
+	    virtualBoard.clear();
+	    gui.hideVB();
+	    virtualBoard.paint(gui);
+	    drawCurrentRack();
+    }
+
 }

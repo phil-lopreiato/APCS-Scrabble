@@ -171,6 +171,27 @@ public class boardGUI extends GUI implements guiSegment{
 		return boardContainer;
 	}
 	
+	public void removeTile(Component c) {
+		int x =  (int) ((c.getLocation().getX())/42.5), y =  (int) (c.getLocation().getY()/45.25);
+		gameRef.replaceTile(-1,x,y);
+    	Integer[] arr = {x,y};
+    	if(blankLocs.indexOf(arr)!= -1) {
+    		blankLocs.remove(blankLocs.indexOf(arr));
+    		blanks.remove(blankLocs.indexOf(arr));
+    	}
+    	c.setVisible(false);
+    	gameRef.drawCurrentRack();
+	}
+	
+	public void hideVB() {
+	    Component[] comps = tileContainer.getComponents();
+	    for(Component c:comps) {
+	    	//(int) ((c.getLocation().getX())/42.5), (int) (c.getLocation().getY()/45.25)
+	    	if(c.getMouseListeners().length > 0)
+	    		c.setVisible(false);
+	    }
+    }
+	
 	class onBoardTileClick implements MouseListener{
 
 		private int startX, startY, endX, endY;
@@ -184,14 +205,7 @@ public class boardGUI extends GUI implements guiSegment{
         public void mouseClicked(MouseEvent arg0) {
 	      if(arg0.getClickCount() == 2) {
 	    	Component c = arg0.getComponent();
-	    	gameRef.replaceTile(-1, (int) ((c.getX())/42.5), (int) ((c.getY())/45.25));
-	    	Integer[] arr = {(int) ((c.getX())/42.5),(int) ((c.getY())/45.25)};
-	    	if(blankLocs.indexOf(arr)!= -1) {
-	    		blankLocs.remove(blankLocs.indexOf(arr));
-	    		blanks.remove(blankLocs.indexOf(arr));
-	    	}
-	    	c.setVisible(false);
-	    	gameRef.drawCurrentRack();
+	    	removeTile(c);
 	      }
         }
 

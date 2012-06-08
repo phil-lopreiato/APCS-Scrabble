@@ -36,7 +36,7 @@ import javax.swing.JTextField;
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	private JLayeredPane scoreContainer;
 	private JLabel scoreLabels[], currentTurnScore, checkResult;
-	private JButton turnSubmit,pass, checkWord;
+	private JButton turnSubmit,pass, checkWord, resetHand;
 	private JTextField wordToCheck;
 	private int[] playerScores;
 	private int numPlayers;
@@ -52,6 +52,7 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		wordToCheck = new JTextField("",5);
 		currentTurnScore = new JLabel();
 		checkResult = new JLabel();
+		resetHand = new JButton("Reset Rack");
 
 		scoreContainer = new JLayeredPane();
 		scoreContainer.setOpaque(false);
@@ -91,6 +92,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		
 		checkResult.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		resetHand.setAlignmentX(Component.CENTER_ALIGNMENT);
+		resetHand.addActionListener(this);
+		resetHand.setActionCommand("reset");
+		
 		checkWord.setAlignmentX(Component.CENTER_ALIGNMENT);
 		checkWord.addActionListener(this);
 		checkWord.setActionCommand("check");
@@ -102,6 +107,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreContainer.add(turnSubmit,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(pass,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(10));
+		scoreContainer.add(resetHand,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(currentTurnScore,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
@@ -156,6 +163,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
     		gameRef.pass();
     	else if(arg0.getActionCommand().equals("check"))
     		checkResult.setText(gameRef.checkWord(wordToCheck.getText()));
+    	else if(arg0.getActionCommand().equals("reset"))
+    		gameRef.removeVB();
+    	
+    	repaint();
     }
 
 }

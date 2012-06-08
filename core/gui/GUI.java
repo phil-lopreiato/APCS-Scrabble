@@ -183,6 +183,10 @@ public class GUI {
 		blanks = new ArrayList<Character>();
 		blankLocs = new ArrayList<Integer[]>();
 	}
+	
+	public void hideVB() {
+		bg.hideVB();
+	}
 
 	public void show() {
 		mainFrame.pack();
@@ -222,4 +226,5 @@ public class GUI {
 			    "Waiting...",
 			    JOptionPane.PLAIN_MESSAGE);
     }
+
 }
