@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class bag
 {
 	private static ArrayList<tile> tiles;
-	private static int[] letterDistributions = {9,2,2,4,12,2,3,2,9,1,1,4,2,6,8,2,1,6,4,6,4,2,2,1,2,1,2};
+	private static int[] letterDistributions = {9,2,2,4,12,2,3,2,9,1,1,4,2,6,8,2,1,6,4,6,4,2,2,1,2,1/*,2*/};
 
 	public bag()
 	{
@@ -40,7 +40,7 @@ public class bag
 	 *  Default values are: {9,2,2,4,12,2,3,2,9,1,1,4,2,6,8,2,1,6,4,6,4,2,2,1,2,1,2}. This corresponds to {A,B,C,...,Z, }
 	 */
 	public static void fillBag() {
-		for(int i=0; i<27; i++) { //for each type of tile (A-<blank>)
+		for(int i=0; i<letterDistributions.length; i++) { //for each type of tile (A-<blank>)
 			for(int j=0; j<letterDistributions[i]; j++) { //number of each tile to add to the bag
 				tiles.add(new tile((char)(i+65)));
 			}
