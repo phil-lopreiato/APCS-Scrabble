@@ -121,7 +121,7 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	}
 	
 	public void updateCurrentTurnScore(int score) {
-		currentTurnScore.setText("This turn is worth "+score+" points");
+		currentTurnScore.setText(score==-1?"Invalid turn":"This turn is worth "+score+" points");
 	}
 
 	public void setTurn(int player)

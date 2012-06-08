@@ -161,6 +161,10 @@ public class GUI {
 			sg.updateScore(player, score);
 		repaint();
 	}
+	
+	public void updateCurrentTurnScore(int score) {
+		sg.updateCurrentTurnScore(score);
+	}
 
 	public void setTurn(int player)
 	{
@@ -189,6 +193,7 @@ public class GUI {
 	
 	public void addVirtualBoard(tile[][] virtualBoard) {
 		bg.addVirtualBoard(virtualBoard);
+		updateCurrentTurnScore(gameRef.scoreVB());
 	}
 	
 	public void resetVB() {
