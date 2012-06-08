@@ -82,6 +82,10 @@ public class virtualBoard
 		}
 		return swapped;
 	}
+	
+	public static void replaceTile(char c,int x, int y) {
+		virtualBoard[x][y] = new tile(c,0);
+	}
 
 	public static boolean replace(int rackIndex, int x, int y)
 	{

@@ -32,6 +32,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 import core.tile;
 
@@ -42,8 +43,9 @@ public class boardGUI extends GUI implements guiSegment{
 	JLabel boardLabel;
 	BufferedImage boardBase;
 	private JLabel boardLetters[][];
-	private ArrayList<JLabel> virtualBoardLetters;
-	private java.awt.Insets insets;
+	private String[] letters = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+	private ArrayList<Character> blanks;
+	private ArrayList<Integer[]> blankLocs;
 
 	public boardGUI() {
 		//Create and set up the window.
@@ -66,13 +68,14 @@ public class boardGUI extends GUI implements guiSegment{
 		//tileContainer.setLayout(new FlowLayout(FlowLayout.CENTER,3,3));
 		tileContainer.setOpaque(false);
 		tileContainer.setLayout(null);
-		insets = tileContainer.getInsets();
+		tileContainer.getInsets();
 
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
 		boardLabel.setPreferredSize(new java.awt.Dimension(652,691));
 		boardLabel.setLocation(0,110);
 		boardLetters = new JLabel[15][15];
-		virtualBoardLetters = new ArrayList<JLabel>();
+		blanks = new ArrayList<Character>();
+		blankLocs = new ArrayList<Integer[]>();
 	}
 
 	public void addComponents(javax.swing.JLayeredPane pane) {
@@ -133,14 +136,34 @@ public class boardGUI extends GUI implements guiSegment{
 			}
 		}
 	}
+	
+	public void submitBlanks() {
+		gameRef.submitBlanks(blanks,blankLocs);
+	}
 
 	public void addVirtualBoard(tile[][] virtualBoard) {
 		//virtualBoardLetters = new ArrayList<JLabel>();
 		//JLabel label;
+		boolean blank = false;
+		char s;
 		for(int x=0;x<15;x++) {
 			for(int y=0;y<15;y++) {
 				if(virtualBoard[x][y] != null) {
-					boardLetters[x][y].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
+					blank = true;
+					Integer[] arr = {x,y};
+					if(virtualBoard[x][y].getLetter() == '[' && blankLocs.indexOf(arr) == -1) {
+						s =((String)JOptionPane.showInputDialog(
+				                null,
+				                "Select a letter for the blank tile to represent.",
+				                "Wildcard Tile Selection",
+				                JOptionPane.PLAIN_MESSAGE,null,
+				                letters, letters[0])).charAt(0);
+						blanks.add(s);
+						blankLocs.add(arr);
+					}else
+						s = virtualBoard[x][y].getLetter();
+					
+					boardLetters[x][y].setIcon(new ImageIcon(blank?new tile(s).paint(false):virtualBoard[x][y].paint(false)));
 					boardLetters[x][y].setBounds((int)(x*42.5)+13,(int)(y*45.5)+6,46,43);
 					boardLetters[x][y].setVisible(true);
 					/*for(int i=0;i<15;i++)
@@ -178,6 +201,11 @@ public class boardGUI extends GUI implements guiSegment{
 	    	System.out.println("double click!");
 	    	Component c = arg0.getComponent();
 	    	gameRef.replaceTile(-1, (int) ((c.getX())/42.5), (int) ((c.getY())/45.25));
+	    	Integer[] arr = {(int) ((c.getX())/42.5),(int) ((c.getY())/45.25)};
+	    	if(blankLocs.indexOf(arr)!= -1) {
+	    		blankLocs.remove(blankLocs.indexOf(arr));
+	    		blanks.remove(blankLocs.indexOf(arr));
+	    	}
 	    	c.setVisible(false);
 	    	gameRef.drawCurrentRack();
 	      }

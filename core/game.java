@@ -18,13 +18,13 @@
 
 package core;
 
+import java.util.ArrayList;
+
 import core.gui.GUI;
 
 public class game {
 	//private board board;
 	private static player players[];
-	//private bag bag;
-	private static tile displayRack[];
 	private static int playersTurn;
 	private static GUI gui;
 
@@ -38,7 +38,6 @@ public class game {
 		new bag();
 		new indexedDictionary();
 		setGUI(in);
-		displayRack = new tile[7];
 		playersTurn = -1; //start with -1 so when newTurn() is called, the first player (player 0) actually goes
 	}
 	
@@ -201,5 +200,11 @@ public class game {
 
 	public int scoreVB() {
 	    return virtualBoard.scoreTurn();
+    }
+
+	public void submitBlanks(ArrayList<Character> blanks, ArrayList<Integer[]> blankLocs) {
+	   for(int i = 0;i<blanks.size();i++) {
+		   virtualBoard.replaceTile(blanks.get(i), blankLocs.get(i)[0], blankLocs.get(i)[1]);
+	   }
     }
 }

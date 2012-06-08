@@ -48,6 +48,12 @@ public class tile
 		value = 0;
 		this.special = special;
 	}
+	
+	public tile (char letter, int val) {
+		this.letter = letter;
+		value = val;
+		special = 1;
+	}
 
 	/**
 	 * Returns the letter which the tile represents (char)
