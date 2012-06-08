@@ -24,6 +24,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -47,6 +48,9 @@ public class GUI {
 	protected Dimension screenSize;
 
 	private int numPlayers;
+	
+	protected ArrayList<Character> blanks;
+	protected ArrayList<Integer[]> blankLocs;
 
 	//two of these variables need to be static as of now so that playerconfig's inherited method can access it's parent's variables
 	
@@ -66,6 +70,9 @@ public class GUI {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		numPlayers = 0;
+		
+		blanks = new ArrayList<Character>();
+		blankLocs = new ArrayList<Integer[]>();
 	}
 
 	/**
@@ -186,6 +193,8 @@ public class GUI {
 	
 	public void resetVB() {
 		bg.submitVB();
+		blanks = new ArrayList<Character>();
+		blankLocs = new ArrayList<Integer[]>();
 	}
 
 	public void show() {

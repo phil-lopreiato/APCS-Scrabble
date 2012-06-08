@@ -44,8 +44,6 @@ public class boardGUI extends GUI implements guiSegment{
 	BufferedImage boardBase;
 	private JLabel boardLetters[][];
 	private String[] letters = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-	private ArrayList<Character> blanks;
-	private ArrayList<Integer[]> blankLocs;
 
 	public boardGUI() {
 		//Create and set up the window.
@@ -74,8 +72,6 @@ public class boardGUI extends GUI implements guiSegment{
 		boardLabel.setPreferredSize(new java.awt.Dimension(652,691));
 		boardLabel.setLocation(0,110);
 		boardLetters = new JLabel[15][15];
-		blanks = new ArrayList<Character>();
-		blankLocs = new ArrayList<Integer[]>();
 	}
 
 	public void addComponents(javax.swing.JLayeredPane pane) {

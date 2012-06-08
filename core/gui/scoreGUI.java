@@ -139,7 +139,6 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 
     public void actionPerformed(ActionEvent arg0) {
     	if(arg0.getActionCommand().equals("submit")) {
-    		bg.submitBlanks();
     		gameRef.submit();
     	}else if(arg0.getActionCommand().equals("pass"))
     		gameRef.pass();
