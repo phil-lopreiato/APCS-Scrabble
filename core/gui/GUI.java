@@ -21,6 +21,8 @@ package core.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
@@ -29,11 +31,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-
 import core.tile;
 import core.game;
 
-public class GUI {
+public class GUI implements AdjustmentListener{
 
 	protected JFrame mainFrame;
 	private java.awt.Container contentPane;
@@ -126,8 +127,8 @@ public class GUI {
 
 		clear();
 		pc = null; // deallocate config stuff
-		layeredPane.setPreferredSize(new Dimension((int)(screenSize.getWidth()*.75),(int)screenSize.getHeight()-60));
-
+		layeredPane.setPreferredSize(new Dimension((int)(screenSize.getWidth()),(int)screenSize.getHeight()-60));
+		
 		bg = new boardGUI();
 		bg.addComponents(layeredPane);
 		
@@ -187,6 +188,7 @@ public class GUI {
 	
 	public void resetVB() {
 		bg.submitVB();
+		sg.clearCheckWord();
 		blanks = new ArrayList<Character>();
 		blankLocs = new ArrayList<Integer[]>();
 	}
@@ -240,5 +242,9 @@ public class GUI {
 			    "Game Over!",
 			    JOptionPane.PLAIN_MESSAGE);
 	}
+	
+	 public void adjustmentValueChanged(AdjustmentEvent e) {
+         repaint();
+     }
 
 }

@@ -65,6 +65,8 @@ public class boardGUI extends GUI implements guiSegment{
 		tileContainer.setOpaque(false);
 		tileContainer.setLayout(null);
 		tileContainer.getInsets();
+		
+		
 
 		boardLabel = new JLabel(new ImageIcon( boardBase )); //draw board background
 		boardLabel.setPreferredSize(new java.awt.Dimension(652,691));
@@ -91,7 +93,7 @@ public class boardGUI extends GUI implements guiSegment{
 				boardLetters[x][y].setPreferredSize(new java.awt.Dimension(43,46));
 				boardLetters[x][y].addMouseMotionListener(new tileDnD());
 				boardLetters[x][y].addMouseListener(new onBoardTileClick());
-				tileContainer.add(boardLetters[x][y],JLayeredPane.DEFAULT_LAYER);
+				tileContainer.add(boardLetters[x][y],0);
 			}
 
 		pane.add(boardContainer, 0);
@@ -225,6 +227,7 @@ public class boardGUI extends GUI implements guiSegment{
 	        startX = (int) ((c.getX())/42.5);
 			startY = (int) ((c.getY())/45.25);
 			start = c.getLocation();
+			tileContainer.setLayer(c, 4);
         }
 
 		@Override
@@ -248,6 +251,7 @@ public class boardGUI extends GUI implements guiSegment{
 				}else
 					c.setLocation(start);
 			}
+			tileContainer.setLayer(c, 0);
 			repaint();
         }
 		

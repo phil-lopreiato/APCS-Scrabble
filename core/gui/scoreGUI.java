@@ -124,6 +124,11 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 
 		pane.add(scoreContainer, BorderLayout.EAST, JLayeredPane.DEFAULT_LAYER);
 	}
+	
+	public void clearCheckWord() {
+		wordToCheck.setText("");
+		checkResult.setText("");
+	}
 
 	public void updateScore(int player,int score) {
 		scoreLabels[player].setText("Player "+player+": "+score);
