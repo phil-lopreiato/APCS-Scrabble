@@ -78,12 +78,12 @@ public class rackGUI extends GUI implements guiSegment {
 	}
 
 	public void updateRack(BufferedImage[] tiles) {
-		for(int i = 0;i<tiles.length;i++)
+		for(int i=0; i<tiles.length; i++)
 			rackLetters[i].setIcon(new ImageIcon(tiles[i]));
 	}
 
 	public void updateRack(tile[] tiles) {
-		for(int i = 0;i<tiles.length;i++)
+		for(int i=0; i<tiles.length; i++)
 			if(tiles[i] != null)
 				rackLetters[i].setIcon(new ImageIcon(tiles[i].paint(true)));
 			else
