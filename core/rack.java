@@ -75,6 +75,18 @@ public class rack
 		}
 		return replaced;
 	}
+	
+	public boolean swap(int one, int two) {
+		boolean swapped = false;
+		tile temp;
+		if(tiles[one] != null || tiles[two] != null) {
+			temp = tiles[one];
+			tiles[one] = tiles[two];
+			tiles[two] = temp;
+			swapped = true;
+		}
+		return swapped;
+	}
 
 	/**
 	 * Tests is the rack contains 0 tiles
@@ -89,6 +101,7 @@ public class rack
 		{
 			if(tiles[i] != null)
 				result = false;
+			i++;
 		}
 		return result;
 	}

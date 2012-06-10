@@ -84,9 +84,10 @@ public class rackGUI extends GUI implements guiSegment {
 
 	public void updateRack(tile[] tiles) {
 		for(int i=0; i<tiles.length; i++)
-			if(tiles[i] != null)
+			if(tiles[i] != null) {
 				rackLetters[i].setIcon(new ImageIcon(tiles[i].paint(true)));
-			else
+				rackLetters[i].setLocation(100*i+(5*i),5);
+			}else
 			{
 				rackLetters[i].setIcon(null);
 				rackLetters[i].setPreferredSize(new Dimension(100,110));
@@ -131,10 +132,13 @@ public class rackGUI extends GUI implements guiSegment {
 			int boardX, boardY;
 			boolean placed = false;
 			Component c = arg0.getComponent();
-
-			if(c.getX() < 5 || c.getX() > 645 || c.getY() < 120 || c.getY() > 803 || ((JLabel)c).getIcon() == null) //tile not on game board
-				returnTile(c);
-			else
+			
+			if(c.getX() < 5 || c.getX() > 645 || c.getY() < 120 || c.getY() > 803 || ((JLabel)c).getIcon() == null) { //tile not on game board
+				if(c.getX() > 0 && c.getX() < 725 && c.getY() > 0 && c.getY() < 110) 
+					gameRef.rackSwap(rackIndex, (arg0.getX()+c.getX())/105);
+				else
+					returnTile(c);
+			}else
 			{
 				boardX = (int) ((c.getX() - 8)/42.5);
 				boardY = (int) ((c.getY() - 125)/45.25);

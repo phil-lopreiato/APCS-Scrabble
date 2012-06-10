@@ -83,11 +83,13 @@ public class virtualBoard
 		virtualBoard[x][y] = new tile(c,0);
 	}
 	
-	public static void clear() {
+	public static void clear(core.gui.GUI gui) {
 		for(int x=0;x<15;x++) {
 			for(int y=0;y<15;y++) {
-				if(virtualBoard[x][y] != null)
+				if(virtualBoard[x][y] != null) {
 					replace(-1,x,y);
+					gui.hide(x,y);
+				}
 			}
 		}
 	}

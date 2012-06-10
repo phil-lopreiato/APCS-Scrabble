@@ -183,14 +183,9 @@ public class boardGUI extends GUI implements guiSegment{
     	gameRef.drawCurrentRack();
 	}
 	
-	public void hideVB() {
-	    Component[] comps = tileContainer.getComponents();
-	    for(Component c:comps) {
-	    	//(int) ((c.getLocation().getX())/42.5), (int) (c.getLocation().getY()/45.25)
-	    	if(c.getMouseListeners().length > 0)
-	    		c.setVisible(false);
-	    }
-    }
+	public void hide(int x, int y) {
+		boardLetters[x][y].setVisible(false);
+	}
 	
 	class onBoardTileClick implements MouseListener{
 

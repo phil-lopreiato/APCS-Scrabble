@@ -27,6 +27,7 @@ public class game {
 	private static int playersTurn;
 	private static GUI gui;
 	private int winner;
+	private tile[] emptyRack;
 
 	/**
 	 * @param in	input reference to the GUI
@@ -37,6 +38,11 @@ public class game {
 		new virtualBoard();
 		new bag();
 		new indexedDictionary();
+		emptyRack = new tile[7];
+		for(int i=0; i<7; i++)
+			emptyRack[i] = null;
+		//for(int i=0; i<80;i++)
+		//	bag.drawTile();
 		setGUI(in);
 		winner = -1;
 		playersTurn = -1; //start with -1 so when newTurn() is called, the first player (player 0) actually goes
@@ -87,6 +93,7 @@ public class game {
 		playersTurn %= getNumPlayers();
 		gui.setTurn(playersTurn);
 		virtualBoard.reset(players[playersTurn]);
+		gui.updateRack(emptyRack);
 		gui.waitForTurn();
 		drawCurrentRack();
 	}
@@ -126,8 +133,25 @@ public class game {
 				result = true;
 			i++;
 		}
-		return result?i--:-1;
+		if(result) {
+			
+		}
+		return result?winner():-1;
 	}
+
+	private static int winner() {
+		int max = -1, player = -1;
+		boolean tie = false;
+		
+	    for(int i=0; i<players.length; i++) {
+	    	if(players[i].getAdjustedScore()>max) {
+	    		max = players[i].getAdjustedScore();
+	    		player = i;
+	    	}else if(players[i].getAdjustedScore() == max)
+	    		tie = true;
+	    }
+	    return tie?-2:player;
+    }
 
 	/**
 	 * Submits the current turn
@@ -143,9 +167,11 @@ public class game {
 			players[playersTurn].draw();
 			gui.updateBagTiles(bag.getSize());
 			winner = gameOver();
-			if(winner >= 0)
+			if(winner >= 0 || winner == -2)
 			{
-				gui.gameOver(winner);
+				for(int i=0; i<players.length; i++)
+					gui.updateScore(i,players[playersTurn].getScore());
+				gui.gameOver(winner==-2?-2:winner);
 				System.exit(0);
 			}
 			else
@@ -220,10 +246,16 @@ public class game {
 	}
 
 	public void removeVB() {
-		virtualBoard.clear();
-		gui.hideVB();
+		virtualBoard.clear(gui);
 		virtualBoard.paint(gui);
 		drawCurrentRack();
 	}
+
+	public boolean rackSwap(int start, int end) {
+		boolean canSwap = players[playersTurn].getRack().swap(start,end);
+		if(canSwap)
+			players[playersTurn].getRack().paint(gui);
+		return canSwap;
+    }
 
 }

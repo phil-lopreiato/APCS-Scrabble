@@ -193,8 +193,8 @@ public class GUI implements AdjustmentListener{
 		blankLocs = new ArrayList<Integer[]>();
 	}
 	
-	public void hideVB() {
-		bg.hideVB();
+	public void hide(int x, int y) {
+		bg.hide(x, y);
 	}
 
 	public void show() {
@@ -237,7 +237,7 @@ public class GUI implements AdjustmentListener{
     }
 	
 	public void gameOver(int player) {
-		JOptionPane.showMessageDialog(null,
+		JOptionPane.showMessageDialog(null,player == -2?"It's a tie!":
 			    "Player "+player+" has won the game!",
 			    "Game Over!",
 			    JOptionPane.PLAIN_MESSAGE);

@@ -55,6 +55,16 @@ public class player
 	{
 		return score;
 	}
+	
+	public int getAdjustedScore() {
+		int subtract = 0;
+		rack playerRack = getRack();
+		for(int i=0; i<7;i++)
+			if(playerRack.get(i) != null)
+				subtract += playerRack.get(i).getValue();
+		
+		return score - subtract;
+	}
 
 	/**
 	 * Returns the player's rack
