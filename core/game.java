@@ -280,6 +280,7 @@ public class game {
 	class updateTimerDisplay implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
+        	if(turnTimeout == 0) return;
         	//System.out.println("time");
         	long remaining = (turnTimeout*1000)-(System.currentTimeMillis() - timestamp);
         	if(remaining >= 0)

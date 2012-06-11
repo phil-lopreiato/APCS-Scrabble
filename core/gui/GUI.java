@@ -23,6 +23,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
@@ -49,6 +51,7 @@ public class GUI implements AdjustmentListener{
 	protected Dimension screenSize;
 
 	private int numPlayers;
+	private boolean resize;
 	
 	protected ArrayList<Character> blanks;
 	protected ArrayList<Integer[]> blankLocs;
@@ -56,6 +59,7 @@ public class GUI implements AdjustmentListener{
 	//one of these variables need to be static as of now so that playerconfig's inherited method can access it's parent's variables
 	
 	public GUI() {
+		resize = false;
 		screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
 		mainFrame = new JFrame("Scrabble");
@@ -70,6 +74,7 @@ public class GUI implements AdjustmentListener{
 		mainFrame.setLayout(new java.awt.BorderLayout());
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
+		mainFrame.addComponentListener(new resizeListener());
 		numPlayers = 0;
 		
 		blanks = new ArrayList<Character>();
@@ -128,6 +133,7 @@ public class GUI implements AdjustmentListener{
 		clear();
 		pc = null; // deallocate config stuff
 		layeredPane.setPreferredSize(new Dimension((int)(screenSize.getWidth()),(int)screenSize.getHeight()-60));
+		resize = true;
 		
 		bg = new boardGUI();
 		bg.addComponents(layeredPane);
@@ -250,5 +256,31 @@ public class GUI implements AdjustmentListener{
 	public void updateTimer(int time) {
 	   sg.updateTime(time);
     }
+	
+	class resizeListener implements ComponentListener{
+		@Override
+	    public void componentHidden(ComponentEvent arg0) {
+		    // TODO Auto-generated method stub
+		    
+	    }
 
+		@Override
+	    public void componentMoved(ComponentEvent arg0) {
+		    // TODO Auto-generated method stub
+		    
+	    }
+
+		@Override
+	    public void componentResized(ComponentEvent arg0) {
+		   if(resize)
+			mainFrame.setPreferredSize(new Dimension(mainFrame.getWidth(),mainFrame.getHeight()));
+	    }
+
+		@Override
+	    public void componentShown(ComponentEvent arg0) {
+		    // TODO Auto-generated method stub
+		    
+	    }
+
+	}
 }
