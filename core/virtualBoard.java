@@ -264,12 +264,13 @@ public class virtualBoard
 	 * @return	the score from this turn
 	 */
 	public static int scoreTurn(){
-		int first[], wordScore = 0, totalScore = 0, wordMultiplier = 1, letterMultiplier = 1;
+		int first[], wordScore = 0, totalScore = 0, wordMultiplier = 1, letterMultiplier = 1, numLettersPlayed = 0;
 		boolean valid = true;
 		String word = "";
 		for(int x=0; x<15; x++)
 			for(int y=0; y<15; y++)
 				if(virtualBoard[x][y] != null) {
+					numLettersPlayed++;
 					for(int i=0; i<2; i++) //check and score horizontal, then vertical
 					{
 						if(!(i==0?properties[x][y].isCheckedHorizontal():properties[x][y].isCheckedVertical()))
@@ -313,9 +314,10 @@ public class virtualBoard
 						}
 					}
 				}
+		if(numLettersPlayed == 7) totalScore += 50;
 		return valid?totalScore:-1;
 	}
-
+`
 	private static void clearChecks()
 	{
 		for(int i=0; i<15; i++)
