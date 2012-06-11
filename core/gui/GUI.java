@@ -65,7 +65,7 @@ public class GUI implements AdjustmentListener{
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		contentPane = mainFrame.getContentPane();
 
-		layeredPane.setPreferredSize(new Dimension(200,100));
+		layeredPane.setPreferredSize(new Dimension(400,200));
 		layeredPane.setOpaque(false);
 		mainFrame.setLayout(new java.awt.BorderLayout());
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,9 +104,9 @@ public class GUI implements AdjustmentListener{
 	 * 
 	 * @param numPlayers	the number of players playing this game
 	 */
-	protected void startGame(int numPlayers)
+	protected void startGame(int numPlayers, int timeout)
 	{
-		gameRef.start(numPlayers);
+		gameRef.start(numPlayers, timeout);
 	}
 
 	public void setNumPlayers(int numPlayers)
@@ -246,5 +246,9 @@ public class GUI implements AdjustmentListener{
 	 public void adjustmentValueChanged(AdjustmentEvent e) {
          repaint();
      }
+
+	public void updateTimer(int time) {
+	   sg.updateTime(time);
+    }
 
 }

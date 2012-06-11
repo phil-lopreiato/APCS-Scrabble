@@ -25,13 +25,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import core.game;
 
 public class playerConfig extends GUI implements ActionListener{
-	private int numPlayers;
+	private int numPlayers, turnSeconds;
 	private JComboBox numPlayersSelect;
 	private JButton goButton; 
+	private JTextField turnTime;
 	
 	public playerConfig(game gameRef, GUI in){
 		numPlayers = 0;
@@ -40,6 +42,8 @@ public class playerConfig extends GUI implements ActionListener{
 		numPlayersSelect.setSelectedIndex(0);
 		goButton = new JButton("Continue");
 		goButton.addActionListener(this);
+		
+		turnTime = new JTextField("0",5);
 	}
 	
 	public void addComponents(javax.swing.JLayeredPane pane) {
@@ -50,12 +54,23 @@ public class playerConfig extends GUI implements ActionListener{
 		numPlayersSelect.setLocation(0,20);
 		numPlayersSelect.setSize(numPlayersSelect.getPreferredSize());
 		
-		goButton.setLocation(0,60);
+		JLabel timerHeader = new JLabel("Turn Timer (seconds): ");
+		timerHeader.setLocation(0,60);
+		timerHeader.setSize(timerHeader.getPreferredSize());
+		
+		
+		turnTime.setLocation(130,60);
+		//turnTime.setMaximumSize(new java.awt.Dimension(50,25));
+		turnTime.setSize(new java.awt.Dimension(40,20));
+		
+		goButton.setLocation(0,110);
 		goButton.setSize(goButton.getPreferredSize());
 		
 		pane.add(header, BorderLayout.NORTH);
 		pane.add(numPlayersSelect, BorderLayout.CENTER, new Integer(0));
 		pane.add(goButton /*, BorderLayout.SOUTH*/, javax.swing.JLayeredPane.DEFAULT_LAYER);
+		pane.add(timerHeader, javax.swing.JLayeredPane.DEFAULT_LAYER);
+		pane.add(turnTime, javax.swing.JLayeredPane.DEFAULT_LAYER);
 	}
 	
 	public int getNumPlayers() {
@@ -65,6 +80,11 @@ public class playerConfig extends GUI implements ActionListener{
 	@Override
     public void actionPerformed(ActionEvent e) {
 		numPlayers = numPlayersSelect.getSelectedIndex()+1;
-		startGame(numPlayers);
+		try {
+			turnSeconds = Integer.parseInt(turnTime.getText());
+			startGame(numPlayers, turnSeconds);
+		}catch(java.lang.NumberFormatException ex) {
+			//ex.printStackTrace();
+		}
     }
 }

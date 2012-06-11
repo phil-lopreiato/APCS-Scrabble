@@ -18,7 +18,11 @@
 
 package core;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import core.gui.GUI;
 
@@ -26,8 +30,10 @@ public class game {
 	private static player players[];
 	private static int playersTurn;
 	private static GUI gui;
-	private int winner;
+	private int winner, turnTimeout;
 	private tile[] emptyRack;
+	private Timer updateTimer;
+	private long timestamp;
 
 	/**
 	 * @param in	input reference to the GUI
@@ -38,6 +44,7 @@ public class game {
 		new virtualBoard();
 		new bag();
 		new indexedDictionary();
+		updateTimer = new Timer(1000,null);
 		emptyRack = new tile[7];
 		for(int i=0; i<7; i++)
 			emptyRack[i] = null;
@@ -45,7 +52,9 @@ public class game {
 		//	bag.drawTile();
 		setGUI(in);
 		winner = -1;
+		turnTimeout = 0;
 		playersTurn = -1; //start with -1 so when newTurn() is called, the first player (player 0) actually goes
+		timestamp = 0;
 	}
 
 	/**
@@ -65,8 +74,14 @@ public class game {
 	 * 
 	 * @param num	number of players who will be playing
 	 */
-	public void start(int num)
+	public void start(int num, int timeout)
 	{
+		turnTimeout = timeout;
+		//System.out.println(turnTimeout);
+		if(turnTimeout >= 0) {
+			updateTimer.addActionListener(new updateTimerDisplay());
+		}
+		
 		players = new player[num];
 		for (int i=0; i<num; i++)
 			players[i] = new player();
@@ -89,6 +104,7 @@ public class game {
 	 */
 	private void newTurn()
 	{
+		updateTimer.stop();
 		playersTurn++;
 		playersTurn %= getNumPlayers();
 		gui.setTurn(playersTurn);
@@ -96,6 +112,9 @@ public class game {
 		gui.updateRack(emptyRack);
 		gui.waitForTurn();
 		drawCurrentRack();
+		
+		updateTimer.start();
+		timestamp = System.currentTimeMillis();
 	}
 
 	/**
@@ -257,5 +276,25 @@ public class game {
 			players[playersTurn].getRack().paint(gui);
 		return canSwap;
     }
+	
+	class updateTimerDisplay implements ActionListener{
+
+        public void actionPerformed(ActionEvent e) {
+        	//System.out.println("time");
+        	long remaining = (turnTimeout*1000)-(System.currentTimeMillis() - timestamp);
+        	if(remaining >= 0)
+        		gui.updateTimer((int)(remaining/1000));
+        	else
+        		pass();
+        }
+	}
+	
+	class turnTimer implements ActionListener{
+
+        public void actionPerformed(ActionEvent arg0) {
+	        pass();
+        }
+		
+	}
 
 }

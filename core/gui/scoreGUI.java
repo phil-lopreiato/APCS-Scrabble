@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	private JLayeredPane scoreContainer;
-	private JLabel scoreLabels[], currentTurnScore, checkResult, bagTiles;
+	private JLabel scoreLabels[], currentTurnScore, checkResult, bagTiles, turnTime, timeHead;
 	private JButton turnSubmit,pass, checkWord, resetHand;
 	private JTextField wordToCheck;
 	private int[] playerScores;
@@ -53,11 +53,13 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		checkResult = new JLabel();
 		bagTiles = new JLabel();
 		resetHand = new JButton("Reset Rack");
+		turnTime = new JLabel("∞");
+		timeHead = new JLabel("Time remaining for this turn: ");
 
 		scoreContainer = new JLayeredPane();
 		scoreContainer.setOpaque(false);
 		scoreContainer.setLayout(new BoxLayout(scoreContainer,BoxLayout.Y_AXIS));
-		scoreContainer.setPreferredSize(new Dimension(300,300));
+		scoreContainer.setPreferredSize(new Dimension(300,500));
 	}
 
 	public void addComponents(javax.swing.JLayeredPane pane) {
@@ -92,6 +94,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 
 		checkResult.setAlignmentX(Component.CENTER_ALIGNMENT);
 		bagTiles.setAlignmentX(Component.CENTER_ALIGNMENT);
+		turnTime.setAlignmentX(Component.CENTER_ALIGNMENT);
+		timeHead.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		resetHand.setAlignmentX(Component.CENTER_ALIGNMENT);
 		resetHand.addActionListener(this);
@@ -113,10 +117,14 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(currentTurnScore,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
+		scoreContainer.add(timeHead,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(turnTime,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(checkHeader,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(wordToCheck,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(checkWord,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(checkResult,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(bagTiles,JLayeredPane.DEFAULT_LAYER);
 
 		scoreContainer.setSize(scoreContainer.getPreferredSize());
@@ -137,6 +145,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	public void updateBagTiles(int tiles)
 	{
 		bagTiles.setText(Integer.toString(tiles) + " tiles left in the bag");
+	}
+	
+	public void updateTime(int seconds) {
+		turnTime.setText((seconds==0?"∞":(Integer.toString(seconds)+" seconds")));
 	}
 
 	public void updateCurrentTurnScore(int score) {
