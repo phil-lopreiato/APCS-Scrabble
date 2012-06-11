@@ -82,6 +82,7 @@ public class playerConfig extends GUI implements ActionListener{
 		numPlayers = numPlayersSelect.getSelectedIndex()+1;
 		try {
 			turnSeconds = Integer.parseInt(turnTime.getText());
+			if(turnSeconds < 0) return;
 			startGame(numPlayers, turnSeconds);
 		}catch(java.lang.NumberFormatException ex) {
 			//ex.printStackTrace();

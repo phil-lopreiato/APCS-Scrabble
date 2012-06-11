@@ -51,7 +51,7 @@ public class GUI implements AdjustmentListener{
 	protected Dimension screenSize;
 
 	private int numPlayers;
-	private boolean resize;
+	private boolean resize, resolutionWarning;
 	
 	protected ArrayList<Character> blanks;
 	protected ArrayList<Integer[]> blankLocs;
