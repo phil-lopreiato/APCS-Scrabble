@@ -317,7 +317,7 @@ public class virtualBoard
 		if(numLettersPlayed == 7) totalScore += 50;
 		return valid?totalScore:-1;
 	}
-`
+
 	private static void clearChecks()
 	{
 		for(int i=0; i<15; i++)
