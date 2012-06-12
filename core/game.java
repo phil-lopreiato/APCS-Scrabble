@@ -44,6 +44,7 @@ public class game {
 		new virtualBoard();
 		new bag();
 		new indexedDictionary();
+		new skynet(this, 0);
 		updateTimer = new Timer(1000,null);
 		emptyRack = new tile[7];
 		for(int i=0; i<7; i++)
@@ -119,6 +120,7 @@ public class game {
 			
 			drawCurrentRack();
 		}else {
+			drawCurrentRack();
 			skynet.reset();
 			skynet.setCurrentPlayer(players[playersTurn]);
 			skynet.playWord();

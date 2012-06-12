@@ -274,6 +274,7 @@ public class virtualBoard
 	 * @return	the score from this turn
 	 */
 	public static int scoreTurn(){
+		clearChecks();
 		int first[], wordScore = 0, totalScore = 0, wordMultiplier = 1, letterMultiplier = 1, numLettersPlayed = 0;
 		boolean valid = true;
 		String word = "";

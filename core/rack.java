@@ -41,6 +41,11 @@ public class rack
 	{
 		return tiles[index];
 	}
+	
+	public tile[] getAll()
+	{
+		return tiles;
+	}
 
 	/**
 	 * Fills each blank location in the player's rack with a new tile drawn from the bag

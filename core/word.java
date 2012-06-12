@@ -1,24 +1,16 @@
 package core;
 
 public class word {
-	private int x,y, score;
+	private int x,y, score, dir;
 	private tile[] letters;
 	
-	public word(int x, int y, tile[] letters, int score) {
+	public word(int x, int y, int dir, tile[] letters, int score) {
 		this.x = x;
 		this.y = y;
+		this.dir = dir;
 		this.letters = letters;
 		this.score = score;
 	}
-	
-	/*public word(tile[] letters) {
-		
-	}
-	
-	public void setLoc(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}*/
 	
 	public int getX() {
     	return x;
@@ -34,5 +26,9 @@ public class word {
 	
 	public int getScore() {
 		return score;
+	}
+	
+	public int getDir() {
+		return dir;
 	}
 }
