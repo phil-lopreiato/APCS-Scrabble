@@ -148,6 +148,7 @@ public class skynet{
 
 	public static void submitWord()
 	{
+		virtualBoard.clear();
 		int x = lettermanList[0].getX();
 		int y = lettermanList[0].getY();
 		int dir = lettermanList[0].getDir();
@@ -156,6 +157,8 @@ public class skynet{
 		int index = 0;
 		for(int i=0; i<indices.length; i++)
 		{
+			index = 0;
+			System.out.println(currentPlayer.getRack().getAll()[index].getLetter());
 			System.out.print(lettermanList[0].getLetters()[i].getLetter());
 			while(!found)
 			{
