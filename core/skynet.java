@@ -66,6 +66,7 @@ public class skynet{
 				}
 			}
 		}
+		submitWord();
 	}
 
 	private static void scramble(int length, int level, int[] prefix, int[] letters, int dir, int startX, int startY)
@@ -100,9 +101,9 @@ public class skynet{
 		virtualBoard.clear(); //clear VB
 
 
-		char[] hi = new char[indices.length];
-		for(int i=0; i<indices.length; i++)
-			hi[i] = currentPlayer.getRack().getAll()[indices[i]].getLetter();
+		//char[] hi = new char[indices.length];
+		//for(int i=0; i<indices.length; i++)
+			//hi[i] = currentPlayer.getRack().getAll()[indices[i]].getLetter();
 
 		
 		tile[] rack = currentPlayer.getRack().getAll();
@@ -128,9 +129,9 @@ public class skynet{
 		int score = virtualBoard.scoreTurn();
 		if(score!=-1)
 		{
-			for(int i=0; i<indices.length; i++)
-				System.out.print(hi[i]);
-			System.out.println(" score: " + score);
+			//for(int i=0; i<indices.length; i++)
+				//System.out.print(hi[i]);
+			//System.out.println(" score: " + score);
 
 			if(score > lettermanList[lettermanList.length-1].getScore())
 			{
@@ -149,16 +150,22 @@ public class skynet{
 	{
 		int x = lettermanList[0].getX();
 		int y = lettermanList[0].getY();
+		int dir = lettermanList[0].getDir();
 		boolean found = false;
 		int[] indices = new int[lettermanList[0].getLetters().length];
 		int index = 0;
 		for(int i=0; i<indices.length; i++)
+		{
+			System.out.print(lettermanList[0].getLetters()[i].getLetter());
 			while(!found)
 			{
-				
+				if(currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
+					found = true;
 				index++;
 			}
-			
+			indices[i] = index-1;
+		}
+		System.out.println();
 				
 		int offset = 0;
 		int testX, testY;
@@ -175,5 +182,7 @@ public class skynet{
 				virtualBoard.place(indices[i], testX, testY);
 			}
 		}
+		
+		gameRef.submit();
 	}
 }
