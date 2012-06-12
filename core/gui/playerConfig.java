@@ -54,12 +54,12 @@ public class playerConfig extends GUI implements ActionListener{
 		numPlayersSelect.setLocation(0,20);
 		numPlayersSelect.setSize(numPlayersSelect.getPreferredSize());
 		
-		JLabel timerHeader = new JLabel("Turn Timer (seconds): ");
+		JLabel timerHeader = new JLabel("Turn Timer ( > 10 seconds): ");
 		timerHeader.setLocation(0,60);
 		timerHeader.setSize(timerHeader.getPreferredSize());
 		
 		
-		turnTime.setLocation(130,60);
+		turnTime.setLocation(160,60);
 		//turnTime.setMaximumSize(new java.awt.Dimension(50,25));
 		turnTime.setSize(new java.awt.Dimension(40,20));
 		
@@ -82,7 +82,7 @@ public class playerConfig extends GUI implements ActionListener{
 		numPlayers = numPlayersSelect.getSelectedIndex()+1;
 		try {
 			turnSeconds = Integer.parseInt(turnTime.getText());
-			if(turnSeconds < 0) return;
+			if(turnSeconds < 10 && turnSeconds != 0) return;
 			startGame(numPlayers, turnSeconds);
 		}catch(java.lang.NumberFormatException ex) {
 			//ex.printStackTrace();

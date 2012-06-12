@@ -84,12 +84,16 @@ public class game {
 		
 		players = new player[num];
 		for (int i=0; i<num; i++)
-			players[i] = new player();
+			players[i] = new player(false /*oh god, skynet!*/);
 		gui.setNumPlayers(num);
 		gui.loadGameDisplay();
 		gui.updateBagTiles(bag.getSize());
 		newTurn();
 	}
+
+	public static GUI getGui() {
+    	return gui;
+    }
 
 	public boolean isEmpty(int x, int y) {
 		return board.isEmpty(x, y);
@@ -111,8 +115,15 @@ public class game {
 		virtualBoard.reset(players[playersTurn]);
 		gui.updateRack(emptyRack);
 		gui.waitForTurn();
-		drawCurrentRack();
-		
+		if(players[playersTurn].isSentient()) {
+			
+			drawCurrentRack();
+		}else {
+			skynet.reset();
+			skynet.setCurrentPlayer(players[playersTurn]);
+			skynet.playWord();
+		}
+			
 		updateTimer.start();
 		timestamp = System.currentTimeMillis();
 	}

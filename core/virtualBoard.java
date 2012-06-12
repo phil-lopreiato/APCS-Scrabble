@@ -93,6 +93,16 @@ public class virtualBoard
 			}
 		}
 	}
+	
+	public static void clear() {
+		for(int x=0;x<15;x++) {
+			for(int y=0;y<15;y++) {
+				if(virtualBoard[x][y] != null) {
+					replace(-1,x,y);
+				}
+			}
+		}
+	}
 
 	public static boolean replace(int rackIndex, int x, int y)
 	{
@@ -142,7 +152,6 @@ public class virtualBoard
 		if(checkPlacement())
 			score = scoreTurn();
 
-		clearChecks();
 		return score;
 	}
 
@@ -152,10 +161,11 @@ public class virtualBoard
 	 * 
 	 * @return true if the current tile placement is valid
 	 */
-	private static boolean checkPlacement()
+	public static boolean checkPlacement()
 	{
 		int row = -1, col = -1, count = 0;
 		boolean rowCheck = true, colCheck = true, firstCall = true, touching = false, continuous = false;
+		clearChecks();
 		for(int x=0; x<15; x++)
 		{
 			for(int y=0; y<15; y++)

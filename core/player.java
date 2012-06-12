@@ -22,11 +22,13 @@ public class player
 {
 	private rack playerRack;
 	private int score;
+	private boolean sentient;
 
-	public player()
+	public player(boolean sentient)
 	{
 		playerRack = new rack();
 		score = 0;
+		this.sentient = sentient;
 	}
 
 	/**
@@ -36,6 +38,10 @@ public class player
 	{
 		playerRack.draw();
 	}
+
+	public boolean isSentient() {
+    	return sentient;
+    }
 
 	/**
 	 * Adds the parameter to the player's score
