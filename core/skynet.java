@@ -55,8 +55,8 @@ public class skynet{
 							//	for(int otherT=0;otherT<7;otherT++) {
 									//if(startT != otherT)
 										//add
-								}
-							}
+							//	}
+							//}
 						}
 					}
 				}
