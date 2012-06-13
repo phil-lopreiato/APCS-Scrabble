@@ -160,6 +160,7 @@ public class skynet{
 			index = 0;
 			System.out.println(currentPlayer.getRack().getAll()[index].getLetter());
 			System.out.print(lettermanList[0].getLetters()[i].getLetter());
+			found = false;
 			while(!found)
 			{
 				if(currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
@@ -182,6 +183,7 @@ public class skynet{
 				testY = y+(dir==1?i:0)+offset;
 			}
 			if(testX<15 && testY< 15) { //if in bounds
+				System.out.println(indices[i]);
 				virtualBoard.place(indices[i], testX, testY);
 			}
 		}
