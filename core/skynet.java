@@ -160,7 +160,7 @@ public class skynet{
 			found = false;
 			while(!found)
 			{
-				if(currentPlayer.getRack().getAll()[index]!=null && currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
+				if(currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
 					found = true;
 				index++;
 			}
