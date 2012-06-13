@@ -27,7 +27,6 @@ public class skynet{
 	}
 
 	public static void playWord() {
-		System.out.println("skynet!");
 		findWords();
 	}
 
@@ -158,18 +157,15 @@ public class skynet{
 		for(int i=0; i<indices.length; i++)
 		{
 			index = 0;
-			System.out.println(currentPlayer.getRack().getAll()[index].getLetter());
-			System.out.print(lettermanList[0].getLetters()[i].getLetter());
 			found = false;
 			while(!found)
 			{
-				if(currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
+				if(currentPlayer.getRack().getAll()[index]!=null && currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
 					found = true;
 				index++;
 			}
 			indices[i] = index-1;
 		}
-		System.out.println();
 				
 		int offset = 0;
 		int testX, testY;
@@ -183,12 +179,10 @@ public class skynet{
 				testY = y+(dir==1?i:0)+offset;
 			}
 			if(testX<15 && testY< 15) { //if in bounds
-				System.out.println(indices[i]);
 				gameRef.placeTile(indices[i], testX, testY);
 			}
 		}
 		
 		gameRef.submit();
-		System.out.println(board.isEmpty(7, 7));
 	}
 }
