@@ -184,10 +184,11 @@ public class skynet{
 			}
 			if(testX<15 && testY< 15) { //if in bounds
 				System.out.println(indices[i]);
-				virtualBoard.place(indices[i], testX, testY);
+				gameRef.placeTile(indices[i], testX, testY);
 			}
 		}
 		
 		gameRef.submit();
+		System.out.println(board.isEmpty(7, 7));
 	}
 }
