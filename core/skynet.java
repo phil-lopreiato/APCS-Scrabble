@@ -102,9 +102,9 @@ public class skynet{
 
 		//char[] hi = new char[indices.length];
 		//for(int i=0; i<indices.length; i++)
-			//hi[i] = currentPlayer.getRack().getAll()[indices[i]].getLetter();
+		//hi[i] = currentPlayer.getRack().getAll()[indices[i]].getLetter();
 
-		
+
 		tile[] rack = currentPlayer.getRack().getAll();
 		tile[] letters = new tile[indices.length];
 		int offset = 0;
@@ -129,7 +129,7 @@ public class skynet{
 		if(score!=-1)
 		{
 			//for(int i=0; i<indices.length; i++)
-				//System.out.print(hi[i]);
+			//System.out.print(hi[i]);
 			//System.out.println(" score: " + score);
 
 			if(score > lettermanList[lettermanList.length-1].getScore())
@@ -151,22 +151,39 @@ public class skynet{
 		int x = lettermanList[0].getX();
 		int y = lettermanList[0].getY();
 		int dir = lettermanList[0].getDir();
-		boolean found = false;
+		boolean found = false, exists = false;
 		int[] indices = new int[lettermanList[0].getLetters().length];
-		int index = 0;
+		int index = 0, index2 = 0;
+		for(int i=0; i<indices.length; i++)
+			indices[i] = -1;
 		for(int i=0; i<indices.length; i++)
 		{
 			index = 0;
 			found = false;
 			while(!found)
 			{
+				System.out.println("searching at: " +index);
 				if(currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
+				{
+					index2 = 0;
+					exists = false;
 					found = true;
+					while(!exists && index2<indices.length)
+					{
+						if(indices[index2] == index)
+						{
+							System.out.println("already exists at: "+index2);
+							exists = true;
+							found = false;
+						}
+						index2++;
+					}
+				}
 				index++;
 			}
 			indices[i] = index-1;
 		}
-				
+
 		int offset = 0;
 		int testX, testY;
 		for(int i=0;i<indices.length;i++) { //place tile on VB
@@ -182,7 +199,7 @@ public class skynet{
 				gameRef.placeTile(indices[i], testX, testY);
 			}
 		}
-		
+
 		gameRef.submit();
 	}
 }
