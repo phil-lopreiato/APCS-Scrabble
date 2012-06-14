@@ -1,46 +1,68 @@
+/* Copyright (C) 2012 Justin Yost, Phil Lopreiato
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/**
+ * @author 	Justin Yost
+ * @author 	Phil Lopreiato
+ * @version 1.0
+ */
+
 package core;
 
-public class skynet{
-
-	private final int listSize;
+public class skynet
+{
+	//private final int listSize;
 	private static game gameRef;
 	private static player currentPlayer;
 	private static word[] lettermanList;
 
-	public skynet(game theGame, int difficulty) {
-		listSize = difficulty; //some math here....to be changed
+	public skynet(game theGame, int difficulty)
+	{
+		//listSize = difficulty; //some math here....to be changed
 		gameRef = theGame;
 		lettermanList = new word[10]; //it's a top 10 list, get it?
 		for(int i=0;i<lettermanList.length;i++)
 			lettermanList[i] = new word(0,0,0,null,0);
 	}
 
-	public static void reset() {
+	public static void reset()
+	{
 		currentPlayer = null;
 		for(int i=0;i<lettermanList.length;i++)
 			lettermanList[i] = new word(0,0,0,null,0);
 	}
 
-	public static void setCurrentPlayer(player currentPlayerIn) {
+	public static void setCurrentPlayer(player currentPlayerIn)
+	{
 		currentPlayer = currentPlayerIn;
 		virtualBoard.reset(currentPlayer);
 	}
 
-	public static void playWord() {
+	public static void playWord()
+	{
 		findWords();
 	}
 
-	public static void findWords() {
-		tile[] rack = currentPlayer.getRack().getAll();
-		int testX, testY, offset=0;
+	public static void findWords()
+	{
+		int testX, testY, offset=0, numTiles, rackOffset=0, testIndex;
 		for(int x=0;x<15;x++){ //start x coord
-			//System.out.println("x: "+x);
 			for(int y=0;y<15;y++) { //start y coord
-				//System.out.println("y:"+y);
-				for(int dir=0;dir<2;dir++){ //horiz or vertical
-					//System.out.println("dir: "+dir);
-					for(int length=0;length<=7;length++) { //number of tiles to place from rack
+				for(int dir=0;dir<2;dir++) //horiz or vertical
+				{
+					numTiles = currentPlayer.getRack().getNotNullIndices().length;
+					for(int length=0;length<=numTiles;length++) { //number of tiles to place from rack
 						virtualBoard.clear(); //clear VB
+						rackOffset = 0;
 						offset = 0;
 						for(int i=0;i<length;i++) { //place tile on VB
 							testX = x+(dir==0?i:0)+offset;
@@ -51,14 +73,22 @@ public class skynet{
 								testX = x+(dir==0?i:0)+offset;
 								testY = y+(dir==1?i:0)+offset;
 							}
-							if(testX<15 && testY< 15) { //if in bounds
+							if(testX<15 && testY<15) //if in bounds
+							{
+								testIndex = i + rackOffset;
+								while(testIndex < 7 && currentPlayer.getRack().get(testIndex) == null)
+								{
+									rackOffset++;
+									testIndex = i+rackOffset;
+								}
 								virtualBoard.place(i, testX, testY);
 							}
 						}
 						if(virtualBoard.checkPlacement()) {
-							//System.out.println("food: ("+x+","+y+","+dir+","+length+")");
 							int[] start = new int[0];
-							int[] indices = {0,1,2,3,4,5,6};
+							//int[] indices = {0,1,2,3,4,5,6}; //set to only NOT NULL indices
+							virtualBoard.clear(); //clear VB
+							int[] indices = currentPlayer.getRack().getNotNullIndices();
 							scramble(length, 0, start, indices, dir, x, y);
 						}
 					}
@@ -86,7 +116,6 @@ public class skynet{
 				else
 					k--;
 			}
-
 			for(int j=0; j<prefix.length;j++)
 				nextPrefix[j] = prefix[j];
 			nextPrefix[nextPrefix.length-1] = letters[i];
@@ -98,12 +127,6 @@ public class skynet{
 	private static void findBestWord(int[] indices, int dir, int x, int y)
 	{
 		virtualBoard.clear(); //clear VB
-
-
-		//char[] hi = new char[indices.length];
-		//for(int i=0; i<indices.length; i++)
-		//hi[i] = currentPlayer.getRack().getAll()[indices[i]].getLetter();
-
 
 		tile[] rack = currentPlayer.getRack().getAll();
 		tile[] letters = new tile[indices.length];
@@ -128,10 +151,6 @@ public class skynet{
 		int score = virtualBoard.scoreTurn();
 		if(score!=-1)
 		{
-			//for(int i=0; i<indices.length; i++)
-			//System.out.print(hi[i]);
-			//System.out.println(" score: " + score);
-
 			if(score > lettermanList[lettermanList.length-1].getScore())
 			{
 				int i = lettermanList.length-2;
@@ -148,58 +167,62 @@ public class skynet{
 	public static void submitWord()
 	{
 		virtualBoard.clear();
-		int x = lettermanList[0].getX();
-		int y = lettermanList[0].getY();
-		int dir = lettermanList[0].getDir();
-		boolean found = false, exists = false;
-		int[] indices = new int[lettermanList[0].getLetters().length];
-		int index = 0, index2 = 0;
-		for(int i=0; i<indices.length; i++)
-			indices[i] = -1;
-		for(int i=0; i<indices.length; i++)
+		if(lettermanList[0].getLetters() != null)
 		{
-			index = 0;
-			found = false;
-			while(!found)
+			int x = lettermanList[0].getX();
+			int y = lettermanList[0].getY();
+			int dir = lettermanList[0].getDir();
+			boolean found = false, exists = false;
+			int[] indices = new int[lettermanList[0].getLetters().length];
+			int index = 0, index2 = 0;
+			for(int i=0; i<indices.length; i++)
+				indices[i] = -1;
+			for(int i=0; i<indices.length; i++)
 			{
-				System.out.println("searching at: " +index);
-				if(currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
+				index = 0;
+				found = false;
+				while(!found)
 				{
-					index2 = 0;
-					exists = false;
-					found = true;
-					while(!exists && index2<indices.length)
+					if(currentPlayer.getRack().getAll()[index] != null && currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
 					{
-						if(indices[index2] == index)
+						index2 = 0;
+						exists = false;
+						found = true;
+						while(!exists && index2<indices.length)
 						{
-							System.out.println("already exists at: "+index2);
-							exists = true;
-							found = false;
+							if(indices[index2] == index)
+							{
+								exists = true;
+								found = false;
+							}
+							index2++;
 						}
-						index2++;
 					}
+					index++;
 				}
-				index++;
+				indices[i] = index-1;
 			}
-			indices[i] = index-1;
-		}
 
-		int offset = 0;
-		int testX, testY;
-		for(int i=0;i<indices.length;i++) { //place tile on VB
-			testX = x+(dir==0?i:0)+offset;
-			testY = y+(dir==1?i:0)+offset;
-			while(testX<15 && testY<15 && !board.isEmpty(testX,testY))
-			{
-				offset++;
+			int offset = 0;
+			int testX, testY;
+			for(int i=0;i<indices.length;i++) { //place tile on VB
 				testX = x+(dir==0?i:0)+offset;
 				testY = y+(dir==1?i:0)+offset;
+				while(testX<15 && testY<15 && !board.isEmpty(testX,testY))
+				{
+					offset++;
+					testX = x+(dir==0?i:0)+offset;
+					testY = y+(dir==1?i:0)+offset;
+				}
+				if(testX<15 && testY< 15) { //if in bounds
+					gameRef.placeTile(indices[i], testX, testY); //use gameRef so the tiles can be seen
+				}
 			}
-			if(testX<15 && testY< 15) { //if in bounds
-				gameRef.placeTile(indices[i], testX, testY);
-			}
+			gameRef.submit();
 		}
-
-		gameRef.submit();
+		else
+		{
+			gameRef.pass();
+		}
 	}
 }

@@ -66,6 +66,23 @@ public class rack
 	{
 		tiles[index] = null;
 	}
+	
+	public int[] getNotNullIndices()
+	{
+		int count = 0;
+		for(int i=0; i<7; i++)
+			count += tiles[i]!=null?1:0;
+		
+		int[] notNullIndices = new int[count];
+		count = 0; //reused variable
+		for(int i=0; i<7; i++)
+			if(tiles[i]!=null)
+			{
+				notNullIndices[count] = i; //add count++ here?
+				count++;
+			}
+		return notNullIndices;
+	}
 
 	public boolean replace(int index, tile Tile)
 	{
