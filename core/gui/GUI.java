@@ -51,10 +51,7 @@ public class GUI implements AdjustmentListener{
 	protected Dimension screenSize;
 
 	private int numPlayers;
-	private boolean resize, resolutionWarning;
-	
-	protected ArrayList<Character> blanks;
-	protected ArrayList<Integer[]> blankLocs;
+	private boolean resize;
 
 	//one of these variables need to be static as of now so that playerconfig's inherited method can access it's parent's variables
 	
@@ -64,21 +61,18 @@ public class GUI implements AdjustmentListener{
 
 		mainFrame = new JFrame("Scrabble");
 		mainFrame.setLayout(new BorderLayout());
-
+		
 		layeredPane = new JLayeredPane();
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		contentPane = mainFrame.getContentPane();
 
-		layeredPane.setPreferredSize(new Dimension(400,200));
+		layeredPane.setPreferredSize(new Dimension(500,200));
 		layeredPane.setOpaque(false);
 		mainFrame.setLayout(new java.awt.BorderLayout());
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		mainFrame.addComponentListener(new resizeListener());
 		numPlayers = 0;
-		
-		blanks = new ArrayList<Character>();
-		blankLocs = new ArrayList<Integer[]>();
 	}
 
 	/**
@@ -107,11 +101,11 @@ public class GUI implements AdjustmentListener{
 	/**
 	 * Tells the game to complete initialization and sets the number of players
 	 * 
-	 * @param numPlayers	the number of players playing this game
+	 * @param playerInfo	the number of players playing this game
 	 */
-	protected void startGame(int numPlayers, int timeout)
+	protected void startGame(String[][] playerInfo, int skynet, int timeout)
 	{
-		gameRef.start(numPlayers, timeout);
+		gameRef.start(playerInfo, skynet, timeout);
 	}
 
 	public void setNumPlayers(int numPlayers)
@@ -148,6 +142,12 @@ public class GUI implements AdjustmentListener{
 	public void updateScore(int player, int score) {
 		if (sg != null)
 			sg.updateScore(player, score);
+		repaint();
+	}
+	
+	public void updateScore(int player, String name, int score) {
+		if (sg != null)
+			sg.updateScore(player, name, score);
 		repaint();
 	}
 	
@@ -195,8 +195,6 @@ public class GUI implements AdjustmentListener{
 	public void resetVB() {
 		bg.submitVB();
 		sg.clearCheckWord();
-		blanks = new ArrayList<Character>();
-		blankLocs = new ArrayList<Integer[]>();
 	}
 	
 	public void hide(int x, int y) {
@@ -244,7 +242,7 @@ public class GUI implements AdjustmentListener{
 	
 	public void gameOver(int player) {
 		JOptionPane.showMessageDialog(null,player == -2?"It's a tie!":
-			    "Player "+player+" has won the game!",
+			    "Player "+(player+1)+" has won the game!",
 			    "Game Over!",
 			    JOptionPane.PLAIN_MESSAGE);
 	}

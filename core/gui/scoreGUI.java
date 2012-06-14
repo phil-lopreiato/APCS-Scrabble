@@ -141,6 +141,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	public void updateScore(int player,int score) {
 		scoreLabels[player].setText("Player "+player+": "+score);
 	}
+	
+	public void updateScore(int player, String name, int score) {
+		scoreLabels[player].setText(name+": "+score);
+	}
 
 	public void updateBagTiles(int tiles)
 	{

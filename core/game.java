@@ -44,7 +44,6 @@ public class game {
 		new virtualBoard();
 		new bag();
 		new indexedDictionary();
-		new skynet(this, 5);
 		updateTimer = new Timer(1000,null);
 		emptyRack = new tile[7];
 		for(int i=0; i<7; i++)
@@ -72,20 +71,26 @@ public class game {
 	/**
 	 * Set the number of players in this game
 	 * 
-	 * @param num	number of players who will be playing
+	 * @param playerInfo	number of players who will be playing
 	 */
-	public void start(int num, int timeout)
+	public void start(String[][] playerInfo, int skynetLevel, int timeout)
 	{
+		new skynet(this,skynetLevel);
 		turnTimeout = timeout;
 		if(turnTimeout >= 0) {
 			updateTimer.addActionListener(new updateTimerDisplay());
 		}
-
-		players = new player[num];
-		for (int i=0; i<num; i++)
-			players[i] = new player(false /*oh god, skynet!*/);
-		gui.setNumPlayers(num);
+		
+		players = new player[playerInfo.length];
+		 for (int i=0; i<playerInfo.length; i++)
+             players[i] = new player(playerInfo[i][1].equals("0"),playerInfo[i][0], (Integer.parseInt(playerInfo[i][1])));
+		 
+		gui.setNumPlayers(playerInfo.length);
 		gui.loadGameDisplay();
+		
+		for(int i=0;i<players.length;i++) 
+			gui.updateScore(i, players[i].getName(), players[i].getScore());
+		
 		gui.updateBagTiles(bag.getSize());
 		newTurn();
 	}
@@ -114,8 +119,8 @@ public class game {
 		virtualBoard.reset(players[playersTurn]);
 		gui.updateRack(emptyRack);
 		gui.waitForTurn();
+		
 		if(players[playersTurn].isSentient()) {
-
 			drawCurrentRack();
 		}else {
 			skynet.reset();
@@ -166,7 +171,7 @@ public class game {
 		{
 			winner = winner();
 			for(int j=0; j<players.length; j++)
-				gui.updateScore(j,players[playersTurn].getScore());
+				gui.updateScore(j,players[j].getName(),players[j].getAdjustedScore());
 			gui.gameOver(winner==-2?-2:winner);
 			System.exit(0);
 		}
@@ -201,7 +206,7 @@ public class game {
 		if(virtualBoard.submit())
 		{
 			numPasses = 0;
-			gui.updateScore(playersTurn, players[playersTurn].getScore());
+			gui.updateScore(playersTurn, players[playersTurn].getName(), players[playersTurn].getScore());
 			board.paint(gui); //update the board's display
 			players[playersTurn].draw();
 			gui.updateBagTiles(bag.getSize());

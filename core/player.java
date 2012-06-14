@@ -21,8 +21,9 @@ package core;
 public class player
 {
 	private rack playerRack;
-	private int score;
+	private int score,  difficulty;
 	private boolean sentient;
+	private String name;
 
 	public player(boolean sentient)
 	{
@@ -30,6 +31,22 @@ public class player
 		score = 0;
 		this.sentient = sentient;
 	}
+	
+	public player(boolean sentient, String name, int difficulty) {
+		playerRack = new rack();
+		score = 0;
+		this.sentient = sentient;
+		this.name = name;
+		this.difficulty = difficulty;
+	}
+
+	public int getDifficulty() {
+    	return difficulty;
+    }
+
+	public String getName() {
+    	return name;
+    }
 
 	/**
 	 * Draws a new tile from the bag for each empty space in the player's rack

@@ -109,7 +109,6 @@ public class boardGUI extends GUI implements guiSegment{
 			try {
 				icon = ImageIO.read(this.getClass().getResource("gui/singleTile.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -131,34 +130,17 @@ public class boardGUI extends GUI implements guiSegment{
 			}
 		}
 	}
-	
-	public void submitBlanks() {
-		gameRef.submitBlanks(blanks,blankLocs);
-	}
 
 	public void addVirtualBoard(tile[][] virtualBoard) {
 		//virtualBoardLetters = new ArrayList<JLabel>();
 		//JLabel label;
-		boolean blank = false;
 		char s;
 		for(int x=0;x<15;x++) {
 			for(int y=0;y<15;y++) {
 				if(virtualBoard[x][y] != null) {
-					blank = true;
-					Integer[] arr = {x,y};
-					if(virtualBoard[x][y].getLetter() == '[' && blankLocs.indexOf(arr) == -1) {
-						s =((String)JOptionPane.showInputDialog(
-				                null,
-				                "Select a letter for the blank tile to represent.",
-				                "Wildcard Tile Selection",
-				                JOptionPane.PLAIN_MESSAGE,null,
-				                letters, letters[0])).charAt(0);
-						blanks.add(s);
-						blankLocs.add(arr);
-					}else
-						s = virtualBoard[x][y].getLetter();
+					s = virtualBoard[x][y].getLetter();
 					
-					boardLetters[x][y].setIcon(new ImageIcon(blank?new tile(s).paint(false):virtualBoard[x][y].paint(false)));
+					boardLetters[x][y].setIcon(new ImageIcon(virtualBoard[x][y].paint(false)));
 					boardLetters[x][y].setBounds((int)(x*42.5)+13,(int)(y*45.5)+6,46,43);
 					boardLetters[x][y].setVisible(true);
 				}
@@ -174,12 +156,14 @@ public class boardGUI extends GUI implements guiSegment{
 	public void removeTile(Component c) {
 		int x =  (int) ((c.getLocation().getX())/42.5), y =  (int) (c.getLocation().getY()/45.25);
 		gameRef.replaceTile(-1,x,y);
-    	Integer[] arr = {x,y};
-    	if(blankLocs.indexOf(arr)!= -1) {
-    		blankLocs.remove(blankLocs.indexOf(arr));
-    		blanks.remove(blankLocs.indexOf(arr));
-    	}
     	c.setVisible(false);
+    	gameRef.drawCurrentRack();
+	}
+	
+	public void removeTile(Component c, int x, int y) {
+		gameRef.replaceTile(-1,x,y);
+		c.setVisible(false);
+		c.setLocation(new Point(x,y));
     	gameRef.drawCurrentRack();
 	}
 	
@@ -238,7 +222,10 @@ public class boardGUI extends GUI implements guiSegment{
 				endY = 14;
 			
 			if((c.getX() < 0 || c.getX() > 652 || c.getY() < 0 || c.getY() > 691 || ((JLabel)c).getIcon() == null)) { //tile not on game board
-				c.setLocation(start);
+				if(c.getX()>0 && c.getX() < 730 && c.getY() > -120 && c.getY() < 0)
+					removeTile(c, startX, startY);
+				else
+					c.setLocation(start);
 			}else {
 				if(gameRef.isEmpty(endX, endY)) {
 					c.setVisible(false);
