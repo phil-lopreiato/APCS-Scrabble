@@ -81,7 +81,7 @@ public class skynet
 									rackOffset++;
 									testIndex = i+rackOffset;
 								}
-								virtualBoard.place(i, testX, testY);
+								virtualBoard.place(testIndex, testX, testY);
 							}
 						}
 						if(virtualBoard.checkPlacement()) {
