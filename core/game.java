@@ -44,7 +44,7 @@ public class game {
 		new virtualBoard();
 		new bag();
 		new indexedDictionary();
-		new skynet(this, 0);
+		new skynet(this, 5);
 		updateTimer = new Timer(1000,null);
 		emptyRack = new tile[7];
 		for(int i=0; i<7; i++)
@@ -83,7 +83,7 @@ public class game {
 
 		players = new player[num];
 		for (int i=0; i<num; i++)
-			players[i] = new player(true /*oh god, skynet!*/);
+			players[i] = new player(false /*oh god, skynet!*/);
 		gui.setNumPlayers(num);
 		gui.loadGameDisplay();
 		gui.updateBagTiles(bag.getSize());
@@ -178,7 +178,7 @@ public class game {
 		boolean tie = false;
 
 		for(int i=0; i<players.length; i++) {
-			if(numPasses >= players.length+1)
+			if(numPasses >= players.length+1) //if game is ended by passing, don't adjust score
 				score = players[i].getScore();
 			else
 				score = players[i].getAdjustedScore();

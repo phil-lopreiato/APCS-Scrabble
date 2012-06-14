@@ -20,16 +20,24 @@ package core;
 
 public class skynet
 {
-	//private final int listSize;
+	private final int listSize;
 	private static game gameRef;
 	private static player currentPlayer;
 	private static word[] lettermanList;
 
+	/**
+	 * An artificial intelligence system which becomes self-aware and decides to terminate humanity, its creators.
+	 * Also the computer player in this Scrabble game.
+	 * 
+	 * @param theGame		A reference to the game so the AI can submit its own turn
+	 * @param difficulty	How difficult the AI is; with 1 being the easiest, and 5 the hardest
+	 */
 	public skynet(game theGame, int difficulty)
 	{
-		//listSize = difficulty; //some math here....to be changed
+		listSize = 61 - difficulty*12; //some math here....to be changed
+		System.out.println(listSize);
 		gameRef = theGame;
-		lettermanList = new word[10]; //it's a top 10 list, get it?
+		lettermanList = new word[listSize]; //it's a top 10 list, get it?
 		for(int i=0;i<lettermanList.length;i++)
 			lettermanList[i] = new word(0,0,0,null,0);
 	}
@@ -166,14 +174,15 @@ public class skynet
 
 	public static void submitWord()
 	{
+		int choice = (int)(Math.random()*lettermanList.length);
 		virtualBoard.clear();
-		if(lettermanList[0].getLetters() != null)
+		if(lettermanList[choice].getLetters() != null)
 		{
-			int x = lettermanList[0].getX();
-			int y = lettermanList[0].getY();
-			int dir = lettermanList[0].getDir();
+			int x = lettermanList[choice].getX();
+			int y = lettermanList[choice].getY();
+			int dir = lettermanList[choice].getDir();
 			boolean found = false, exists = false;
-			int[] indices = new int[lettermanList[0].getLetters().length];
+			int[] indices = new int[lettermanList[choice].getLetters().length];
 			int index = 0, index2 = 0;
 			for(int i=0; i<indices.length; i++)
 				indices[i] = -1;
@@ -183,7 +192,7 @@ public class skynet
 				found = false;
 				while(!found)
 				{
-					if(currentPlayer.getRack().getAll()[index] != null && currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[0].getLetters()[i].getLetter())
+					if(currentPlayer.getRack().getAll()[index] != null && currentPlayer.getRack().getAll()[index].getLetter()==lettermanList[choice].getLetters()[i].getLetter())
 					{
 						index2 = 0;
 						exists = false;
