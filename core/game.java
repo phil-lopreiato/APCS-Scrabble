@@ -28,7 +28,7 @@ import core.gui.GUI;
 
 public class game {
 	private static player players[];
-	private static int playersTurn;
+	private static int playersTurn, numPasses;
 	private static GUI gui;
 	private int winner, turnTimeout;
 	private tile[] emptyRack;
@@ -49,13 +49,12 @@ public class game {
 		emptyRack = new tile[7];
 		for(int i=0; i<7; i++)
 			emptyRack[i] = null;
-		//for(int i=0; i<80;i++)
-		//	bag.drawTile();
 		setGUI(in);
 		winner = -1;
 		turnTimeout = 0;
 		playersTurn = -1; //start with -1 so when newTurn() is called, the first player (player 0) actually goes
 		timestamp = 0;
+		numPasses = 0;
 	}
 
 	/**
@@ -78,14 +77,13 @@ public class game {
 	public void start(int num, int timeout)
 	{
 		turnTimeout = timeout;
-		//System.out.println(turnTimeout);
 		if(turnTimeout >= 0) {
 			updateTimer.addActionListener(new updateTimerDisplay());
 		}
-		
+
 		players = new player[num];
 		for (int i=0; i<num; i++)
-			players[i] = new player(false /*oh god, skynet!*/);
+			players[i] = new player(true /*oh god, skynet!*/);
 		gui.setNumPlayers(num);
 		gui.loadGameDisplay();
 		gui.updateBagTiles(bag.getSize());
@@ -93,8 +91,8 @@ public class game {
 	}
 
 	public static GUI getGui() {
-    	return gui;
-    }
+		return gui;
+	}
 
 	public boolean isEmpty(int x, int y) {
 		return board.isEmpty(x, y);
@@ -117,14 +115,14 @@ public class game {
 		gui.updateRack(emptyRack);
 		gui.waitForTurn();
 		if(players[playersTurn].isSentient()) {
-			
+
 			drawCurrentRack();
 		}else {
 			skynet.reset();
 			skynet.setCurrentPlayer(players[playersTurn]);
 			skynet.playWord();
 		}
-			
+
 		updateTimer.start();
 		timestamp = System.currentTimeMillis();
 	}
@@ -154,35 +152,44 @@ public class game {
 	 * 
 	 * @return	true if the game has been completed, false if not
 	 */
-	public static int gameOver()
+	public boolean gameOver()
 	{
 		boolean result = false;
 		int i = 0;
 		while (!result && i<players.length)
 		{
-			if(players[i].getRack().isEmpty())
+			if(players[i].getRack().isEmpty() || numPasses >= players.length+1)
 				result = true;
 			i++;
 		}
-		if(result) {
-			
+		if(result)
+		{
+			winner = winner();
+			for(int j=0; j<players.length; j++)
+				gui.updateScore(j,players[playersTurn].getScore());
+			gui.gameOver(winner==-2?-2:winner);
+			System.exit(0);
 		}
-		return result?winner():-1;
+		return result;
 	}
 
 	private static int winner() {
-		int max = -1, player = -1;
+		int max = -1, player = -1, score;
 		boolean tie = false;
-		
-	    for(int i=0; i<players.length; i++) {
-	    	if(players[i].getAdjustedScore()>max) {
-	    		max = players[i].getAdjustedScore();
-	    		player = i;
-	    	}else if(players[i].getAdjustedScore() == max)
-	    		tie = true;
-	    }
-	    return tie?-2:player;
-    }
+
+		for(int i=0; i<players.length; i++) {
+			if(numPasses >= players.length+1)
+				score = players[i].getScore();
+			else
+				score = players[i].getAdjustedScore();
+			if(score>max) {
+				max = score;
+				player = i;
+			}else if(score == max)
+				tie = true;
+		}
+		return tie?-2:player;
+	}
 
 	/**
 	 * Submits the current turn
@@ -193,19 +200,12 @@ public class game {
 	{
 		if(virtualBoard.submit())
 		{
+			numPasses = 0;
 			gui.updateScore(playersTurn, players[playersTurn].getScore());
 			board.paint(gui); //update the board's display
 			players[playersTurn].draw();
 			gui.updateBagTiles(bag.getSize());
-			winner = gameOver();
-			if(winner >= 0 || winner == -2)
-			{
-				for(int i=0; i<players.length; i++)
-					gui.updateScore(i,players[playersTurn].getScore());
-				gui.gameOver(winner==-2?-2:winner);
-				System.exit(0);
-			}
-			else
+			if(!gameOver())
 				newTurn();
 		}
 	}
@@ -215,7 +215,9 @@ public class game {
 	 */
 	public void pass()
 	{
-		newTurn();
+		numPasses++;
+		if(!gameOver())
+			newTurn();
 	}
 	/**
 	 * Places a tile into the virtual board at a given location
@@ -287,27 +289,27 @@ public class game {
 		if(canSwap)
 			players[playersTurn].getRack().paint(gui);
 		return canSwap;
-    }
-	
+	}
+
 	class updateTimerDisplay implements ActionListener{
 
-        public void actionPerformed(ActionEvent e) {
-        	if(turnTimeout == 0) return;
-        	//System.out.println("time");
-        	long remaining = (turnTimeout*1000)-(System.currentTimeMillis() - timestamp);
-        	if(remaining >= 0)
-        		gui.updateTimer((int)(remaining/1000));
-        	else
-        		pass();
-        }
+		public void actionPerformed(ActionEvent e) {
+			if(turnTimeout == 0) return;
+			//System.out.println("time");
+			long remaining = (turnTimeout*1000)-(System.currentTimeMillis() - timestamp);
+			if(remaining >= 0)
+				gui.updateTimer((int)(remaining/1000));
+			else
+				pass();
+		}
 	}
-	
+
 	class turnTimer implements ActionListener{
 
-        public void actionPerformed(ActionEvent arg0) {
-	        pass();
-        }
-		
+		public void actionPerformed(ActionEvent arg0) {
+			pass();
+		}
+
 	}
 
 }
