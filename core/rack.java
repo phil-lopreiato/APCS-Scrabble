@@ -67,6 +67,11 @@ public class rack
 		tiles[index] = null;
 	}
 	
+	public void clear() {
+		for(int i=0; i<7; i++)
+			remove(i);
+	}
+	
 	public int[] getNotNullIndices()
 	{
 		int count = 0;

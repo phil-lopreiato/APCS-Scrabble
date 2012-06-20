@@ -28,8 +28,6 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -65,8 +63,6 @@ public class GUI implements AdjustmentListener{
 		layeredPane = new JLayeredPane();
 		mainFrame.add(layeredPane,BorderLayout.CENTER);
 		contentPane = mainFrame.getContentPane();
-
-		layeredPane.setPreferredSize(new Dimension(500,200));
 		layeredPane.setOpaque(false);
 		mainFrame.setLayout(new java.awt.BorderLayout());
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,10 +75,14 @@ public class GUI implements AdjustmentListener{
 	 * Initializes the GUI and enables the user to select the number of players
 	 */
 	public void gameInit() {
+		clear();
+		repaint();
+		layeredPane.setPreferredSize(new Dimension(500,200));
 		pc = new playerConfig(gameRef, this);
 		pc.addComponents(layeredPane);
-
+		
 		show(); //show the main content panel
+		repaint();
 		gameRef.loadDict();
 	}
 	
@@ -131,12 +131,14 @@ public class GUI implements AdjustmentListener{
 		
 		bg = new boardGUI();
 		bg.addComponents(layeredPane);
+		bg.reset();
 		
 		sg = new scoreGUI(numPlayers);
 		sg.addComponents(layeredPane);
 
 		rg = new rackGUI();
 		rg.addComponents(layeredPane);
+		
 	}
 
 	public void updateScore(int player, int score) {
@@ -210,7 +212,7 @@ public class GUI implements AdjustmentListener{
 	public void repaint() {
 		layeredPane.repaint();
 		contentPane.repaint();
-		if(bg != null) bg.repaint();
+		if(bg != null) { bg.repaint(); bg.getContainer().validate(); }
 		if(sg != null) sg.repaint();
 		if(rg != null) { rg.repaint(); rg.getContainer().validate(); }
 		mainFrame.pack();
@@ -220,6 +222,10 @@ public class GUI implements AdjustmentListener{
 
 	public void clear() {
 		layeredPane.removeAll();
+	}
+	
+	public void hide() {
+		mainFrame.setVisible(false);
 	}
 	
 	class tileDnD extends MouseMotionAdapter{
@@ -246,6 +252,19 @@ public class GUI implements AdjustmentListener{
 			    "Game Over!",
 			    JOptionPane.PLAIN_MESSAGE);
 	}
+	
+
+	public int gameOver(String message) {
+		String[] options = {"New Game", "Rematch", "Quit"};
+		return JOptionPane.showOptionDialog(null,
+			    message,
+			    "Game Over!",
+			    JOptionPane.YES_NO_CANCEL_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,
+			    null,
+			    options,
+			    options[2]);
+    }
 	
 	 public void adjustmentValueChanged(AdjustmentEvent e) {
          repaint();
@@ -281,4 +300,5 @@ public class GUI implements AdjustmentListener{
 	    }
 
 	}
+
 }

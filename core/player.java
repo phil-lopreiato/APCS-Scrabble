@@ -39,6 +39,12 @@ public class player
 		this.name = name;
 		this.difficulty = difficulty;
 	}
+	
+	public void reset() {
+		playerRack.clear();
+		playerRack.draw();
+		score = 0;
+	}
 
 	public int getDifficulty() {
     	return difficulty;

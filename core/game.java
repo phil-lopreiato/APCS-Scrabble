@@ -69,7 +69,7 @@ public class game {
 	}
 
 	/**
-	 * Set the number of players in this game
+	 * Starts the game
 	 * 
 	 * @param playerInfo	number of players who will be playing
 	 */
@@ -93,6 +93,41 @@ public class game {
 		
 		gui.updateBagTiles(bag.getSize());
 		newTurn();
+	}
+	
+	private void rematch() {
+		new board();
+		new virtualBoard();
+		new bag();
+		
+		playersTurn = -1;
+		for(int i=0; i<players.length;i++) {
+			players[i].reset();
+			gui.updateScore(i, players[i].getName(), players[i].getScore());
+		}
+		
+		gui.loadGameDisplay();
+		virtualBoard.paint(gui);
+		board.paint(gui);
+		gui.updateBagTiles(bag.getSize());
+		newTurn();
+	}
+	
+	private void newGame() {
+		new board();
+		new virtualBoard();
+		new bag();
+		
+		gui.hide();
+		gui = new GUI();
+		gui.setGameRef(this);
+		gui.gameInit();
+		
+		winner = -1;
+		turnTimeout = 0;
+		playersTurn = -1; //start with -1 so when newTurn() is called, the first player (player 0) actually goes
+		timestamp = 0;
+		numPasses = 0;
 	}
 
 	public static GUI getGui() {
@@ -172,8 +207,18 @@ public class game {
 			winner = winner();
 			for(int j=0; j<players.length; j++)
 				gui.updateScore(j,players[j].getName(),players[j].getAdjustedScore());
-			gui.gameOver(winner==-2?-2:winner);
-			System.exit(0);
+			switch(gui.gameOver(winner==-2?"It's a tie!":players[winner].getName()+" has won the game!")){
+				case 0: //new game
+					newGame();
+					break;
+				case 1: //rematch
+					rematch();
+					break;
+				case 2: //quit
+					System.exit(0);
+					break;
+			}
+			
 		}
 		return result;
 	}

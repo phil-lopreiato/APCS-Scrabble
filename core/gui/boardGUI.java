@@ -148,6 +148,18 @@ public class boardGUI extends GUI implements guiSegment{
 		}
 		repaint();
 	}
+	
+	public void reset() {
+		for(int x=0;x<15;x++) {
+			for(int y=0;y<15;y++) {
+				hide(x,y);
+			}
+		}
+		tileContainer.repaint();
+		boardContainer.repaint();
+		repaint();
+		super.repaint();
+	}
 
 	public JLayeredPane getContainer() {
 		return boardContainer;
