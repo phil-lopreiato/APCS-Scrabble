@@ -35,7 +35,7 @@ import javax.swing.JTextField;
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	private JLayeredPane scoreContainer;
 	private JLabel scoreLabels[], currentTurnScore, checkResult, bagTiles, turnTime, timeHead;
-	private JButton turnSubmit,pass, checkWord, resetHand;
+	private JButton turnSubmit,pass, checkWord, resetHand, hint, quit;
 	private JTextField wordToCheck;
 	private int[] playerScores;
 	private int numPlayers;
@@ -48,11 +48,13 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		turnSubmit = new JButton("Submit Current Turn");
 		pass = new JButton("Pass");
 		checkWord = new JButton("Check Word");
+		hint = new JButton("Help Me, Skynet!");
 		wordToCheck = new JTextField("",5);
 		currentTurnScore = new JLabel();
 		checkResult = new JLabel();
 		bagTiles = new JLabel();
 		resetHand = new JButton("Reset Rack");
+		quit = new JButton("Quit");
 		turnTime = new JLabel("∞");
 		timeHead = new JLabel("Time remaining for this turn: ");
 
@@ -104,6 +106,14 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		checkWord.setAlignmentX(Component.CENTER_ALIGNMENT);
 		checkWord.addActionListener(this);
 		checkWord.setActionCommand("check");
+		
+		quit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		quit.addActionListener(this);
+		quit.setActionCommand("quit");
+		
+		hint.setAlignmentX(Component.CENTER_ALIGNMENT);
+		hint.addActionListener(this);
+		hint.setActionCommand("hint");
 
 		JLabel checkHeader = new JLabel("Check the validity of a word:");
 		checkHeader.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -114,6 +124,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreContainer.add(pass,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(resetHand,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(10));
+		scoreContainer.add(hint,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(currentTurnScore,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
@@ -126,6 +138,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreContainer.add(checkResult,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(bagTiles,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(30));
+		scoreContainer.add(quit,JLayeredPane.DEFAULT_LAYER);
 
 		scoreContainer.setSize(scoreContainer.getPreferredSize());
 		scoreContainer.setLocation(675,0);
@@ -142,8 +156,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreLabels[player].setText("Player "+player+": "+score);
 	}
 	
-	public void updateScore(int player, String name, int score) {
-		scoreLabels[player].setText(name+": "+score);
+	public void updateScore(int player, String name, int score, String last) {
+		scoreLabels[player].setText(name+": "+score/*+" ("+last+")"*/);
 	}
 
 	public void updateBagTiles(int tiles)
@@ -161,12 +175,15 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		{
 		case -2:
 			text = "Invalid Placement";
+			turnSubmit.setEnabled(false);
 			break;
 		case -1:
 			text = "Invalid Word";
+			turnSubmit.setEnabled(false);
 			break;
 		default:
 			text = "This turn is worth " + score + " points";
+			turnSubmit.setEnabled(true);
 		}
 		currentTurnScore.setText(text);
 	}
@@ -182,6 +199,14 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		return scoreContainer;
 	}
 
+	public void greyButtons(boolean human) {
+		turnSubmit.setEnabled(human);
+		pass.setEnabled(human); 
+		checkWord.setEnabled(human); 
+		resetHand.setEnabled(human); 
+		hint.setEnabled(human);
+		
+    }
 
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getActionCommand().equals("submit")) {
@@ -192,6 +217,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 			checkResult.setText(gameRef.checkWord(wordToCheck.getText()));
 		else if(arg0.getActionCommand().equals("reset"))
 			gameRef.removeVB();
+		else if(arg0.getActionCommand().equals("hint"))
+			gameRef.hint();
+		else if(arg0.getActionCommand().equals("quit"))
+			System.exit(0);
 		repaint();
 	}
 

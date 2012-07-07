@@ -23,6 +23,7 @@ public class virtualBoard
 	private static tile[][] virtualBoard, masterBoard;
 	private static tileProperties[][] properties;
 	private static player currentPlayer;
+	private static String lastWord;
 
 	public virtualBoard()
 	{
@@ -33,6 +34,7 @@ public class virtualBoard
 			{
 				properties[i][j] = new tileProperties();
 			}
+		lastWord = new String();
 	}
 
 	/**
@@ -278,6 +280,7 @@ public class virtualBoard
 		int first[], wordScore = 0, totalScore = 0, wordMultiplier = 1, letterMultiplier = 1, numLettersPlayed = 0;
 		boolean valid = true;
 		String word = "";
+		lastWord = "";
 		for(int x=0; x<15; x++)
 			for(int y=0; y<15; y++)
 				if(virtualBoard[x][y] != null) {
@@ -326,6 +329,7 @@ public class virtualBoard
 					}
 				}
 		if(numLettersPlayed == 7) totalScore += 50;
+		lastWord = word;
 		return valid?totalScore:-1;
 	}
 
@@ -337,6 +341,12 @@ public class virtualBoard
 				properties[i][j].setCheckedHorizontal(false);
 				properties[i][j].setCheckedVertical(false);
 			}
+	}
+	
+	public static String getLastWord() {
+		String temp = lastWord;
+		lastWord = "";
+		return temp;
 	}
 
 	public static void paint(core.gui.GUI gui) {

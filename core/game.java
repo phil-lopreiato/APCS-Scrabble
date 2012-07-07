@@ -89,7 +89,7 @@ public class game {
 		gui.loadGameDisplay();
 		
 		for(int i=0;i<players.length;i++) 
-			gui.updateScore(i, players[i].getName(), players[i].getScore());
+			gui.updateScore(i, players[i].getName(), players[i].getScore(), "");
 		
 		gui.updateBagTiles(bag.getSize());
 		newTurn();
@@ -103,7 +103,7 @@ public class game {
 		playersTurn = -1;
 		for(int i=0; i<players.length;i++) {
 			players[i].reset();
-			gui.updateScore(i, players[i].getName(), players[i].getScore());
+			gui.updateScore(i, players[i].getName(), players[i].getScore(), "");
 		}
 		
 		gui.loadGameDisplay();
@@ -150,7 +150,7 @@ public class game {
 		updateTimer.stop();
 		playersTurn++;
 		playersTurn %= getNumPlayers();
-		gui.setTurn(playersTurn);
+		gui.setTurn(playersTurn, players[playersTurn].isSentient());
 		virtualBoard.reset(players[playersTurn]);
 		gui.updateRack(emptyRack);
 		gui.waitForTurn();
@@ -206,7 +206,7 @@ public class game {
 		{
 			winner = winner();
 			for(int j=0; j<players.length; j++)
-				gui.updateScore(j,players[j].getName(),players[j].getAdjustedScore());
+				gui.updateScore(j,players[j].getName(),players[j].getAdjustedScore(), "");
 			switch(gui.gameOver(winner==-2?"It's a tie!":players[winner].getName()+" has won the game!")){
 				case 0: //new game
 					newGame();
@@ -251,7 +251,7 @@ public class game {
 		if(virtualBoard.submit())
 		{
 			numPasses = 0;
-			gui.updateScore(playersTurn, players[playersTurn].getName(), players[playersTurn].getScore());
+			gui.updateScore(playersTurn, players[playersTurn].getName(), players[playersTurn].getScore(), virtualBoard.getLastWord());
 			board.paint(gui); //update the board's display
 			players[playersTurn].draw();
 			gui.updateBagTiles(bag.getSize());
@@ -291,6 +291,13 @@ public class game {
 			virtualBoard.paint(gui);
 		return canSwap;
 	}
+	
+	public void hint() {
+		removeVB();
+		skynet.reset();
+		skynet.setCurrentPlayer(players[playersTurn]);
+		skynet.playWord();
+    }
 
 	/**
 	 * Draws the current player's rack onto the GUI
@@ -340,7 +347,7 @@ public class game {
 			players[playersTurn].getRack().paint(gui);
 		return canSwap;
 	}
-
+	
 	class updateTimerDisplay implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {

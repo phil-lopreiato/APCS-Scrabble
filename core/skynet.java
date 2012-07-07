@@ -227,7 +227,10 @@ public class skynet
 					gameRef.placeTile(indices[i], testX, testY); //use gameRef so the tiles can be seen
 				}
 			}
-			gameRef.submit();
+			if(!currentPlayer.isSentient())
+				gameRef.submit();
+			else
+				currentPlayer.getRack().paint(game.getGui());
 		}
 		else
 		{

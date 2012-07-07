@@ -147,9 +147,9 @@ public class GUI implements AdjustmentListener{
 		repaint();
 	}
 	
-	public void updateScore(int player, String name, int score) {
+	public void updateScore(int player, String name, int score, String last) {
 		if (sg != null)
-			sg.updateScore(player, name, score);
+			sg.updateScore(player, name, score, last);
 		repaint();
 	}
 	
@@ -164,10 +164,12 @@ public class GUI implements AdjustmentListener{
 		sg.updateCurrentTurnScore(score);
 	}
 
-	public void setTurn(int player)
+	public void setTurn(int player, boolean human)
 	{
-		if (sg != null)
+		if (sg != null) {
 			sg.setTurn(player);
+			sg.greyButtons(human);
+		}
 		repaint();
 	}
 
