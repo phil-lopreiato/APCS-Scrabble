@@ -35,7 +35,7 @@ import javax.swing.JTextField;
 public class scoreGUI extends GUI implements guiSegment, ActionListener{
 	private JLayeredPane scoreContainer;
 	private JLabel scoreLabels[], currentTurnScore, checkResult, bagTiles, turnTime, timeHead;
-	private JButton turnSubmit,pass, checkWord, resetHand, hint, quit;
+	private JButton turnSubmit,pass, checkWord, resetHand, hint, quit, menu;
 	private JTextField wordToCheck;
 	private int[] playerScores;
 	private int numPlayers;
@@ -55,6 +55,7 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		bagTiles = new JLabel();
 		resetHand = new JButton("Reset Rack");
 		quit = new JButton("Quit");
+		menu = new JButton("Return to Menu");
 		turnTime = new JLabel("∞");
 		timeHead = new JLabel("Time remaining for this turn: ");
 
@@ -114,6 +115,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		hint.setAlignmentX(Component.CENTER_ALIGNMENT);
 		hint.addActionListener(this);
 		hint.setActionCommand("hint");
+		
+		menu.setAlignmentX(Component.CENTER_ALIGNMENT);
+		menu.addActionListener(this);
+		menu.setActionCommand("back");
 
 		JLabel checkHeader = new JLabel("Check the validity of a word:");
 		checkHeader.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -139,7 +144,10 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 		scoreContainer.add(Box.createVerticalStrut(10));
 		scoreContainer.add(bagTiles,JLayeredPane.DEFAULT_LAYER);
 		scoreContainer.add(Box.createVerticalStrut(30));
+		scoreContainer.add(menu,JLayeredPane.DEFAULT_LAYER);
+		scoreContainer.add(Box.createVerticalStrut(30));
 		scoreContainer.add(quit,JLayeredPane.DEFAULT_LAYER);
+		
 
 		scoreContainer.setSize(scoreContainer.getPreferredSize());
 		scoreContainer.setLocation(675,0);
@@ -219,6 +227,8 @@ public class scoreGUI extends GUI implements guiSegment, ActionListener{
 			gameRef.removeVB();
 		else if(arg0.getActionCommand().equals("hint"))
 			gameRef.hint();
+		else if(arg0.getActionCommand().equals("back"))
+			gameRef.newGame();
 		else if(arg0.getActionCommand().equals("quit"))
 			System.exit(0);
 		repaint();

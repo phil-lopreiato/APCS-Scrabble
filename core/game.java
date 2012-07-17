@@ -113,7 +113,7 @@ public class game {
 		newTurn();
 	}
 	
-	private void newGame() {
+	public void newGame() {
 		new board();
 		new virtualBoard();
 		new bag();
